@@ -131,8 +131,6 @@ using namespace general::parser;
 
 x3::rule< class general_definition, general_t > const general_definition = "general_definition";
 
-auto bitrate_automatic_max_action = [](auto &ctx) { x3::_val(ctx).max = x3::_attr(ctx); };
-
 auto const protocol_version_action = [](auto &ctx) {
     x3::_val(ctx).protocol_version = x3::_attr(ctx);
 };
