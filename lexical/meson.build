@@ -1,7 +1,8 @@
 headers = [
     'inc/lin/lexical/common/bnf.hpp',
 
-    'inc/lin/lexical/ncf/general.hpp',
+    'inc/lin/lexical/ncf/global.hpp',
+    #'inc/lin/lexical/ncf/general.hpp',
 ]
 
 lin_lexical_dep = declare_dependency(

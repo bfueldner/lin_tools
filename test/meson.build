@@ -7,7 +7,8 @@ lin_lexical_test = executable(
     sources : [
         'src/lexical/common/test_bnf.cpp',
 
-        'src/lexical/ncf/test_general.cpp',
+        'src/lexical/ncf/test_global.cpp',
+        #'src/lexical/ncf/test_general.cpp',
     ],
     dependencies : [
         lin_lexical_dep,
