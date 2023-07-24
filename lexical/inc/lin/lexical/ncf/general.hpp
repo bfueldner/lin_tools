@@ -78,8 +78,8 @@ x3::rule< class bitrate_definition_fixed, bitrate_definition::fixed_t > const
 x3::rule< class bitrate_definition, bitrate_definition_t > const bitrate_definition =
     "bitrate_definition";
 
-auto bitrate_automatic_min_action = [](auto &ctx) { x3::_val(ctx).min = x3::_attr(ctx); };
-auto bitrate_automatic_max_action = [](auto &ctx) { x3::_val(ctx).max = x3::_attr(ctx); };
+auto const bitrate_automatic_min_action = [](auto &ctx) { x3::_val(ctx).min = x3::_attr(ctx); };
+auto const bitrate_automatic_max_action = [](auto &ctx) { x3::_val(ctx).max = x3::_attr(ctx); };
 
 auto const bitrate_def = real_or_integer > "kbps";
 auto const bitrate_definition_automatic_def =
@@ -133,14 +133,16 @@ x3::rule< class general_definition, general_t > const general_definition = "gene
 
 auto bitrate_automatic_max_action = [](auto &ctx) { x3::_val(ctx).max = x3::_attr(ctx); };
 
-auto protocol_version_action   = [](auto &ctx) { x3::_val(ctx).protocol_version = x3::_attr(ctx); };
-auto supplier_id_action        = [](auto &ctx) { x3::_val(ctx).supplier_id = x3::_attr(ctx); };
-auto function_id_action        = [](auto &ctx) { x3::_val(ctx).function_id = x3::_attr(ctx); };
-auto variant_id_action         = [](auto &ctx) { x3::_val(ctx).variant_id = x3::_attr(ctx); };
-auto bitrate_definition_action = [](auto &ctx) {
+auto const protocol_version_action = [](auto &ctx) {
+    x3::_val(ctx).protocol_version = x3::_attr(ctx);
+};
+auto const supplier_id_action = [](auto &ctx) { x3::_val(ctx).supplier_id = x3::_attr(ctx); };
+auto const function_id_action = [](auto &ctx) { x3::_val(ctx).function_id = x3::_attr(ctx); };
+auto const variant_id_action  = [](auto &ctx) { x3::_val(ctx).variant_id = x3::_attr(ctx); };
+auto const bitrate_definition_action = [](auto &ctx) {
     x3::_val(ctx).bitrate_definition = x3::_attr(ctx);
 };
-auto sends_wake_up_signal_action = [](auto &ctx) {
+auto const sends_wake_up_signal_action = [](auto &ctx) {
     x3::_val(ctx).sends_wake_up_signal = x3::_attr(ctx);
 };
 

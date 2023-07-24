@@ -8,7 +8,7 @@ TEST(test_lin_lexical_ncf_general, bitrate)
     namespace x3 = boost::spirit::x3;
 
     std::string text{ "19.2 kbps" };
-    bitrate_t bitrate;
+    bitrate_t bitrate{};
 
     auto position = text.begin();
     auto result   = phrase_parse(position, text.end(), parser::bitrate, x3::ascii::space, bitrate);
@@ -24,7 +24,7 @@ TEST(test_lin_lexical_ncf_general, bitrate_definition_automatic_default)
     namespace x3 = boost::spirit::x3;
 
     std::string text{ "automatic" };
-    bitrate_definition::automatic_t bitrate_definition_automatic;
+    bitrate_definition::automatic_t bitrate_definition_automatic{};
 
     auto position = text.begin();
     auto result   = phrase_parse(
@@ -46,7 +46,7 @@ TEST(test_lin_lexical_ncf_general, bitrate_definition_automatic_min)
     namespace x3 = boost::spirit::x3;
 
     std::string text{ "automatic min 9.6 kbps" };
-    bitrate_definition::automatic_t bitrate_definition_automatic;
+    bitrate_definition::automatic_t bitrate_definition_automatic{};
 
     auto position = text.begin();
     auto result   = phrase_parse(
@@ -68,7 +68,7 @@ TEST(test_lin_lexical_ncf_general, bitrate_definition_automatic_max)
     namespace x3 = boost::spirit::x3;
 
     std::string text{ "automatic max 19.2 kbps" };
-    bitrate_definition::automatic_t bitrate_definition_automatic;
+    bitrate_definition::automatic_t bitrate_definition_automatic{};
 
     auto position = text.begin();
     auto result   = phrase_parse(
@@ -90,7 +90,7 @@ TEST(test_lin_lexical_ncf_general, bitrate_definition_automatic_min_max)
     namespace x3 = boost::spirit::x3;
 
     std::string text{ "automatic min 9.6 kbps max 19.2 kbps" };
-    bitrate_definition::automatic_t bitrate_definition_automatic;
+    bitrate_definition::automatic_t bitrate_definition_automatic{};
 
     auto position = text.begin();
     auto result   = phrase_parse(
@@ -112,7 +112,7 @@ TEST(test_lin_lexical_ncf_general, bitrate_definition_select_single)
     namespace x3 = boost::spirit::x3;
 
     std::string text{ "select { 19.2 kbps }" };
-    bitrate_definition::select_t bitrate_definition_select;
+    bitrate_definition::select_t bitrate_definition_select{};
 
     auto position = text.begin();
     auto result   = phrase_parse(
@@ -133,7 +133,7 @@ TEST(test_lin_lexical_ncf_general, bitrate_definition_select_multiple)
     namespace x3 = boost::spirit::x3;
 
     std::string text{ "select { 4.8 kbps, 9.6kbps, 19.2 kbps }" };
-    bitrate_definition::select_t bitrate_definition_select;
+    bitrate_definition::select_t bitrate_definition_select{};
 
     auto position = text.begin();
     auto result   = phrase_parse(
@@ -154,7 +154,7 @@ TEST(test_lin_lexical_ncf_general, bitrate_definition_fixed)
     namespace x3 = boost::spirit::x3;
 
     std::string text{ "19.2 kbps" };
-    bitrate_definition::fixed_t bitrate_definition_fixed;
+    bitrate_definition::fixed_t bitrate_definition_fixed{};
 
     auto position = text.begin();
     auto result   = phrase_parse(
@@ -175,7 +175,7 @@ TEST(test_lin_lexical_ncf_general, bitrate_definition)
     namespace x3 = boost::spirit::x3;
 
     std::string text{ "automatic min 9.6 kbps max 19.2 kbps" };
-    bitrate_definition_t bitrate_definition;
+    bitrate_definition_t bitrate_definition{};
 
     auto position = text.begin();
     auto result   = phrase_parse(
@@ -202,7 +202,7 @@ TEST(test_lin_lexical_ncf_general, general)
         "    sends_wake_up_signal = \"yes\";"
         "}"
     };
-    general_t general;
+    general_t general{};
 
     auto position = text.begin();
     auto result =
