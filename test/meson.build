@@ -10,6 +10,7 @@ lin_lexical_test = executable(
         'src/lexical/ncf/test_global.cpp',
         #'src/lexical/ncf/test_node.cpp',
         'src/lexical/ncf/test_general.cpp',
+        'src/lexical/ncf/test_diagnostic.cpp',
     ],
     dependencies : [
         lin_lexical_dep,
