@@ -32,3 +32,5 @@
 *.out
 *.app
 
+# ---> Meson
+meson.build.user
