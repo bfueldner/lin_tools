@@ -14,6 +14,8 @@ namespace x3 = boost::spirit::x3;
 
 using namespace common::bnf::parser;
 
+/* 8.2.7 Free text definition */
+
 x3::rule< class free_text_definition, free_text_t > const free_text_definition =
     "free_text_definition";
 
