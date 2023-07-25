@@ -8,6 +8,7 @@ headers = [
     'inc/lin/lexical/ncf/diagnostic.hpp',
     #'inc/lin/lexical/ncf/frame.hpp',
 
+    'inc/lin/lexical/ncf/signal.hpp',
     'inc/lin/lexical/ncf/signal_encoding_type.hpp',
     'inc/lin/lexical/ncf/status.hpp',
     'inc/lin/lexical/ncf/free_text.hpp',

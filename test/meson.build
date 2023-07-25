@@ -14,6 +14,7 @@ lin_lexical_test = executable(
         'src/lexical/ncf/test_diagnostic.cpp',
         #'src/lexical/ncf/test_frame.cpp',
 
+        'src/lexical/ncf/test_signal.cpp',
         'src/lexical/ncf/test_signal_encoding_type.cpp',
         'src/lexical/ncf/test_status.cpp',
         'src/lexical/ncf/test_free_text.cpp',
