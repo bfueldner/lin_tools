@@ -4,45 +4,48 @@
 
 TEST(test_lin_lexical_ncf_diagnostic, nad_range)
 {
-    using namespace lin::lexical::ncf::diagnostic;
     namespace x3 = boost::spirit::x3;
+
+    using namespace lin::lexical::ncf::diagnostic;
 
     std::string text{ "1 to 3" };
     nad_t nad{};
 
     auto position = text.begin();
     auto result = phrase_parse(position, text.end(), parser::nad_definition, x3::ascii::space, nad);
-    EXPECT_TRUE(result);
-    EXPECT_EQ(position, text.end());
+    ASSERT_TRUE(result);
+    ASSERT_EQ(position, text.end());
 
     auto *nad_range = std::get_if< nad::range_t >(&nad);
-    EXPECT_NE(nad_range, nullptr);
+    ASSERT_NE(nad_range, nullptr);
     EXPECT_EQ(nad_range->begin, 1);
     EXPECT_EQ(nad_range->end, 3);
 }
 
 TEST(test_lin_lexical_ncf_diagnostic, nad_sequence)
 {
-    using namespace lin::lexical::ncf::diagnostic;
     namespace x3 = boost::spirit::x3;
+
+    using namespace lin::lexical::ncf::diagnostic;
 
     std::string text{ "1, 2, 3" };
     nad_t nad{};
 
     auto position = text.begin();
     auto result = phrase_parse(position, text.end(), parser::nad_definition, x3::ascii::space, nad);
-    EXPECT_TRUE(result);
-    EXPECT_EQ(position, text.end());
+    ASSERT_TRUE(result);
+    ASSERT_EQ(position, text.end());
 
     auto *nad_sequence = std::get_if< nad::sequence_t >(&nad);
-    EXPECT_NE(nad_sequence, nullptr);
+    ASSERT_NE(nad_sequence, nullptr);
     EXPECT_EQ(*nad_sequence, (nad::sequence_t{ 1, 2, 3 }));
 }
 
 TEST(test_lin_lexical_ncf_diagnostic, diagnostic)
 {
-    using namespace lin::lexical::ncf;
     namespace x3 = boost::spirit::x3;
+
+    using namespace lin::lexical::ncf;
 
     std::string text{
         "diagnostic {"
@@ -58,11 +61,11 @@ TEST(test_lin_lexical_ncf_diagnostic, diagnostic)
     auto position = text.begin();
     auto result   = phrase_parse(
         position, text.end(), parser::diagnostic_definition, x3::ascii::space, diagnostic);
-    EXPECT_TRUE(result);
-    EXPECT_EQ(position, text.end());
+    ASSERT_TRUE(result);
+    ASSERT_EQ(position, text.end());
 
     auto *nad_range = std::get_if< diagnostic::nad::range_t >(&diagnostic.nad);
-    EXPECT_NE(nad_range, nullptr);
+    ASSERT_NE(nad_range, nullptr);
     EXPECT_EQ(nad_range->begin, 1);
     EXPECT_EQ(nad_range->end, 3);
     EXPECT_EQ(diagnostic.diagnostic_class, 2);

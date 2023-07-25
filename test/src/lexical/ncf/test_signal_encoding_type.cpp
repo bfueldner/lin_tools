@@ -15,8 +15,8 @@ TEST(test_lin_lexical_ncf_signal_encoding_type, encoding_logical_value)
     auto position = text.begin();
     auto result =
         phrase_parse(position, text.end(), parser::logical_value, x3::ascii::space, logical_value);
-    EXPECT_TRUE(result);
-    EXPECT_EQ(position, text.end());
+    ASSERT_TRUE(result);
+    ASSERT_EQ(position, text.end());
 
     EXPECT_EQ(logical_value.signal_value, 0);
     EXPECT_STREQ(logical_value.text_info.c_str(), "off");
@@ -34,8 +34,8 @@ TEST(test_lin_lexical_ncf_signal_encoding_type, encoding_physical_value)
     auto position = text.begin();
     auto result   = phrase_parse(
         position, text.end(), parser::physical_range, x3::ascii::space, physical_range);
-    EXPECT_TRUE(result);
-    EXPECT_EQ(position, text.end());
+    ASSERT_TRUE(result);
+    ASSERT_EQ(position, text.end());
 
     EXPECT_EQ(physical_range.min_value, 1);
     EXPECT_EQ(physical_range.max_value, 254);
@@ -56,8 +56,8 @@ TEST(test_lin_lexical_ncf_signal_encoding_type, encoding_bcd_value)
     auto position = text.begin();
     auto result =
         phrase_parse(position, text.end(), parser::bcd_value, x3::ascii::space, bcd_value);
-    EXPECT_TRUE(result);
-    EXPECT_EQ(position, text.end());
+    ASSERT_TRUE(result);
+    ASSERT_EQ(position, text.end());
 }
 
 TEST(test_lin_lexical_ncf_signal_encoding_type, encoding_ascii_value)
@@ -72,8 +72,8 @@ TEST(test_lin_lexical_ncf_signal_encoding_type, encoding_ascii_value)
     auto position = text.begin();
     auto result =
         phrase_parse(position, text.end(), parser::ascii_value, x3::ascii::space, ascii_value);
-    EXPECT_TRUE(result);
-    EXPECT_EQ(position, text.end());
+    ASSERT_TRUE(result);
+    ASSERT_EQ(position, text.end());
 }
 
 TEST(test_lin_lexical_ncf_signal_encoding_type, encoding_value)
@@ -87,11 +87,11 @@ TEST(test_lin_lexical_ncf_signal_encoding_type, encoding_value)
 
     auto position = text.begin();
     auto result   = phrase_parse(position, text.end(), parser::value, x3::ascii::space, value);
-    EXPECT_TRUE(result);
-    EXPECT_EQ(position, text.end());
+    ASSERT_TRUE(result);
+    ASSERT_EQ(position, text.end());
 
     auto *logic = std::get_if< encoding::logical_value_t >(&value);
-    EXPECT_NE(logic, nullptr);
+    ASSERT_NE(logic, nullptr);
     EXPECT_EQ(logic->signal_value, 1);
     EXPECT_STREQ(logic->text_info.c_str(), "on");
 }
@@ -113,20 +113,22 @@ TEST(test_lin_lexical_ncf_signal_encoding_type, encoding)
 
     auto position = text.begin();
     auto result = phrase_parse(position, text.end(), parser::encoding, x3::ascii::space, encoding);
-    EXPECT_TRUE(result);
-    EXPECT_EQ(position, text.end());
+    ASSERT_TRUE(result);
+    ASSERT_EQ(position, text.end());
 
     EXPECT_STREQ(encoding.encoding_name.c_str(), "LightEncoding");
     EXPECT_EQ(encoding.value.size(), 3);
+
+    // NOLINTBEGIN(readability-container-data-pointer)
     {
         auto *logic = std::get_if< encoding::logical_value_t >(&encoding.value[0]);
-        EXPECT_NE(logic, nullptr);
+        ASSERT_NE(logic, nullptr);
         EXPECT_EQ(logic->signal_value, 0);
         EXPECT_STREQ(logic->text_info.c_str(), "Off");
     }
     {
         auto *physical = std::get_if< encoding::physical_range_t >(&encoding.value[1]);
-        EXPECT_NE(physical, nullptr);
+        ASSERT_NE(physical, nullptr);
         EXPECT_EQ(physical->min_value, 1);
         EXPECT_EQ(physical->max_value, 254);
         EXPECT_EQ(physical->scale, 1.0);
@@ -135,10 +137,11 @@ TEST(test_lin_lexical_ncf_signal_encoding_type, encoding)
     }
     {
         auto *logic = std::get_if< encoding::logical_value_t >(&encoding.value[2]);
-        EXPECT_NE(logic, nullptr);
+        ASSERT_NE(logic, nullptr);
         EXPECT_EQ(logic->signal_value, 255);
         EXPECT_STREQ(logic->text_info.c_str(), "error");
     }
+    // NOLINTEND(readability-container-data-pointer)
 }
 
 TEST(test_lin_lexical_ncf_signal_encoding_type, encodings)
@@ -166,48 +169,52 @@ TEST(test_lin_lexical_ncf_signal_encoding_type, encodings)
     auto position = text.begin();
     auto result   = phrase_parse(
         position, text.end(), parser::encoding_definition, x3::ascii::space, encodings);
-    EXPECT_TRUE(result);
-    EXPECT_EQ(position, text.end());
+    ASSERT_TRUE(result);
+    ASSERT_EQ(position, text.end());
 
-    EXPECT_EQ(encodings.size(), 2);
+    ASSERT_EQ(encodings.size(), 2);
     EXPECT_STREQ(encodings[0].encoding_name.c_str(), "Dig2Bit");
-    EXPECT_EQ(encodings[0].value.size(), 4);
+    ASSERT_EQ(encodings[0].value.size(), 4);
+    // NOLINTBEGIN(readability-container-data-pointer)
     {
         auto *logic = std::get_if< encoding::logical_value_t >(&encodings[0].value[0]);
-        EXPECT_NE(logic, nullptr);
+        ASSERT_NE(logic, nullptr);
         EXPECT_EQ(logic->signal_value, 0);
         EXPECT_STREQ(logic->text_info.c_str(), "off");
     }
     {
         auto *logic = std::get_if< encoding::logical_value_t >(&encodings[0].value[1]);
-        EXPECT_NE(logic, nullptr);
+        ASSERT_NE(logic, nullptr);
         EXPECT_EQ(logic->signal_value, 1);
         EXPECT_STREQ(logic->text_info.c_str(), "on");
     }
     {
         auto *logic = std::get_if< encoding::logical_value_t >(&encodings[0].value[2]);
-        EXPECT_NE(logic, nullptr);
+        ASSERT_NE(logic, nullptr);
         EXPECT_EQ(logic->signal_value, 2);
         EXPECT_STREQ(logic->text_info.c_str(), "error");
     }
     {
         auto *logic = std::get_if< encoding::logical_value_t >(&encodings[0].value[3]);
-        EXPECT_NE(logic, nullptr);
+        ASSERT_NE(logic, nullptr);
         EXPECT_EQ(logic->signal_value, 3);
         EXPECT_STREQ(logic->text_info.c_str(), "void");
     }
+    // NOLINTEND(readability-container-data-pointer)
     EXPECT_STREQ(encodings[1].encoding_name.c_str(), "ErrorEncoding");
     EXPECT_EQ(encodings[1].value.size(), 2);
+    // NOLINTBEGIN(readability-container-data-pointer)
     {
         auto *logic = std::get_if< encoding::logical_value_t >(&encodings[1].value[0]);
-        EXPECT_NE(logic, nullptr);
+        ASSERT_NE(logic, nullptr);
         EXPECT_EQ(logic->signal_value, 0);
         EXPECT_STREQ(logic->text_info.c_str(), "OK");
     }
     {
         auto *logic = std::get_if< encoding::logical_value_t >(&encodings[1].value[1]);
-        EXPECT_NE(logic, nullptr);
+        ASSERT_NE(logic, nullptr);
         EXPECT_EQ(logic->signal_value, 1);
         EXPECT_STREQ(logic->text_info.c_str(), "error");
     }
+    // NOLINTEND(readability-container-data-pointer)
 }
