@@ -6,6 +6,7 @@ lin_lexical_test = executable(
     'lin_lexical_test',
     sources : [
         'src/lexical/common/test_bnf.cpp',
+        'src/lexical/common/test_signal_encoding.cpp',
 
         'src/lexical/ncf/test_global.cpp',
         #'src/lexical/ncf/test_node.cpp',

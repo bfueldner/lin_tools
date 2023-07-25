@@ -1,5 +1,6 @@
 headers = [
     'inc/lin/lexical/common/bnf.hpp',
+    'inc/lin/lexical/common/signal_encoding.hpp',
     #'inc/lin/lexical/common/error.hpp',
 
     'inc/lin/lexical/ncf/global.hpp',
