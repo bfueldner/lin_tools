@@ -1,7 +1,6 @@
 #include <gtest/gtest.h>
 
 #include <lin/lexical/ncf/frame.hpp>
-#include <string>
 
 TEST(test_lin_lexical_ncf_frame, frame_kind)
 {
@@ -10,7 +9,7 @@ TEST(test_lin_lexical_ncf_frame, frame_kind)
     using namespace lin::lexical::ncf::frame;
 
     std::string text{ "subscribe" };
-    frame_kind_t frame_kind;
+    frame_kind_t frame_kind{};
 
     auto position = text.begin();
     auto result =
@@ -36,7 +35,7 @@ TEST(test_lin_lexical_ncf_frame, single_frame)
         "    }"
         "}"
     };
-    single_frame_t single_frame;
+    single_frame_t single_frame{};
 
     auto position = text.begin();
     try
@@ -63,11 +62,9 @@ TEST(test_lin_lexical_ncf_frame, single_frame)
     EXPECT_STREQ(single_frame.signal_definition[0].signal_name.c_str(), "state");
     EXPECT_EQ(single_frame.signal_definition[0].signal_properties.size, 8);
     EXPECT_EQ(single_frame.signal_definition[0].signal_properties.offset, 0);
-    //EXPECT_EQ(single_frame.signal_definition[0].signal_properties.init_value, 0);
     EXPECT_STREQ(single_frame.signal_definition[1].signal_name.c_str(), "fault_state");
     EXPECT_EQ(single_frame.signal_definition[1].signal_properties.size, 2);
     EXPECT_EQ(single_frame.signal_definition[1].signal_properties.offset, 9);
-    //EXPECT_EQ(single_frame.signal_definition[1].signal_properties.init_value, 0);
     EXPECT_STREQ(
         single_frame.signal_definition[1].signal_properties.encoding_name.c_str(), "fault_enc");
 }
@@ -97,7 +94,7 @@ TEST(test_lin_lexical_ncf_frame, frames)
         "    }"
         "}"
     };
-    frames_t frames;
+    frames_t frames{};
 
     auto position = text.begin();
     try

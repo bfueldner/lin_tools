@@ -61,7 +61,7 @@ auto const signal_definition_action = [](auto &ctx) {
     x3::_val(ctx).signal_definition = x3::_attr(ctx);
 };
 
-frame_kind_t frame_kind;
+frame_kind_t const frame_kind;
 auto const frame_name = identifier;
 
 /* NOTE: frame_properties and signal_definition are position dependent. */
