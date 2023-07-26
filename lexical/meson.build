@@ -6,7 +6,7 @@ headers = [
     'inc/lin/lexical/ncf/global.hpp',
     'inc/lin/lexical/ncf/general.hpp',
     'inc/lin/lexical/ncf/diagnostic.hpp',
-    #'inc/lin/lexical/ncf/frame.hpp',
+    'inc/lin/lexical/ncf/frame.hpp',
     'inc/lin/lexical/ncf/frame_properties.hpp',
     'inc/lin/lexical/ncf/signal.hpp',
     'inc/lin/lexical/ncf/signal_encoding_type.hpp',
