@@ -9,7 +9,7 @@ lin_lexical_test = executable(
         'src/lexical/common/test_signal_encoding.cpp',
 
         'src/lexical/ncf/test_global.cpp',
-        #'src/lexical/ncf/test_node.cpp',
+        'src/lexical/ncf/test_node.cpp',
         'src/lexical/ncf/test_general.cpp',
         'src/lexical/ncf/test_diagnostic.cpp',
         'src/lexical/ncf/test_frame.cpp',

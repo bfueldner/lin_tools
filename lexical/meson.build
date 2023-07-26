@@ -4,6 +4,7 @@ headers = [
     #'inc/lin/lexical/common/error.hpp',
 
     'inc/lin/lexical/ncf/global.hpp',
+    'inc/lin/lexical/ncf/node.hpp',
     'inc/lin/lexical/ncf/general.hpp',
     'inc/lin/lexical/ncf/diagnostic.hpp',
     'inc/lin/lexical/ncf/frame.hpp',
