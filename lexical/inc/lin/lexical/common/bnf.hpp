@@ -4,6 +4,9 @@
 
 #include <boost/spirit/home/x3.hpp>
 
+#include <boost/fusion/include/adapt_struct.hpp>
+#include <boost/fusion/include/io.hpp>
+
 namespace lin::lexical::common::bnf {
 
 namespace x3 = boost::spirit::x3;

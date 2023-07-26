@@ -1,16 +1,13 @@
 #pragma once
 
-#include <boost/fusion/include/adapt_struct.hpp>
-#include <boost/fusion/include/io.hpp>
-
 #include <lin/lexical/common/bnf.hpp>
 
-#include <lin/lexical/ncf/general.hpp>
 #include <lin/lexical/ncf/diagnostic.hpp>
 #include <lin/lexical/ncf/frame.hpp>
+#include <lin/lexical/ncf/free_text.hpp>
+#include <lin/lexical/ncf/general.hpp>
 #include <lin/lexical/ncf/signal_encoding_type.hpp>
 #include <lin/lexical/ncf/status.hpp>
-#include <lin/lexical/ncf/free_text.hpp>
 
 /* 8.2.2 Node definition */
 
@@ -21,8 +18,6 @@ namespace node {
 using node_name_t = common::bnf::identifier_t;
 
 namespace parser {
-
-namespace x3 = boost::spirit::x3;
 
 using namespace common::bnf::parser;
 

@@ -3,9 +3,6 @@
 #include <variant>
 #include <vector>
 
-#include <boost/fusion/include/adapt_struct.hpp>
-#include <boost/fusion/include/io.hpp>
-
 #include <boost/spirit/home/x3/string/symbols.hpp>
 
 #include <lin/lexical/common/bnf.hpp>

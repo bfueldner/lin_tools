@@ -2,9 +2,6 @@
 
 #include <vector>
 
-#include <boost/fusion/include/adapt_struct.hpp>
-#include <boost/fusion/include/io.hpp>
-
 #include <lin/lexical/common/bnf.hpp>
 
 /* 8.2.6 Status management */
