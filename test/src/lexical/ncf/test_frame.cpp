@@ -20,6 +20,7 @@ TEST(test_lin_lexical_ncf_frame, frame_kind)
     EXPECT_EQ(frame_kind, frame_kind_t::subscribe);
 }
 
+// NOLINTBEGIN(readability-function-cognitive-complexity)
 TEST(test_lin_lexical_ncf_frame, single_frame)
 {
     namespace x3 = boost::spirit::x3;
@@ -68,7 +69,9 @@ TEST(test_lin_lexical_ncf_frame, single_frame)
     EXPECT_STREQ(
         single_frame.signal_definition[1].signal_properties.encoding_name.c_str(), "fault_enc");
 }
+// NOLINTEND(readability-function-cognitive-complexity)
 
+// NOLINTBEGIN(readability-function-cognitive-complexity)
 TEST(test_lin_lexical_ncf_frame, frames)
 {
     namespace x3 = boost::spirit::x3;
@@ -117,3 +120,4 @@ TEST(test_lin_lexical_ncf_frame, frames)
     EXPECT_EQ(frames[1].frame_kind, frame::frame_kind_t::subscribe);
     EXPECT_STREQ(frames[1].frame_name.c_str(), "control");
 }
+// NOLINTEND(readability-function-cognitive-complexity)

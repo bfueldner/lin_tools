@@ -2,6 +2,7 @@
 
 #include <lin/lexical/ncf/node.hpp>
 
+// NOLINTBEGIN(readability-function-cognitive-complexity)
 TEST(test_lin_lexical_ncf_node, node)
 {
     namespace x3 = boost::spirit::x3;
@@ -79,3 +80,4 @@ TEST(test_lin_lexical_ncf_node, node)
     EXPECT_STREQ(node.status.fault_state_signals.front().c_str(), "fault_state");
     EXPECT_STREQ(node.free_text.c_str(), "step_motor signal values outside 0 - 199 are ignored");
 }
+// NOLINTEND(readability-function-cognitive-complexity)
