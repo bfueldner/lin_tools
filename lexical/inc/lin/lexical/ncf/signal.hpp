@@ -62,7 +62,6 @@ BOOST_SPIRIT_DEFINE(init_value_scalar, init_value_array, init_value, signal_prop
 
 }    // namespace signal
 
-#if 1
 struct signal_t
 {
     signal::signal_name_t signal_name{};
@@ -91,7 +90,7 @@ auto const signal_definition_def = x3::lit("signals") > '{' > *signal > '}';
 BOOST_SPIRIT_DEFINE(signal, signal_definition);
 
 }    // namespace parser
-#endif
+
 }    // namespace lin::lexical::ncf
 
 BOOST_FUSION_ADAPT_STRUCT(
