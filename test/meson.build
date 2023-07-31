@@ -2,9 +2,22 @@ gtest_dep = dependency('gtest', version : '>=1.10.0', main : true, required : tr
 gmock_dep = dependency('gmock', version : '>=1.10.0', main : true, required : true)
 
 # Lexical
+
+ncf_test_files = custom_target(
+    'ncf_test_files',
+    input : [
+        'res/example.ncf',
+    ],
+    output : [
+        'example.ncf',
+    ],
+    command : ['cp', '@INPUT@', '@BUILD_ROOT@/test'],
+)
+
 lin_lexical_test = executable(
     'lin_lexical_test',
     sources : [
+        ncf_test_files,
         'src/lexical/common/test_bnf.cpp',
         'src/lexical/common/test_comment.cpp',
         'src/lexical/common/test_signal_encoding.cpp',
@@ -19,6 +32,7 @@ lin_lexical_test = executable(
         'src/lexical/ncf/test_signal_encoding_type.cpp',
         'src/lexical/ncf/test_status.cpp',
         'src/lexical/ncf/test_free_text.cpp',
+        'src/lexical/ncf/test_node_capability_file.cpp',
     ],
     dependencies : [
         lin_lexical_dep,
