@@ -3,7 +3,7 @@
 #include <lin/lexical/ncf/free_text.hpp>
 
 
-TEST(test_lin_lexical_ncf_free_text, free_text)
+TEST(test_lin_lexical_ncf_free_text, free_text_definition)
 {
     namespace x3 = boost::spirit::x3;
 

@@ -3,7 +3,7 @@
 #include <lin/lexical/ncf/status.hpp>
 #include <vector>
 
-TEST(test_lin_lexical_ncf_status, free_text)
+TEST(test_lin_lexical_ncf_status, status_management)
 {
     namespace x3 = boost::spirit::x3;
 

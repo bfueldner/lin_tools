@@ -1,18 +1,10 @@
 gtest_dep = dependency('gtest', version : '>=1.10.0', main : true, required : true)
 gmock_dep = dependency('gmock', version : '>=1.10.0', main : true, required : true)
 
-# Lexical
+fs = import('fs')
 
-ncf_test_files = custom_target(
-    'ncf_test_files',
-    input : [
-        'res/example.ncf',
-    ],
-    output : [
-        'example.ncf',
-    ],
-    command : ['cp', '@INPUT@', '@BUILD_ROOT@/test'],
-)
+# Lexical
+ncf_test_files = fs.copyfile('res/example.ncf', 'example.ncf')
 
 lin_lexical_test = executable(
     'lin_lexical_test',

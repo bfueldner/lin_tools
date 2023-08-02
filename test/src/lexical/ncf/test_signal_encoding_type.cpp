@@ -30,7 +30,7 @@ TEST(test_lin_lexical_ncf_signal_encoding_type, encoding)
     }
 }
 
-TEST(test_lin_lexical_ncf_signal_encoding_type, encodings)
+TEST(test_lin_lexical_ncf_signal_encoding_type, encoding_definition)
 {
     namespace x3 = boost::spirit::x3;
 
