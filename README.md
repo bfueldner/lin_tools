@@ -1,12 +1,12 @@
-# lin_tools
+# LIN 2.2 tools
 
-![License](https://build.fueldner.net/badges/opensource_lin_tools.svg?type=license&branch=develop)
-[![Build state](https://build.fueldner.net/badges/opensource_lin_tools.svg?branch=develop)](https://build.fueldner.net/#/builders/opensource_lin_tools)
-![Warnings](https://build.fueldner.net/badges/opensource_lin_tools.svg?type=warnings&branch=develop)
-![Tests](https://build.fueldner.net/badges/opensource_lin_tools.svg?type=tests&branch=develop)
-![Coverage](https://build.fueldner.net/badges/opensource_lin_tools.svg?type=coverage&branch=develop)
+![License](https://build.fueldner.net/badges/opensource_lin_tools.svg?type=license&branch=main)
+[![Build state](https://build.fueldner.net/badges/opensource_lin_tools.svg?branch=main)](https://build.fueldner.net/#/builders/opensource_lin_tools)
+![Warnings](https://build.fueldner.net/badges/opensource_lin_tools.svg?type=warnings&branch=main)
+![Tests](https://build.fueldner.net/badges/opensource_lin_tools.svg?type=tests&branch=main)
+![Coverage](https://build.fueldner.net/badges/opensource_lin_tools.svg?type=coverage&branch=main)
 
-LIN 2.2 protocol tools.
+LIN 2.2 node capability file parser written in `boost::spirit:x3`.
 
 ---
 
