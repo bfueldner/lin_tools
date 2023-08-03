@@ -26,9 +26,11 @@ using namespace common::signal_encoding::parser;
 
 /* 8.2.5.3 Signal encoding type definition */
 
+// NOLINTBEGIN(bugprone-forward-declaration-namespace)
 x3::rule< class encoding, encoding_t > const encoding = "encoding";
 x3::rule< class encoding_definition, encodings_t > const encoding_definition =
     "encoding_definition";
+// NOLINTEND(bugprone-forward-declaration-namespace)
 
 auto const encoding_name = identifier;
 

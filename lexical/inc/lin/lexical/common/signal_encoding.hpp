@@ -39,11 +39,13 @@ namespace x3 = boost::spirit::x3;
 
 using namespace common::bnf::parser;
 
+// NOLINTBEGIN(bugprone-forward-declaration-namespace)
 x3::rule< class logical_value, logical_value_t > const logical_value    = "logical_value";
 x3::rule< class physical_range, physical_range_t > const physical_range = "physical_range";
 x3::rule< class bcd_value, bcd_value_t > const bcd_value                = "bcd_value";
 x3::rule< class ascii_value, ascii_value_t > const ascii_value          = "ascii_value";
 x3::rule< class value, value_t > const value                            = "value";
+// NOLINTEND(bugprone-forward-declaration-namespace)
 
 auto const signal_value = integer;
 auto const min_value    = integer;
