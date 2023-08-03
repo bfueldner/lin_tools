@@ -1,6 +1,7 @@
 #include <gtest/gtest.h>
 
 #include <lin/lexical/ncf/node_capability_file.hpp>
+#include <lin/test/main.hpp>
 
 #include <fstream>
 
@@ -12,7 +13,7 @@ TEST(test_lin_lexical_ncf_node, node_capability_file_definition)
 
     node_capability_file_t node_capability_file{};
 
-    std::ifstream input("example.ncf", std::ifstream::in);
+    std::ifstream input(lin::test::binary_path.parent_path() / "example.ncf", std::ifstream::in);
     ASSERT_TRUE(input.good());
 
     std::string text(std::istreambuf_iterator< char >{ input }, {});
