@@ -15,6 +15,8 @@ headers = [
     'inc/lin/lexical/ncf/status.hpp',
     'inc/lin/lexical/ncf/free_text.hpp',
     'inc/lin/lexical/ncf/node_capability_file.hpp',
+
+    'inc/lin/lexical/ldf/global.hpp',
 ]
 
 lin_lexical_dep = declare_dependency(
