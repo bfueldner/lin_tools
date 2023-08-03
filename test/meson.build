@@ -29,6 +29,7 @@ lin_lexical_test = executable(
         'src/lexical/ncf/test_node_capability_file.cpp',
 
         'src/lexical/ldf/test_global.cpp',
+        'src/lexical/ldf/test_node.cpp',
     ],
     extra_files : [
         'inc/lin/test/main.hpp',
