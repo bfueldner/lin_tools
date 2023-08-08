@@ -18,6 +18,8 @@ headers = [
 
     'inc/lin/lexical/ldf/global.hpp',
     'inc/lin/lexical/ldf/node.hpp',
+    #'inc/lin/lexical/ldf/node_attributes.hpp',
+    'inc/lin/lexical/ldf/signal.hpp',
 ]
 
 lin_lexical_dep = declare_dependency(
