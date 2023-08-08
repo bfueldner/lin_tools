@@ -139,6 +139,7 @@ TEST(test_lin_lexical_ldf_signal, diagnostic_signal)
     EXPECT_EQ(*init_value, 0);
 }
 
+// NOLINTBEGIN(readability-function-cognitive-complexity)
 TEST(test_lin_lexical_ldf_signal, diagnostic_signals)
 {
     namespace x3 = boost::spirit::x3;
@@ -175,7 +176,7 @@ TEST(test_lin_lexical_ldf_signal, diagnostic_signals)
 
     for (int index = 0; index < 8; index++)
     {
-        std::string name = "MasterReqB" + std::to_string(index);
+        std::string const name = "MasterReqB" + std::to_string(index);
 
         EXPECT_STREQ(diagnostic_signals[index].signal_name.c_str(), name.c_str());
         EXPECT_EQ(diagnostic_signals[index].signal_size, 8);
@@ -187,7 +188,7 @@ TEST(test_lin_lexical_ldf_signal, diagnostic_signals)
 
     for (int index = 0; index < 8; index++)
     {
-        std::string name = "SlaveRespB" + std::to_string(index);
+        std::string const name = "SlaveRespB" + std::to_string(index);
 
         EXPECT_STREQ(diagnostic_signals[index + 8].signal_name.c_str(), name.c_str());
         EXPECT_EQ(diagnostic_signals[index + 8].signal_size, 8);
@@ -197,3 +198,133 @@ TEST(test_lin_lexical_ldf_signal, diagnostic_signals)
         EXPECT_EQ(*init_value, 0);
     }
 }
+// NOLINTEND(readability-function-cognitive-complexity)
+
+/* 9.2.3.3 Signal groups */
+
+TEST(test_lin_lexical_ldf_signal, signal_group_group_entry)
+{
+    namespace x3 = boost::spirit::x3;
+
+    using namespace lin::lexical::ldf::signal::signal_group;
+
+    std::string text{ "CPMReqB4,32;" };
+    group_entry_t group_entry{};
+
+    auto position = text.begin();
+    auto result =
+        phrase_parse(position, text.end(), parser::group_entry, x3::ascii::space, group_entry);
+    ASSERT_TRUE(result);
+    ASSERT_EQ(position, text.end());
+
+    EXPECT_STREQ(group_entry.signal_name.c_str(), "CPMReqB4");
+    EXPECT_EQ(group_entry.group_offset, 32);
+}
+
+// NOLINTBEGIN(readability-function-cognitive-complexity)
+TEST(test_lin_lexical_ldf_signal, signal_group)
+{
+    namespace x3 = boost::spirit::x3;
+
+    using namespace lin::lexical::ldf::signal;
+
+    std::string text{
+        "CPMReq:64 {"
+        "    CPMReqB0,0;"
+        "    CPMReqB1,8;"
+        "    CPMReqB2,16;"
+        "    CPMReqB3,24;"
+        "    CPMReqB4,32;"
+        "    CPMReqB5,40;"
+        "    CPMReqB6,48;"
+        "    CPMReqB7,56;"
+        "}"
+    };
+    signal_group_t signal_group{};
+
+    auto position = text.begin();
+    auto result =
+        phrase_parse(position, text.end(), parser::signal_group, x3::ascii::space, signal_group);
+    ASSERT_TRUE(result);
+    ASSERT_EQ(position, text.end());
+
+    EXPECT_STREQ(signal_group.signal_group_name.c_str(), "CPMReq");
+    EXPECT_EQ(signal_group.group_size, 64);
+
+    int index = 0;
+    for (auto const &group_entry : signal_group.group_entries)
+    {
+        std::string const name = "CPMReqB" + std::to_string(index);
+
+        EXPECT_STREQ(group_entry.signal_name.c_str(), name.c_str());
+        EXPECT_EQ(group_entry.group_offset, index * 8);
+        index++;
+    }
+}
+// NOLINTEND(readability-function-cognitive-complexity)
+
+// NOLINTBEGIN(readability-function-cognitive-complexity)
+TEST(test_lin_lexical_ldf_signal, signal_groups)
+{
+    namespace x3 = boost::spirit::x3;
+
+    using namespace lin::lexical::ldf::signal;
+
+    std::string text{
+        "Signal_groups {"
+        "    CPMReq:64 {"
+        "        CPMReqB0,0;"
+        "        CPMReqB1,8;"
+        "        CPMReqB2,16;"
+        "        CPMReqB3,24;"
+        "        CPMReqB4,32;"
+        "        CPMReqB5,40;"
+        "        CPMReqB6,48;"
+        "        CPMReqB7,56;"
+        "    }"
+        "    CPMResp:64 {"
+        "        CPMRespB0,0;"
+        "        CPMRespB1,8;"
+        "        CPMRespB2,16;"
+        "        CPMRespB3,24;"
+        "        CPMRespB4,32;"
+        "        CPMRespB5,40;"
+        "        CPMRespB6,48;"
+        "        CPMRespB7,56;"
+        "    }"
+        "}"
+    };
+    signal_groups_t signal_groups{};
+
+    auto position = text.begin();
+    auto result =
+        phrase_parse(position, text.end(), parser::signal_groups, x3::ascii::space, signal_groups);
+    ASSERT_TRUE(result);
+    ASSERT_EQ(position, text.end());
+
+    ASSERT_EQ(signal_groups.size(), 2);
+
+    EXPECT_STREQ(signal_groups[0].signal_group_name.c_str(), "CPMReq");
+    EXPECT_EQ(signal_groups[0].group_size, 64);
+
+    int index = 0;
+    for (auto const &group_entry : signal_groups[0].group_entries)
+    {
+        std::string const name = "CPMReqB" + std::to_string(index);
+
+        EXPECT_STREQ(group_entry.signal_name.c_str(), name.c_str());
+        EXPECT_EQ(group_entry.group_offset, index * 8);
+        index++;
+    }
+
+    index = 0;
+    for (auto const &group_entry : signal_groups[1].group_entries)
+    {
+        std::string const name = "CPMRespB" + std::to_string(index);
+
+        EXPECT_STREQ(group_entry.signal_name.c_str(), name.c_str());
+        EXPECT_EQ(group_entry.group_offset, index * 8);
+        index++;
+    }
+}
+// NOLINTEND(readability-function-cognitive-complexity)

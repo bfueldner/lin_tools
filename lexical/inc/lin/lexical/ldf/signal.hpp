@@ -112,6 +112,76 @@ BOOST_SPIRIT_DEFINE(diagnostic_signal, diagnostic_signals);
 
 }    // namespace parser
 
+/* 9.2.3.3 Signal groups */
+
+namespace signal_group {
+
+namespace group_entry {
+
+using signal_name_t  = common::bnf::identifier_t;
+using group_offset_t = common::bnf::integer_t;
+
+}    // namespace group_entry
+
+struct group_entry_t
+{
+    group_entry::signal_name_t signal_name{};
+    group_entry::group_offset_t group_offset{};
+};
+
+using group_entries_t = std::vector< group_entry_t >;
+
+namespace parser {
+
+namespace x3 = boost::spirit::x3;
+
+using namespace common::bnf::parser;
+
+x3::rule< class group_entry, group_entry_t > const group_entry = "group_entry";
+
+auto const signal_name  = identifier;
+auto const group_offset = integer;
+
+auto const group_entry_def = signal_name > ',' > group_offset > ';';
+
+BOOST_SPIRIT_DEFINE(group_entry);
+
+}    // namespace parser
+
+using signal_group_name_t = common::bnf::identifier_t;
+using group_size_t        = common::bnf::integer_t;
+
+}    // namespace signal_group
+
+struct signal_group_t
+{
+    signal_group::signal_group_name_t signal_group_name{};
+    signal_group::group_size_t group_size{};
+    signal_group::group_entries_t group_entries{};
+};
+
+using signal_groups_t = std::vector< signal_group_t >;
+
+namespace parser {
+
+namespace x3 = boost::spirit::x3;
+
+using namespace common::bnf::parser;
+using namespace signal_group::parser;
+
+x3::rule< class signal_group, signal_group_t > const signal_group    = "signal_group";
+x3::rule< class signal_groups, signal_groups_t > const signal_groups = "signal_groups";
+
+auto const signal_group_name = identifier;
+auto const group_size        = integer;
+
+auto const signal_group_def  = signal_group_name > ':' > group_size > '{' > *group_entry > '}';
+auto const signal_groups_def = x3::lit("Signal_groups") > '{' > *signal_group > '}';
+
+BOOST_SPIRIT_DEFINE(signal_group, signal_groups);
+
+}    // namespace parser
+
 }    // namespace lin::lexical::ldf::signal
 
 BOOST_FUSION_ADAPT_STRUCT(
@@ -127,3 +197,14 @@ BOOST_FUSION_ADAPT_STRUCT(
     signal_name,
     signal_size,
     init_value)
+
+BOOST_FUSION_ADAPT_STRUCT(
+    lin::lexical::ldf::signal::signal_group::group_entry_t,
+    signal_name,
+    group_offset)
+
+BOOST_FUSION_ADAPT_STRUCT(
+    lin::lexical::ldf::signal::signal_group_t,
+    signal_group_name,
+    group_size,
+    group_entries)
