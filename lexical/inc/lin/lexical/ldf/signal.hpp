@@ -73,6 +73,45 @@ BOOST_SPIRIT_DEFINE(standard_signal, standard_signals);
 
 }    // namespace parser
 
+/* 9.2.3.2 Diagnostic signals */
+
+namespace diagnostic_signal {
+
+using signal_name_t       = standard_signal::signal_name_t;
+using signal_size_t       = standard_signal::signal_size_t;
+using init_value_scalar_t = standard_signal::init_value_scalar_t;
+using init_value_array_t  = standard_signal::init_value_array_t;
+using init_value_t        = standard_signal::init_value_t;
+
+}    // namespace diagnostic_signal
+
+struct diagnostic_signal_t
+{
+    diagnostic_signal::signal_name_t signal_name{};
+    diagnostic_signal::signal_size_t signal_size{};
+    diagnostic_signal::init_value_t init_value{};
+};
+
+using diagnostic_signals_t = std::vector< diagnostic_signal_t >;
+
+namespace parser {
+
+namespace x3 = boost::spirit::x3;
+
+using namespace common::bnf::parser;
+
+x3::rule< class diagnostic_signal, diagnostic_signal_t > const diagnostic_signal =
+    "diagnostic_signal";
+x3::rule< class diagnostic_signals, diagnostic_signals_t > const diagnostic_signals =
+    "diagnostic_signals";
+
+auto const diagnostic_signal_def  = signal_name > ':' > signal_size > ',' > init_value > ';';
+auto const diagnostic_signals_def = x3::lit("Diagnostic_signals") > '{' > *diagnostic_signal > '}';
+
+BOOST_SPIRIT_DEFINE(diagnostic_signal, diagnostic_signals);
+
+}    // namespace parser
+
 }    // namespace lin::lexical::ldf::signal
 
 BOOST_FUSION_ADAPT_STRUCT(
@@ -82,3 +121,9 @@ BOOST_FUSION_ADAPT_STRUCT(
     init_value,
     published_by,
     subscribed_by)
+
+BOOST_FUSION_ADAPT_STRUCT(
+    lin::lexical::ldf::signal::diagnostic_signal_t,
+    signal_name,
+    signal_size,
+    init_value)
