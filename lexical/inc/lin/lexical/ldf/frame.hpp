@@ -123,6 +123,52 @@ BOOST_SPIRIT_DEFINE(sporadic_frame, sporadic_frames);
 
 /* 9.2.4.3 Event triggered frames */
 
+namespace event_triggered_frame {
+
+using event_trig_frm_name_t                = common::bnf::identifier_t;
+using collision_resolving_schedule_table_t = common::bnf::identifier_t;
+using frame_id_t                           = common::bnf::integer_t;
+using frame_name_t                         = common::bnf::identifier_t;
+
+}    // namespace event_triggered_frame
+
+struct event_triggered_frame_t
+{
+    event_triggered_frame::event_trig_frm_name_t event_trig_frm_name{};
+    event_triggered_frame::collision_resolving_schedule_table_t
+        collision_resolving_schedule_table{};
+    event_triggered_frame::frame_id_t frame_id{};
+    std::vector< event_triggered_frame::frame_name_t > frame_names{};
+};
+
+using event_triggered_frames_t = std::vector< event_triggered_frame_t >;
+
+namespace parser {
+
+namespace x3 = boost::spirit::x3;
+
+using namespace common::bnf::parser;
+
+x3::rule< class event_triggered_frame, event_triggered_frame_t > const event_triggered_frame =
+    "event_triggered_frame";
+x3::rule< class event_triggered_frames, event_triggered_frames_t > const event_triggered_frames =
+    "event_triggered_frames";
+
+auto const event_trig_frm_name                = identifier;
+auto const collision_resolving_schedule_table = identifier;
+//auto const frame_id                           = integer;
+//auto const frame_name                         = identifier;
+
+auto const event_triggered_frame_def = event_trig_frm_name > ':' >
+                                       collision_resolving_schedule_table > ',' > frame_id > ',' >
+                                       frame_name % ',' > ';';
+auto const event_triggered_frames_def = x3::lit("Event_triggered_frames") > '{' >
+                                        *event_triggered_frame > '}';
+
+BOOST_SPIRIT_DEFINE(event_triggered_frame, event_triggered_frames);
+
+}    // namespace parser
+
 /* 9.2.4.4 Diagnostic frames */
 
 }    // namespace lin::lexical::ldf::frame
@@ -143,4 +189,11 @@ BOOST_FUSION_ADAPT_STRUCT(
 BOOST_FUSION_ADAPT_STRUCT(
     lin::lexical::ldf::frame::sporadic_frame_t,
     sporadic_frame_name,
+    frame_names)
+
+BOOST_FUSION_ADAPT_STRUCT(
+    lin::lexical::ldf::frame::event_triggered_frame_t,
+    event_trig_frm_name,
+    collision_resolving_schedule_table,
+    frame_id,
     frame_names)

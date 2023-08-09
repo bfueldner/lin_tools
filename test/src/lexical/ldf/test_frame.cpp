@@ -147,3 +147,66 @@ TEST(test_lin_lexical_ldf_frame, sporadic_frames)
     EXPECT_EQ(
         sporadic_frames[1].frame_names, (std::vector< std::string >{ "RSM_Frm1", "RSM_Frm2" }));
 }
+
+/* 9.2.4.3 Event triggered frames */
+
+TEST(test_lin_lexical_ldf_frame, event_triggered_frame)
+{
+    namespace x3 = boost::spirit::x3;
+
+    using namespace lin::lexical::ldf::frame;
+
+    std::string text{ "Node_Status_Event : Collision_resolver, 0x06, RSM_Frm1, LSM_Frm1;" };
+    event_triggered_frame_t event_triggered_frame;
+
+    auto position = text.begin();
+    auto result   = phrase_parse(
+        position,
+        text.end(),
+        parser::event_triggered_frame,
+        x3::ascii::space,
+        event_triggered_frame);
+    EXPECT_TRUE(result);
+    EXPECT_EQ(position, text.end());
+
+    EXPECT_STREQ(event_triggered_frame.event_trig_frm_name.c_str(), "Node_Status_Event");
+    EXPECT_STREQ(
+        event_triggered_frame.collision_resolving_schedule_table.c_str(), "Collision_resolver");
+    EXPECT_EQ(event_triggered_frame.frame_id, 0x06);
+    EXPECT_EQ(event_triggered_frame.frame_names.size(), 2);
+    EXPECT_STREQ(event_triggered_frame.frame_names[0].c_str(), "RSM_Frm1");
+    EXPECT_STREQ(event_triggered_frame.frame_names[1].c_str(), "LSM_Frm1");
+}
+
+TEST(test_lin_lexical_ldf_frame, event_triggered_frames)
+{
+    namespace x3 = boost::spirit::x3;
+
+    using namespace lin::lexical::ldf::frame;
+
+    std::string text{
+        "Event_triggered_frames {"
+        "    Node_Status_Event : Collision_resolver, 0x06, RSM_Frm1, LSM_Frm1;"
+        "}"
+    };
+    event_triggered_frames_t event_triggered_frames;
+
+    auto position = text.begin();
+    auto result   = phrase_parse(
+        position,
+        text.end(),
+        parser::event_triggered_frames,
+        x3::ascii::space,
+        event_triggered_frames);
+    EXPECT_TRUE(result);
+    EXPECT_EQ(position, text.end());
+
+    EXPECT_EQ(event_triggered_frames.size(), 1);
+    EXPECT_STREQ(event_triggered_frames[0].event_trig_frm_name.c_str(), "Node_Status_Event");
+    EXPECT_STREQ(
+        event_triggered_frames[0].collision_resolving_schedule_table.c_str(), "Collision_resolver");
+    EXPECT_EQ(event_triggered_frames[0].frame_id, 0x06);
+    EXPECT_EQ(event_triggered_frames[0].frame_names.size(), 2);
+    EXPECT_STREQ(event_triggered_frames[0].frame_names[0].c_str(), "RSM_Frm1");
+    EXPECT_STREQ(event_triggered_frames[0].frame_names[1].c_str(), "LSM_Frm1");
+}
