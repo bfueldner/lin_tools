@@ -213,6 +213,7 @@ TEST(test_lin_lexical_ldf_frame, event_triggered_frames)
 
 /* 9.2.4.4 Diagnostic frames */
 
+// NOLINTBEGIN(readability-function-cognitive-complexity)
 TEST(test_lin_lexical_ldf_frame, diagnostic_frame)
 {
     namespace x3 = boost::spirit::x3;
@@ -244,16 +245,18 @@ TEST(test_lin_lexical_ldf_frame, diagnostic_frame)
     EXPECT_EQ(diagnostic_frame.frame_entries.size(), 8);
 
     int index = 0;
-    for (auto frame_signal : diagnostic_frame.frame_entries)
+    for (auto const &frame_signal : diagnostic_frame.frame_entries)
     {
-        std::string name = "MasterReqB" + std::to_string(index);
+        std::string const name = "MasterReqB" + std::to_string(index);
 
         EXPECT_STREQ(frame_signal.signal_name.c_str(), name.c_str());
         EXPECT_EQ(frame_signal.signal_offset, index * 8);
         index++;
     }
 }
+// NOLINTEND(readability-function-cognitive-complexity)
 
+// NOLINTBEGIN(readability-function-cognitive-complexity)
 TEST(test_lin_lexical_ldf_frame, diagnostic_frames)
 {
     namespace x3 = boost::spirit::x3;
@@ -299,9 +302,9 @@ TEST(test_lin_lexical_ldf_frame, diagnostic_frames)
     EXPECT_EQ(diagnostic_frames[0].frame_entries.size(), 8);
 
     int index = 0;
-    for (auto frame_signal : diagnostic_frames[0].frame_entries)
+    for (auto const &frame_signal : diagnostic_frames[0].frame_entries)
     {
-        std::string name = "MasterReqB" + std::to_string(index);
+        std::string const name = "MasterReqB" + std::to_string(index);
 
         EXPECT_STREQ(frame_signal.signal_name.c_str(), name.c_str());
         EXPECT_EQ(frame_signal.signal_offset, index * 8);
@@ -313,12 +316,13 @@ TEST(test_lin_lexical_ldf_frame, diagnostic_frames)
     EXPECT_EQ(diagnostic_frames[1].frame_entries.size(), 8);
 
     index = 0;
-    for (auto frame_signal : diagnostic_frames[1].frame_entries)
+    for (auto const &frame_signal : diagnostic_frames[1].frame_entries)
     {
-        std::string name = "SlaveRespB" + std::to_string(index);
+        std::string const name = "SlaveRespB" + std::to_string(index);
 
         EXPECT_STREQ(frame_signal.signal_name.c_str(), name.c_str());
         EXPECT_EQ(frame_signal.signal_offset, index * 8);
         index++;
     }
 }
+// NOLINTEND(readability-function-cognitive-complexity)
