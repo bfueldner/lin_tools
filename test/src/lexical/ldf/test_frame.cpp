@@ -210,3 +210,115 @@ TEST(test_lin_lexical_ldf_frame, event_triggered_frames)
     EXPECT_STREQ(event_triggered_frames[0].frame_names[0].c_str(), "RSM_Frm1");
     EXPECT_STREQ(event_triggered_frames[0].frame_names[1].c_str(), "LSM_Frm1");
 }
+
+/* 9.2.4.4 Diagnostic frames */
+
+TEST(test_lin_lexical_ldf_frame, diagnostic_frame)
+{
+    namespace x3 = boost::spirit::x3;
+
+    using namespace lin::lexical::ldf::frame;
+
+    std::string text{
+        "MasterReq: 60 {"
+        "    MasterReqB0, 0;"
+        "    MasterReqB1, 8;"
+        "    MasterReqB2, 16;"
+        "    MasterReqB3, 24;"
+        "    MasterReqB4, 32;"
+        "    MasterReqB5, 40;"
+        "    MasterReqB6, 48;"
+        "    MasterReqB7, 56;"
+        "}"
+    };
+    diagnostic_frame_t diagnostic_frame;
+
+    auto position = text.begin();
+    auto result   = phrase_parse(
+        position, text.end(), parser::diagnostic_frame, x3::ascii::space, diagnostic_frame);
+    EXPECT_TRUE(result);
+    EXPECT_EQ(position, text.end());
+
+    EXPECT_STREQ(diagnostic_frame.frame_name.c_str(), "MasterReq");
+    EXPECT_EQ(diagnostic_frame.frame_id, 60);
+    EXPECT_EQ(diagnostic_frame.frame_entries.size(), 8);
+
+    int index = 0;
+    for (auto frame_signal : diagnostic_frame.frame_entries)
+    {
+        std::string name = "MasterReqB" + std::to_string(index);
+
+        EXPECT_STREQ(frame_signal.signal_name.c_str(), name.c_str());
+        EXPECT_EQ(frame_signal.signal_offset, index * 8);
+        index++;
+    }
+}
+
+TEST(test_lin_lexical_ldf_frame, diagnostic_frames)
+{
+    namespace x3 = boost::spirit::x3;
+
+    using namespace lin::lexical::ldf::frame;
+
+    std::string text{
+        "Diagnostic_frames {"
+        "    MasterReq: 60 {"
+        "        MasterReqB0, 0;"
+        "        MasterReqB1, 8;"
+        "        MasterReqB2, 16;"
+        "        MasterReqB3, 24;"
+        "        MasterReqB4, 32;"
+        "        MasterReqB5, 40;"
+        "        MasterReqB6, 48;"
+        "        MasterReqB7, 56;"
+        "    }"
+        "    SlaveResp: 61 {"
+        "         SlaveRespB0, 0;"
+        "         SlaveRespB1, 8;"
+        "         SlaveRespB2, 16;"
+        "         SlaveRespB3, 24;"
+        "         SlaveRespB4, 32;"
+        "         SlaveRespB5, 40;"
+        "         SlaveRespB6, 48;"
+        "         SlaveRespB7, 56;"
+        "    }"
+        "}"
+    };
+    diagnostic_frames_t diagnostic_frames;
+
+    auto position = text.begin();
+    auto result   = phrase_parse(
+        position, text.end(), parser::diagnostic_frames, x3::ascii::space, diagnostic_frames);
+    EXPECT_TRUE(result);
+    EXPECT_EQ(position, text.end());
+
+    EXPECT_EQ(diagnostic_frames.size(), 2);
+
+    EXPECT_STREQ(diagnostic_frames[0].frame_name.c_str(), "MasterReq");
+    EXPECT_EQ(diagnostic_frames[0].frame_id, 60);
+    EXPECT_EQ(diagnostic_frames[0].frame_entries.size(), 8);
+
+    int index = 0;
+    for (auto frame_signal : diagnostic_frames[0].frame_entries)
+    {
+        std::string name = "MasterReqB" + std::to_string(index);
+
+        EXPECT_STREQ(frame_signal.signal_name.c_str(), name.c_str());
+        EXPECT_EQ(frame_signal.signal_offset, index * 8);
+        index++;
+    }
+
+    EXPECT_STREQ(diagnostic_frames[1].frame_name.c_str(), "SlaveResp");
+    EXPECT_EQ(diagnostic_frames[1].frame_id, 61);
+    EXPECT_EQ(diagnostic_frames[1].frame_entries.size(), 8);
+
+    index = 0;
+    for (auto frame_signal : diagnostic_frames[1].frame_entries)
+    {
+        std::string name = "SlaveRespB" + std::to_string(index);
+
+        EXPECT_STREQ(frame_signal.signal_name.c_str(), name.c_str());
+        EXPECT_EQ(frame_signal.signal_offset, index * 8);
+        index++;
+    }
+}

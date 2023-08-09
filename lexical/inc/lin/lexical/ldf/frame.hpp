@@ -171,6 +171,36 @@ BOOST_SPIRIT_DEFINE(event_triggered_frame, event_triggered_frames);
 
 /* 9.2.4.4 Diagnostic frames */
 
+struct diagnostic_frame_t
+{
+    unconditional_frame::frame_name_t frame_name{};
+    unconditional_frame::frame_id_t frame_id{};
+    unconditional_frame::frame_entries_t frame_entries{};
+};
+
+using diagnostic_frames_t = std::vector< diagnostic_frame_t >;
+
+namespace parser {
+
+namespace x3 = boost::spirit::x3;
+
+using namespace common::bnf::parser;
+//using namespace unconditional_frame::parser;
+
+x3::rule< class diagnostic_frame, diagnostic_frame_t > const diagnostic_frame = "diagnostic_frame";
+x3::rule< class diagnostic_frames, diagnostic_frames_t > const diagnostic_frames =
+    "diagnostic_frames";
+
+//auto const frame_name   = identifier;
+//auto const frame_id     = integer;
+
+auto const diagnostic_frame_def  = frame_name > ':' > frame_id > '{' > *frame_entry > '}';
+auto const diagnostic_frames_def = x3::lit("Diagnostic_frames") > '{' > *diagnostic_frame > '}';
+
+BOOST_SPIRIT_DEFINE(diagnostic_frame, diagnostic_frames);
+
+}    // namespace parser
+
 }    // namespace lin::lexical::ldf::frame
 
 BOOST_FUSION_ADAPT_STRUCT(
@@ -197,3 +227,9 @@ BOOST_FUSION_ADAPT_STRUCT(
     collision_resolving_schedule_table,
     frame_id,
     frame_names)
+
+BOOST_FUSION_ADAPT_STRUCT(
+    lin::lexical::ldf::frame::diagnostic_frame_t,
+    frame_name,
+    frame_id,
+    frame_entries)
