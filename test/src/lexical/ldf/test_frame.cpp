@@ -96,3 +96,54 @@ TEST(test_lin_lexical_ldf_frame, unconditional_frames)
         unconditional_frames[1].frame_entries[0].signal_name.c_str(), "LeftIntLightsSwitch");
     EXPECT_EQ(unconditional_frames[1].frame_entries[0].signal_offset, 8);
 }
+
+/* 9.2.4.2 Sporadic frames */
+
+TEST(test_lin_lexical_ldf_frame, sporadic_frame)
+{
+    namespace x3 = boost::spirit::x3;
+
+    using namespace lin::lexical::ldf::frame;
+
+    std::string text{ "SPRD_Frm: LSM_Frm1;" };
+    sporadic_frame_t sporadic_frame;
+
+    auto position = text.begin();
+    auto result   = phrase_parse(
+        position, text.end(), parser::sporadic_frame, x3::ascii::space, sporadic_frame);
+    ASSERT_TRUE(result);
+    ASSERT_EQ(position, text.end());
+
+    EXPECT_STREQ(sporadic_frame.sporadic_frame_name.c_str(), "SPRD_Frm");
+    ASSERT_EQ(sporadic_frame.frame_names.size(), 1);
+    EXPECT_STREQ(sporadic_frame.frame_names[0].c_str(), "LSM_Frm1");
+}
+
+TEST(test_lin_lexical_ldf_frame, sporadic_frames)
+{
+    namespace x3 = boost::spirit::x3;
+
+    using namespace lin::lexical::ldf::frame;
+
+    std::string text{
+        "Sporadic_frames {"
+        "    SPRD_Frm1: LSM_Frm1;"
+        "    SPRD_Frm2: RSM_Frm1, RSM_Frm2;"
+        "}"
+    };
+    sporadic_frames_t sporadic_frames;
+
+    auto position = text.begin();
+    auto result   = phrase_parse(
+        position, text.end(), parser::sporadic_frames, x3::ascii::space, sporadic_frames);
+    ASSERT_TRUE(result);
+    ASSERT_EQ(position, text.end());
+
+    ASSERT_EQ(sporadic_frames.size(), 2);
+    EXPECT_STREQ(sporadic_frames[0].sporadic_frame_name.c_str(), "SPRD_Frm1");
+    ASSERT_EQ(sporadic_frames[0].frame_names.size(), 1);
+    EXPECT_EQ(sporadic_frames[0].frame_names, (std::vector< std::string >{ "LSM_Frm1" }));
+    EXPECT_STREQ(sporadic_frames[1].sporadic_frame_name.c_str(), "SPRD_Frm2");
+    EXPECT_EQ(
+        sporadic_frames[1].frame_names, (std::vector< std::string >{ "RSM_Frm1", "RSM_Frm2" }));
+}
