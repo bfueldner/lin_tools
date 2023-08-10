@@ -1,12 +1,12 @@
 #include <gtest/gtest.h>
 
-#include <lin/lexical/common/signal_encoding.hpp>
+#include <lin/lexical/common/signal_encoding_type.hpp>
 
-TEST(test_lin_lexical_common_signal_encoding, logical_value)
+TEST(test_lin_lexical_common_signal_encoding_type, logical_value)
 {
     namespace x3 = boost::spirit::x3;
 
-    using namespace lin::lexical::common::signal_encoding;
+    using namespace lin::lexical::common::signal_encoding_type;
 
     std::string text{ "logical_value, 0, \"off\";" };
     logical_value_t logical_value{};
@@ -21,11 +21,11 @@ TEST(test_lin_lexical_common_signal_encoding, logical_value)
     EXPECT_STREQ(logical_value.text_info.c_str(), "off");
 }
 
-TEST(test_lin_lexical_common_signal_encoding, physical_value)
+TEST(test_lin_lexical_common_signal_encoding_type, physical_value)
 {
     namespace x3 = boost::spirit::x3;
 
-    using namespace lin::lexical::common::signal_encoding;
+    using namespace lin::lexical::common::signal_encoding_type;
 
     std::string text{ "physical_value, 1, 254, 1, 100, \"lux\";" };
     physical_range_t physical_range;
@@ -43,11 +43,11 @@ TEST(test_lin_lexical_common_signal_encoding, physical_value)
     EXPECT_STREQ(physical_range.text_info.c_str(), "lux");
 }
 
-TEST(test_lin_lexical_common_signal_encoding, bcd_value)
+TEST(test_lin_lexical_common_signal_encoding_type, bcd_value)
 {
     namespace x3 = boost::spirit::x3;
 
-    using namespace lin::lexical::common::signal_encoding;
+    using namespace lin::lexical::common::signal_encoding_type;
 
     std::string text{ "bcd_value ;" };
     bcd_value_t bcd_value;
@@ -59,11 +59,11 @@ TEST(test_lin_lexical_common_signal_encoding, bcd_value)
     ASSERT_EQ(position, text.end());
 }
 
-TEST(test_lin_lexical_common_signal_encoding, encoding_ascii_value)
+TEST(test_lin_lexical_common_signal_encoding_type, encoding_ascii_value)
 {
     namespace x3 = boost::spirit::x3;
 
-    using namespace lin::lexical::common::signal_encoding;
+    using namespace lin::lexical::common::signal_encoding_type;
 
     std::string text{ "ascii_value ;" };
     ascii_value_t ascii_value;
@@ -75,11 +75,11 @@ TEST(test_lin_lexical_common_signal_encoding, encoding_ascii_value)
     ASSERT_EQ(position, text.end());
 }
 
-TEST(test_lin_lexical_common_signal_encoding, encoding_value)
+TEST(test_lin_lexical_common_signal_encoding_type, encoding_value)
 {
     namespace x3 = boost::spirit::x3;
 
-    using namespace lin::lexical::common::signal_encoding;
+    using namespace lin::lexical::common::signal_encoding_type;
 
     std::string text{ "logical_value, 1, \"on\";" };
     value_t value;

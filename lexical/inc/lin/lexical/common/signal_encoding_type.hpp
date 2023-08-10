@@ -6,7 +6,7 @@
 
 /* Common signal encoding type definition */
 
-namespace lin::lexical::common::signal_encoding {
+namespace lin::lexical::common::signal_encoding_type {
 
 struct logical_value_t
 {
@@ -66,14 +66,14 @@ BOOST_SPIRIT_DEFINE(logical_value, physical_range, bcd_value, ascii_value, value
 
 }    // namespace parser
 
-}    // namespace lin::lexical::common::signal_encoding
+}    // namespace lin::lexical::common::signal_encoding_type
 
 BOOST_FUSION_ADAPT_STRUCT(
-    lin::lexical::common::signal_encoding::logical_value_t,
+    lin::lexical::common::signal_encoding_type::logical_value_t,
     signal_value,
     text_info)
 BOOST_FUSION_ADAPT_STRUCT(
-    lin::lexical::common::signal_encoding::physical_range_t,
+    lin::lexical::common::signal_encoding_type::physical_range_t,
     min_value,
     max_value,
     scale,

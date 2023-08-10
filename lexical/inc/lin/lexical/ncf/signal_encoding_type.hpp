@@ -3,7 +3,7 @@
 #include <variant>
 #include <vector>
 
-#include <lin/lexical/common/signal_encoding.hpp>
+#include <lin/lexical/common/signal_encoding_type.hpp>
 
 /* 8.2.5.3 Signal encoding type definition */
 
@@ -12,7 +12,7 @@ namespace lin::lexical::ncf {
 struct encoding_t
 {
     common::bnf::identifier_t encoding_name{};
-    std::vector< common::signal_encoding::value_t > value{};
+    std::vector< common::signal_encoding_type::value_t > value{};
 };
 
 using encodings_t = std::vector< encoding_t >;
@@ -22,7 +22,7 @@ namespace parser {
 namespace x3 = boost::spirit::x3;
 
 using namespace common::bnf::parser;
-using namespace common::signal_encoding::parser;
+using namespace common::signal_encoding_type::parser;
 
 /* 8.2.5.3 Signal encoding type definition */
 

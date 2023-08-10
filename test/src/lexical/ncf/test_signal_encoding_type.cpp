@@ -20,7 +20,8 @@ TEST(test_lin_lexical_ncf_signal_encoding_type, encoding)
     EXPECT_STREQ(encoding.encoding_name.c_str(), "position");
     EXPECT_EQ(encoding.value.size(), 1);
     {
-        auto *physical = std::get_if< signal_encoding::physical_range_t >(encoding.value.data());
+        auto *physical =
+            std::get_if< signal_encoding_type::physical_range_t >(encoding.value.data());
         ASSERT_NE(physical, nullptr);
         EXPECT_EQ(physical->min_value, 0);
         EXPECT_EQ(physical->max_value, 199);
@@ -58,7 +59,7 @@ TEST(test_lin_lexical_ncf_signal_encoding_type, encoding_definition)
     ASSERT_EQ(encodings[0].value.size(), 1);
     {
         auto *physical =
-            std::get_if< signal_encoding::physical_range_t >(encodings[0].value.data());
+            std::get_if< signal_encoding_type::physical_range_t >(encodings[0].value.data());
         ASSERT_NE(physical, nullptr);
         EXPECT_EQ(physical->min_value, 0);
         EXPECT_EQ(physical->max_value, 199);
@@ -70,19 +71,19 @@ TEST(test_lin_lexical_ncf_signal_encoding_type, encoding_definition)
     ASSERT_EQ(encodings[1].value.size(), 3);
     // NOLINTBEGIN(readability-container-data-pointer)
     {
-        auto *logic = std::get_if< signal_encoding::logical_value_t >(&encodings[1].value[0]);
+        auto *logic = std::get_if< signal_encoding_type::logical_value_t >(&encodings[1].value[0]);
         ASSERT_NE(logic, nullptr);
         EXPECT_EQ(logic->signal_value, 0);
         EXPECT_STREQ(logic->text_info.c_str(), "no result");
     }
     {
-        auto *logic = std::get_if< signal_encoding::logical_value_t >(&encodings[1].value[1]);
+        auto *logic = std::get_if< signal_encoding_type::logical_value_t >(&encodings[1].value[1]);
         ASSERT_NE(logic, nullptr);
         EXPECT_EQ(logic->signal_value, 1);
         EXPECT_STREQ(logic->text_info.c_str(), "failed");
     }
     {
-        auto *logic = std::get_if< signal_encoding::logical_value_t >(&encodings[1].value[2]);
+        auto *logic = std::get_if< signal_encoding_type::logical_value_t >(&encodings[1].value[2]);
         ASSERT_NE(logic, nullptr);
         EXPECT_EQ(logic->signal_value, 2);
         EXPECT_STREQ(logic->text_info.c_str(), "passed");

@@ -1,7 +1,7 @@
 headers = [
     'inc/lin/lexical/common/bnf.hpp',
     'inc/lin/lexical/common/comment.hpp',
-    'inc/lin/lexical/common/signal_encoding.hpp',
+    'inc/lin/lexical/common/signal_encoding_type.hpp',
     #'inc/lin/lexical/common/error.hpp',
 
     'inc/lin/lexical/ncf/global.hpp',
@@ -22,6 +22,7 @@ headers = [
     'inc/lin/lexical/ldf/signal.hpp',
     'inc/lin/lexical/ldf/frame.hpp',
     'inc/lin/lexical/ldf/schedule_table.hpp',
+    'inc/lin/lexical/ldf/signal_encoding_type.hpp',
 ]
 
 lin_lexical_dep = declare_dependency(

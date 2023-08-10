@@ -14,7 +14,7 @@ lin_lexical_test = executable(
 
         'src/lexical/common/test_bnf.cpp',
         'src/lexical/common/test_comment.cpp',
-        'src/lexical/common/test_signal_encoding.cpp',
+        'src/lexical/common/test_signal_encoding_type.cpp',
 
         'src/lexical/ncf/test_global.cpp',
         'src/lexical/ncf/test_node.cpp',
@@ -34,6 +34,7 @@ lin_lexical_test = executable(
         'src/lexical/ldf/test_signal.cpp',
         'src/lexical/ldf/test_frame.cpp',
         'src/lexical/ldf/test_schedule_table.cpp',
+        'src/lexical/ldf/test_signal_encoding_type.cpp',
     ],
     extra_files : [
         'inc/lin/test/main.hpp',
