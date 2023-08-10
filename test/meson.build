@@ -33,6 +33,7 @@ lin_lexical_test = executable(
         #'src/lexical/ldf/test_node_attributes.cpp',
         'src/lexical/ldf/test_signal.cpp',
         'src/lexical/ldf/test_frame.cpp',
+        'src/lexical/ldf/test_schedule_table.cpp',
     ],
     extra_files : [
         'inc/lin/test/main.hpp',

@@ -21,6 +21,7 @@ headers = [
     #'inc/lin/lexical/ldf/node_attributes.hpp',
     'inc/lin/lexical/ldf/signal.hpp',
     'inc/lin/lexical/ldf/frame.hpp',
+    'inc/lin/lexical/ldf/schedule_table.hpp',
 ]
 
 lin_lexical_dep = declare_dependency(
