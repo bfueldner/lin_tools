@@ -23,6 +23,7 @@ headers = [
     'inc/lin/lexical/ldf/frame.hpp',
     'inc/lin/lexical/ldf/schedule_table.hpp',
     'inc/lin/lexical/ldf/signal_encoding_type.hpp',
+    'inc/lin/lexical/ldf/signal_representation.hpp',
 ]
 
 lin_lexical_dep = declare_dependency(
