@@ -2,11 +2,15 @@
 
 #include <lin/lexical/ldf/node.hpp>
 
-TEST(test_lin_lexical_ldf_node, nodes_master)
+/* 9.2.2 Node definition */
+
+/* 9.2.2.1 Participating nodes */
+
+TEST(test_lin_lexical_ldf_node, participating_nodes_master)
 {
     namespace x3 = boost::spirit::x3;
 
-    using namespace lin::lexical::ldf::nodes;
+    using namespace lin::lexical::ldf::node::participating_nodes;
 
     std::string text{ "Master: CEM, 5 ms, 0.1 ms;" };
     master_t master{};
@@ -25,7 +29,7 @@ TEST(test_lin_lexical_ldf_node, participating_nodes_slaves)
 {
     namespace x3 = boost::spirit::x3;
 
-    using namespace lin::lexical::ldf::nodes;
+    using namespace lin::lexical::ldf::node::participating_nodes;
 
     std::string text{ "Slaves: LSM, RSM;" };
     slaves_t slaves{};
@@ -38,11 +42,11 @@ TEST(test_lin_lexical_ldf_node, participating_nodes_slaves)
     EXPECT_EQ(slaves, (slaves_t{ "LSM", "RSM" }));
 }
 
-TEST(test_lin_lexical_ldf_node, nodes)
+TEST(test_lin_lexical_ldf_node, node)
 {
     namespace x3 = boost::spirit::x3;
 
-    using namespace lin::lexical::ldf;
+    using namespace lin::lexical::ldf::node;
 
     std::string text{
         "Nodes {"
@@ -50,16 +54,17 @@ TEST(test_lin_lexical_ldf_node, nodes)
         "    Master: CEM, 5 ms, 0.1 ms ;"
         "}"
     };
-    nodes_t nodes;
+    participating_nodes_t participating_nodes;
 
     auto position = text.begin();
-    auto result   = phrase_parse(position, text.end(), parser::nodes, x3::ascii::space, nodes);
+    auto result   = phrase_parse(
+        position, text.end(), parser::participating_nodes, x3::ascii::space, participating_nodes);
     EXPECT_TRUE(result);
     EXPECT_EQ(position, text.end());
 
-    EXPECT_STREQ(nodes.master.node_name.c_str(), "CEM");
-    EXPECT_EQ(nodes.master.time_base, 5.0);
-    EXPECT_EQ(nodes.master.jitter, 0.1);
+    EXPECT_STREQ(participating_nodes.master.node_name.c_str(), "CEM");
+    EXPECT_EQ(participating_nodes.master.time_base, 5.0);
+    EXPECT_EQ(participating_nodes.master.jitter, 0.1);
 
-    EXPECT_EQ(nodes.slaves, (nodes::slaves_t{ "LSM", "RSM" }));
+    EXPECT_EQ(participating_nodes.slaves, (participating_nodes::slaves_t{ "LSM", "RSM" }));
 }

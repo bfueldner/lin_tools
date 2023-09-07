@@ -4,11 +4,11 @@
 
 /* 9.2.2 Node definition */
 
-namespace lin::lexical::ldf {
-
-namespace nodes {
+namespace lin::lexical::ldf::node {
 
 /* 9.2.2.1 Participating nodes */
+
+namespace participating_nodes {
 
 struct master_t
 {
@@ -40,33 +40,38 @@ BOOST_SPIRIT_DEFINE(master, slaves);
 
 }    // namespace parser
 
-}    // namespace nodes
+}    // namespace participating_nodes
 
-struct nodes_t
+struct participating_nodes_t
 {
-    nodes::master_t master{};
-    nodes::slaves_t slaves{};
+    participating_nodes::master_t master{};
+    participating_nodes::slaves_t slaves{};
 };
 
 namespace parser {
 
 namespace x3 = boost::spirit::x3;
 
-using namespace nodes::parser;
+using namespace participating_nodes::parser;
 
-x3::rule< class nodes, nodes_t > const nodes = "nodes";
+x3::rule< class participating_nodes, participating_nodes_t > const participating_nodes =
+    "participating_nodes";
 
 auto const master_action = [](auto &ctx) { x3::_val(ctx).master = x3::_attr(ctx); };
 auto const slaves_action = [](auto &ctx) { x3::_val(ctx).slaves = x3::_attr(ctx); };
 
-auto const nodes_def = x3::lit("Nodes") > '{' > *(master[master_action] | slaves[slaves_action]) >
-                       '}';
+auto const participating_nodes_def = x3::lit("Nodes") > '{' >
+                                     *(master[master_action] | slaves[slaves_action]) > '}';
 
-BOOST_SPIRIT_DEFINE(nodes);
+BOOST_SPIRIT_DEFINE(participating_nodes);
 
 }    // namespace parser
 
-}    // namespace lin::lexical::ldf
+}    // namespace lin::lexical::ldf::node
 
-BOOST_FUSION_ADAPT_STRUCT(lin::lexical::ldf::nodes::master_t, node_name, time_base, jitter)
-BOOST_FUSION_ADAPT_STRUCT(lin::lexical::ldf::nodes_t, master, slaves)
+BOOST_FUSION_ADAPT_STRUCT(
+    lin::lexical::ldf::node::participating_nodes::master_t,
+    node_name,
+    time_base,
+    jitter)
+BOOST_FUSION_ADAPT_STRUCT(lin::lexical::ldf::node::participating_nodes_t, master, slaves)
