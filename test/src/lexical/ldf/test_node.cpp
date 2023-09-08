@@ -559,3 +559,91 @@ TEST(test_lin_lexical_ldf_node, node_attributes)
     EXPECT_STREQ(node_attributes[1].lin_protocol.c_str(), "2.2");
     EXPECT_EQ(node_attributes[1].configured_nad, 0x21);
 }
+
+/* 9.2.2.3 Node composition definition */
+
+TEST(test_lin_lexical_ldf_node, node_composition_composition)
+{
+    namespace x3 = boost::spirit::x3;
+
+    using namespace lin::lexical::ldf::node::node_composition;
+
+    std::string text{
+        "CSM {"
+        "    RSM, LSM;"
+        "}"
+    };
+    composition_t composition{};
+
+    auto position = text.begin();
+    auto result =
+        phrase_parse(position, text.end(), parser::composition, x3::ascii::space, composition);
+    ASSERT_TRUE(result);
+    ASSERT_EQ(position, text.end());
+
+    EXPECT_STREQ(composition.composite_node.c_str(), "CSM");
+    ASSERT_EQ(composition.logical_node.size(), 2);
+    EXPECT_STREQ(composition.logical_node[0].c_str(), "RSM");
+    EXPECT_STREQ(composition.logical_node[1].c_str(), "LSM");
+}
+
+TEST(test_lin_lexical_ldf_node, node_composition_configuration)
+{
+    namespace x3 = boost::spirit::x3;
+
+    using namespace lin::lexical::ldf::node::node_composition;
+
+    std::string text{
+        "configuration CFG {"
+        "    CSM {"
+        "        RSM, LSM;"
+        "    }"
+        "}"
+    };
+    configuration_t configuration{};
+
+    auto position = text.begin();
+    auto result =
+        phrase_parse(position, text.end(), parser::configuration, x3::ascii::space, configuration);
+    ASSERT_TRUE(result);
+    ASSERT_EQ(position, text.end());
+
+    EXPECT_STREQ(configuration.configuration_name.c_str(), "CFG");
+    ASSERT_EQ(configuration.composite_node.size(), 1);
+    EXPECT_STREQ(configuration.composite_node[0].composite_node.c_str(), "CSM");
+    ASSERT_EQ(configuration.composite_node[0].logical_node.size(), 2);
+    EXPECT_STREQ(configuration.composite_node[0].logical_node[0].c_str(), "RSM");
+    EXPECT_STREQ(configuration.composite_node[0].logical_node[1].c_str(), "LSM");
+}
+
+TEST(test_lin_lexical_ldf_node, node_composition)
+{
+    namespace x3 = boost::spirit::x3;
+
+    using namespace lin::lexical::ldf::node;
+
+    std::string text{
+        "composite {"
+        "    configuration CFG {"
+        "        CSM {"
+        "            RSM, LSM;"
+        "        }"
+        "    }"
+        "}"
+    };
+    node_composition_t node_composition{};
+
+    auto position = text.begin();
+    auto result   = phrase_parse(
+        position, text.end(), parser::node_composition, x3::ascii::space, node_composition);
+    ASSERT_TRUE(result);
+    ASSERT_EQ(position, text.end());
+
+    ASSERT_EQ(node_composition.size(), 1);
+    EXPECT_STREQ(node_composition[0].configuration_name.c_str(), "CFG");
+    ASSERT_EQ(node_composition[0].composite_node.size(), 1);
+    EXPECT_STREQ(node_composition[0].composite_node[0].composite_node.c_str(), "CSM");
+    ASSERT_EQ(node_composition[0].composite_node[0].logical_node.size(), 2);
+    EXPECT_STREQ(node_composition[0].composite_node[0].logical_node[0].c_str(), "RSM");
+    EXPECT_STREQ(node_composition[0].composite_node[0].logical_node[1].c_str(), "LSM");
+}

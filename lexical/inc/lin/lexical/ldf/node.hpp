@@ -195,7 +195,6 @@ namespace parser {
 
 namespace x3 = boost::spirit::x3;
 
-//using namespace common::bnf::parser;
 using namespace node_attribute::parser;
 
 x3::rule< class node_attribute, node_attribute_t > const node_attribute    = "node_attribute";
@@ -228,6 +227,65 @@ auto const node_attribute_def =
 auto const node_attributes_def = x3::lit("Node_attributes") > '{' > *node_attribute > '}';
 
 BOOST_SPIRIT_DEFINE(node_attribute, node_attributes);
+
+}    // namespace parser
+
+/* 9.2.2.3 Node composition definition */
+
+namespace node_composition {
+
+using configuration_name_t = common::bnf::identifier_t;
+using composite_node_t     = common::bnf::identifier_t;
+using logical_node_t       = common::bnf::identifier_t;
+
+struct composition_t
+{
+    composite_node_t composite_node;
+    std::vector< logical_node_t > logical_node;
+};
+
+struct configuration_t
+{
+    configuration_name_t configuration_name;
+    std::vector< composition_t > composite_node;
+};
+
+namespace parser {
+
+namespace x3 = boost::spirit::x3;
+
+using namespace common::bnf::parser;
+
+x3::rule< class composition, composition_t > const composition       = "composition";
+x3::rule< class configuration, configuration_t > const configuration = "configuration";
+
+auto const configuration_name = identifier;
+auto const composite_node     = identifier;
+auto const logical_node       = identifier;
+
+auto const composition_def   = composite_node > '{' > logical_node % ',' > ';' > '}';
+auto const configuration_def = x3::lit("configuration") > configuration_name > '{' > *composition >
+                               '}';
+
+BOOST_SPIRIT_DEFINE(composition, configuration);
+
+}    // namespace parser
+
+}    // namespace node_composition
+
+using node_composition_t = std::vector< node_composition::configuration_t >;
+
+namespace parser {
+
+namespace x3 = boost::spirit::x3;
+
+using namespace node_composition::parser;
+
+x3::rule< class node_composition, node_composition_t > const node_composition = "node_composition";
+
+auto const node_composition_def = x3::lit("composite") > '{' > *configuration > '}';
+
+BOOST_SPIRIT_DEFINE(node_composition);
 
 }    // namespace parser
 
@@ -264,3 +322,12 @@ BOOST_FUSION_ADAPT_STRUCT(
     n_as_timeout,
     n_cr_timeout,
     configurable_frames)
+
+BOOST_FUSION_ADAPT_STRUCT(
+    lin::lexical::ldf::node::node_composition::composition_t,
+    composite_node,
+    logical_node)
+BOOST_FUSION_ADAPT_STRUCT(
+    lin::lexical::ldf::node::node_composition::configuration_t,
+    configuration_name,
+    composite_node)
