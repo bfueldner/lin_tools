@@ -2,57 +2,58 @@
 
 #include <lin/lexical/ldf/global.hpp>
 
-TEST(test_lin_lexical_ldf_global, protocol_version)
+TEST(test_lin_lexical_ldf_global, lin_protocol_version)
 {
     namespace x3 = boost::spirit::x3;
 
     using namespace lin::lexical::ldf::global;
 
     std::string text{ "LIN_protocol_version = \"2.2\" ;" };
-    protocol_version_t protocol_version{};
+    lin_protocol_version_t lin_protocol_version{};
 
     auto position = text.begin();
     auto result   = phrase_parse(
-        position, text.end(), parser::protocol_version, x3::ascii::space, protocol_version);
+        position, text.end(), parser::lin_protocol_version, x3::ascii::space, lin_protocol_version);
     ASSERT_TRUE(result);
     ASSERT_EQ(position, text.end());
 
-    EXPECT_STREQ(protocol_version.c_str(), "2.2");
+    EXPECT_STREQ(lin_protocol_version.c_str(), "2.2");
 }
 
-TEST(test_lin_lexical_ldf_global, language_version)
+TEST(test_lin_lexical_ldf_global, lin_language_version)
 {
     namespace x3 = boost::spirit::x3;
 
     using namespace lin::lexical::ldf::global;
 
     std::string text{ "LIN_language_version = \"2.2\" ;" };
-    language_version_t language_version{};
+    lin_language_version_t lin_language_version{};
 
     auto position = text.begin();
     auto result   = phrase_parse(
-        position, text.end(), parser::language_version, x3::ascii::space, language_version);
+        position, text.end(), parser::lin_language_version, x3::ascii::space, lin_language_version);
     ASSERT_TRUE(result);
     ASSERT_EQ(position, text.end());
 
-    EXPECT_STREQ(language_version.c_str(), "2.2");
+    EXPECT_STREQ(lin_language_version.c_str(), "2.2");
 }
 
-TEST(test_lin_lexical_ldf_global, speed)
+TEST(test_lin_lexical_ldf_global, lin_speed)
 {
     namespace x3 = boost::spirit::x3;
 
     using namespace lin::lexical::ldf::global;
 
     std::string text{ "LIN_speed = 19.2 kbps;" };
-    speed_t speed{};
+    lin_speed_t lin_speed{};
 
     auto position = text.begin();
-    auto result   = phrase_parse(position, text.end(), parser::speed, x3::ascii::space, speed);
+    auto result =
+        phrase_parse(position, text.end(), parser::lin_speed, x3::ascii::space, lin_speed);
     ASSERT_TRUE(result);
     ASSERT_EQ(position, text.end());
 
-    EXPECT_EQ(speed, 19.2);
+    EXPECT_EQ(lin_speed, 19.2);
 }
 
 TEST(test_lin_lexical_ldf_global, channel_name)
