@@ -201,20 +201,20 @@ using namespace node_attribute::parser;
 x3::rule< class node_attribute, node_attribute_t > const node_attribute    = "node_attribute";
 x3::rule< class node_attributes, node_attributes_t > const node_attributes = "node_attributes";
 
-auto node_name_action           = [](auto &ctx) { x3::_val(ctx).node_name = x3::_attr(ctx); };
-auto lin_protocol_action        = [](auto &ctx) { x3::_val(ctx).lin_protocol = x3::_attr(ctx); };
-auto configured_nad_action      = [](auto &ctx) { x3::_val(ctx).configured_nad = x3::_attr(ctx); };
-auto initial_nad_action         = [](auto &ctx) { x3::_val(ctx).initial_nad = x3::_attr(ctx); };
-auto product_id_action          = [](auto &ctx) { x3::_val(ctx).product_id = x3::_attr(ctx); };
-auto response_error_action      = [](auto &ctx) { x3::_val(ctx).response_error = x3::_attr(ctx); };
-auto fault_state_signals_action = [](auto &ctx) {
+auto const node_name_action      = [](auto &ctx) { x3::_val(ctx).node_name = x3::_attr(ctx); };
+auto const lin_protocol_action   = [](auto &ctx) { x3::_val(ctx).lin_protocol = x3::_attr(ctx); };
+auto const configured_nad_action = [](auto &ctx) { x3::_val(ctx).configured_nad = x3::_attr(ctx); };
+auto const initial_nad_action    = [](auto &ctx) { x3::_val(ctx).initial_nad = x3::_attr(ctx); };
+auto const product_id_action     = [](auto &ctx) { x3::_val(ctx).product_id = x3::_attr(ctx); };
+auto const response_error_action = [](auto &ctx) { x3::_val(ctx).response_error = x3::_attr(ctx); };
+auto const fault_state_signals_action = [](auto &ctx) {
     x3::_val(ctx).fault_state_signals = x3::_attr(ctx);
 };
-auto p2_min_action              = [](auto &ctx) { x3::_val(ctx).p2_min = x3::_attr(ctx); };
-auto st_min_action              = [](auto &ctx) { x3::_val(ctx).st_min = x3::_attr(ctx); };
-auto n_as_timeout_action        = [](auto &ctx) { x3::_val(ctx).n_as_timeout = x3::_attr(ctx); };
-auto n_cr_timeout_action        = [](auto &ctx) { x3::_val(ctx).n_cr_timeout = x3::_attr(ctx); };
-auto configurable_frames_action = [](auto &ctx) {
+auto const p2_min_action       = [](auto &ctx) { x3::_val(ctx).p2_min = x3::_attr(ctx); };
+auto const st_min_action       = [](auto &ctx) { x3::_val(ctx).st_min = x3::_attr(ctx); };
+auto const n_as_timeout_action = [](auto &ctx) { x3::_val(ctx).n_as_timeout = x3::_attr(ctx); };
+auto const n_cr_timeout_action = [](auto &ctx) { x3::_val(ctx).n_cr_timeout = x3::_attr(ctx); };
+auto const configurable_frames_action = [](auto &ctx) {
     x3::_val(ctx).configurable_frames = x3::_attr(ctx);
 };
 
