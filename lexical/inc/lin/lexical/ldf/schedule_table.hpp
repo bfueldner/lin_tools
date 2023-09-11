@@ -75,6 +75,8 @@ struct assign_frame_id_t
     common::bnf::identifier_t frame_name{};
 };
 
+using identifier_t = common::bnf::identifier_t;
+
 namespace parser {
 
 namespace x3 = boost::spirit::x3;
@@ -145,7 +147,7 @@ BOOST_SPIRIT_DEFINE(
 }    // namespace command
 
 using command_t = std::variant<
-    common::bnf::identifier_t,
+    command::identifier_t,
     command::master_req_t,
     command::slave_resp_t,
     command::assign_nad_t,
@@ -182,7 +184,7 @@ auto const frame_time = real_or_integer;
 
 auto const command_def = master_req | slave_resp | assign_nad | conditional_change_nad | data_dump |
                          save_configuration | assign_frame_id_range | free_format |
-                         assign_frame_id | frame_name;
+                         assign_frame_id | x3::no_skip[frame_name];
 auto const table_entry_def = command > x3::lit("delay") > frame_time > "ms" > ';';
 
 BOOST_SPIRIT_DEFINE(command, table_entry);

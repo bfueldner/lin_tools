@@ -214,7 +214,7 @@ TEST(test_lin_lexical_ldf_schedule_table, command_assign_frame_id)
     EXPECT_STREQ(assign_frame_id->frame_name.c_str(), "CEM_Frm1");
 }
 
-TEST(test_lin_lexical_ldf_schedule_table, table_entry)
+TEST(test_lin_lexical_ldf_schedule_table, table_entry_assign_nad)
 {
     namespace x3 = boost::spirit::x3;
 
@@ -232,6 +232,27 @@ TEST(test_lin_lexical_ldf_schedule_table, table_entry)
     auto *assign_nad = std::get_if< command::assign_nad_t >(&(table_entry.command));
     ASSERT_NE(assign_nad, nullptr);
     EXPECT_STREQ(assign_nad->node_name.c_str(), "LSM");
+    EXPECT_EQ(table_entry.frame_time, 15.0);
+}
+
+TEST(test_lin_lexical_ldf_schedule_table, table_entry_identifier)
+{
+    namespace x3 = boost::spirit::x3;
+
+    using namespace lin::lexical::ldf::schedule_table;
+
+    std::string text{ "CEM_Frm1 delay 15 ms;" };
+    table_entry_t table_entry{};
+
+    auto position = text.begin();
+    auto result =
+        phrase_parse(position, text.end(), parser::table_entry, x3::ascii::space, table_entry);
+    ASSERT_TRUE(result);
+    ASSERT_EQ(position, text.end());
+
+    auto *identifier = std::get_if< command::identifier_t >(&(table_entry.command));
+    ASSERT_NE(identifier, nullptr);
+    EXPECT_STREQ(identifier->c_str(), "CEM_Frm1");
     EXPECT_EQ(table_entry.frame_time, 15.0);
 }
 
