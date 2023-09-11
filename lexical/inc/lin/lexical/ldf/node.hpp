@@ -296,8 +296,6 @@ BOOST_FUSION_ADAPT_STRUCT(
     node_name,
     time_base,
     jitter)
-BOOST_FUSION_ADAPT_STRUCT(lin::lexical::ldf::node::participating_nodes_t, master, slaves)
-
 BOOST_FUSION_ADAPT_STRUCT(
     lin::lexical::ldf::node::node_attribute::product_id_t,
     supplier_id,
@@ -307,22 +305,6 @@ BOOST_FUSION_ADAPT_STRUCT(
     lin::lexical::ldf::node::node_attribute::configurable_frame_t,
     frame_name,
     message_id)
-
-BOOST_FUSION_ADAPT_STRUCT(
-    lin::lexical::ldf::node::node_attribute_t,
-    node_name,
-    lin_protocol,
-    configured_nad,
-    initial_nad,
-    product_id,
-    response_error,
-    fault_state_signals,
-    p2_min,
-    st_min,
-    n_as_timeout,
-    n_cr_timeout,
-    configurable_frames)
-
 BOOST_FUSION_ADAPT_STRUCT(
     lin::lexical::ldf::node::node_composition::composition_t,
     composite_node,

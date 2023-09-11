@@ -40,5 +40,3 @@ BOOST_SPIRIT_DEFINE(status_management);
 }    // namespace parser
 
 }    // namespace lin::lexical::ncf
-
-BOOST_FUSION_ADAPT_STRUCT(lin::lexical::ncf::status_t, response_error, fault_state_signals)

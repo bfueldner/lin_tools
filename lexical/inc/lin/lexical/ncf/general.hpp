@@ -156,13 +156,3 @@ BOOST_SPIRIT_DEFINE(general_definition);
 }    // namespace parser
 
 }    // namespace lin::lexical::ncf
-
-BOOST_FUSION_ADAPT_STRUCT(lin::lexical::ncf::general::bitrate_definition::automatic_t, min, max)
-BOOST_FUSION_ADAPT_STRUCT(
-    lin::lexical::ncf::general_t,
-    protocol_version,
-    supplier_id,
-    function_id,
-    variant_id,
-    bitrate_definition,
-    sends_wake_up_signal)

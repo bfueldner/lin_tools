@@ -100,12 +100,3 @@ BOOST_SPIRIT_DEFINE(diagnostic_definition);
 }    // namespace lin::lexical::ncf
 
 BOOST_FUSION_ADAPT_STRUCT(lin::lexical::ncf::diagnostic::nad::range_t, begin, end)
-BOOST_FUSION_ADAPT_STRUCT(
-    lin::lexical::ncf::diagnostic_t,
-    diagnostic_class,
-    p2_min,
-    st_min,
-    n_as_timeout,
-    n_cr_timeout,
-    support_sid,
-    max_message_length)

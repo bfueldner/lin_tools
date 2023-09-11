@@ -92,10 +92,3 @@ BOOST_SPIRIT_DEFINE(frame_definition);
 }    // namespace parser
 
 }    // namespace lin::lexical::ncf
-
-BOOST_FUSION_ADAPT_STRUCT(
-    lin::lexical::ncf::frame::single_frame_t,
-    frame_kind,
-    frame_name,
-    frame_properties,
-    signal_definition)
