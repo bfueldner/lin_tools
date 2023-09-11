@@ -5,11 +5,13 @@ fs = import('fs')
 
 # Lexical
 ncf_test_files = fs.copyfile('res/example.ncf', 'example.ncf')
+ldf_test_files = fs.copyfile('res/example.ldf', 'example.ldf')
 
 lin_lexical_test = executable(
     'lin_lexical_test',
     sources : [
         ncf_test_files,
+        ldf_test_files,
         'src/main.cpp',
 
         'src/lexical/common/test_bnf.cpp',
@@ -30,12 +32,12 @@ lin_lexical_test = executable(
 
         'src/lexical/ldf/test_global.cpp',
         'src/lexical/ldf/test_node.cpp',
-        #'src/lexical/ldf/test_node_attributes.cpp',
         'src/lexical/ldf/test_signal.cpp',
         'src/lexical/ldf/test_frame.cpp',
         'src/lexical/ldf/test_schedule_table.cpp',
         'src/lexical/ldf/test_signal_encoding_type.cpp',
         'src/lexical/ldf/test_signal_representation.cpp',
+        'src/lexical/ldf/test_lin_description_file.cpp',
     ],
     extra_files : [
         'inc/lin/test/main.hpp',

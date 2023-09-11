@@ -33,10 +33,10 @@ x3::rule< class signal_representation, signal_representation_t > const signal_re
 x3::rule< class signal_representations, signal_representations_t > const signal_representations =
     "signal_representations";
 
-auto const signal_encoding_type_name = identifier;
-auto const signal_name               = identifier;
+auto const signal_encoding_type_name_ = identifier;
+auto const signal_name                = identifier;
 
-auto const signal_representation_def  = signal_encoding_type_name > ':' > signal_name % ',' > ';';
+auto const signal_representation_def  = signal_encoding_type_name_ > ':' > signal_name % ',' > ';';
 auto const signal_representations_def = x3::lit("Signal_representation") > '{' >
                                         *signal_representation > '}';
 
