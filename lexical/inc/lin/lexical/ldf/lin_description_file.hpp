@@ -3,37 +3,17 @@
 #include <lin/lexical/common/bnf.hpp>
 #include <lin/lexical/common/comment.hpp>
 
+#include <lin/lexical/ldf/frame.hpp>
 #include <lin/lexical/ldf/global.hpp>
 #include <lin/lexical/ldf/node.hpp>
-#include <lin/lexical/ldf/signal.hpp>
-#include <lin/lexical/ldf/frame.hpp>
 #include <lin/lexical/ldf/schedule_table.hpp>
+#include <lin/lexical/ldf/signal.hpp>
 #include <lin/lexical/ldf/signal_encoding_type.hpp>
 #include <lin/lexical/ldf/signal_representation.hpp>
 
 /* 9.2 LIN description file definition */
 
 namespace lin::lexical::ldf {
-
-namespace lin_description_file {
-/*
-using language_version_t = common::bnf::char_string_t;
-
-namespace parser {
-
-namespace x3 = boost::spirit::x3;
-
-using namespace common::bnf::parser;
-
-x3::rule< class language_version, language_version_t > const language_version = "language_version";
-
-auto const language_version_def = x3::lit("LIN_language_version") > '=' > char_string > ';';
-
-BOOST_SPIRIT_DEFINE(language_version);
-
-}    // namespace parser
-*/
-}    // namespace lin_description_file
 
 struct lin_description_file_t
 {
