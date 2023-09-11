@@ -8,8 +8,6 @@
 #include <lin/lexical/ldf/node.hpp>
 #include <lin/lexical/ldf/schedule_table.hpp>
 #include <lin/lexical/ldf/signal.hpp>
-#include <lin/lexical/ldf/signal_encoding_type.hpp>
-#include <lin/lexical/ldf/signal_representation.hpp>
 
 /* 9.2 LIN description file definition */
 
@@ -32,8 +30,8 @@ struct lin_description_file_t
     node::node_attributes_t node_attributes{};
     schedule_tables_t schedule_tables{};
     signal::signal_groups_t signal_groups{};
-    signal_encoding_types_t signal_encoding_types{};
-    signal_representations_t signal_representations{};
+    signal::signal_encoding_types_t signal_encoding_types{};
+    signal::signal_representations_t signal_representations{};
 };
 
 namespace parser {

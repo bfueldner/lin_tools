@@ -431,28 +431,28 @@ TEST_F(test_lin_lexical_ldf, signal_encoding_types)
         ASSERT_EQ(lin_description_file.signal_encoding_types[0].values.size(), 4);
         // NOLINTBEGIN(readability-container-data-pointer)
         {
-            auto *logical_value = std::get_if< signal_encoding_type::logical_value_t >(
+            auto *logical_value = std::get_if< signal::signal_encoding_type::logical_value_t >(
                 &(lin_description_file.signal_encoding_types[0].values[0]));
             ASSERT_NE(logical_value, nullptr);
             EXPECT_EQ(logical_value->signal_value, 0);
             EXPECT_STREQ(logical_value->text_info.c_str(), "off");
         }
         {
-            auto *logical_value = std::get_if< signal_encoding_type::logical_value_t >(
+            auto *logical_value = std::get_if< signal::signal_encoding_type::logical_value_t >(
                 &(lin_description_file.signal_encoding_types[0].values[1]));
             ASSERT_NE(logical_value, nullptr);
             EXPECT_EQ(logical_value->signal_value, 1);
             EXPECT_STREQ(logical_value->text_info.c_str(), "on");
         }
         {
-            auto *logical_value = std::get_if< signal_encoding_type::logical_value_t >(
+            auto *logical_value = std::get_if< signal::signal_encoding_type::logical_value_t >(
                 &(lin_description_file.signal_encoding_types[0].values[2]));
             ASSERT_NE(logical_value, nullptr);
             EXPECT_EQ(logical_value->signal_value, 2);
             EXPECT_STREQ(logical_value->text_info.c_str(), "error");
         }
         {
-            auto *logical_value = std::get_if< signal_encoding_type::logical_value_t >(
+            auto *logical_value = std::get_if< signal::signal_encoding_type::logical_value_t >(
                 &(lin_description_file.signal_encoding_types[0].values[3]));
             ASSERT_NE(logical_value, nullptr);
             EXPECT_EQ(logical_value->signal_value, 3);
@@ -467,14 +467,14 @@ TEST_F(test_lin_lexical_ldf, signal_encoding_types)
         ASSERT_EQ(lin_description_file.signal_encoding_types[1].values.size(), 2);
         // NOLINTBEGIN(readability-container-data-pointer)
         {
-            auto *logical_value = std::get_if< signal_encoding_type::logical_value_t >(
+            auto *logical_value = std::get_if< signal::signal_encoding_type::logical_value_t >(
                 &(lin_description_file.signal_encoding_types[1].values[0]));
             ASSERT_NE(logical_value, nullptr);
             EXPECT_EQ(logical_value->signal_value, 0);
             EXPECT_STREQ(logical_value->text_info.c_str(), "OK");
         }
         {
-            auto *logical_value = std::get_if< signal_encoding_type::logical_value_t >(
+            auto *logical_value = std::get_if< signal::signal_encoding_type::logical_value_t >(
                 &(lin_description_file.signal_encoding_types[1].values[1]));
             ASSERT_NE(logical_value, nullptr);
             EXPECT_EQ(logical_value->signal_value, 1);
@@ -489,28 +489,28 @@ TEST_F(test_lin_lexical_ldf, signal_encoding_types)
         ASSERT_EQ(lin_description_file.signal_encoding_types[2].values.size(), 4);
         // NOLINTBEGIN(readability-container-data-pointer)
         {
-            auto *logical_value = std::get_if< signal_encoding_type::logical_value_t >(
+            auto *logical_value = std::get_if< signal::signal_encoding_type::logical_value_t >(
                 &(lin_description_file.signal_encoding_types[2].values[0]));
             ASSERT_NE(logical_value, nullptr);
             EXPECT_EQ(logical_value->signal_value, 0);
             EXPECT_STREQ(logical_value->text_info.c_str(), "No test result");
         }
         {
-            auto *logical_value = std::get_if< signal_encoding_type::logical_value_t >(
+            auto *logical_value = std::get_if< signal::signal_encoding_type::logical_value_t >(
                 &(lin_description_file.signal_encoding_types[2].values[1]));
             ASSERT_NE(logical_value, nullptr);
             EXPECT_EQ(logical_value->signal_value, 1);
             EXPECT_STREQ(logical_value->text_info.c_str(), "failed");
         }
         {
-            auto *logical_value = std::get_if< signal_encoding_type::logical_value_t >(
+            auto *logical_value = std::get_if< signal::signal_encoding_type::logical_value_t >(
                 &(lin_description_file.signal_encoding_types[2].values[2]));
             ASSERT_NE(logical_value, nullptr);
             EXPECT_EQ(logical_value->signal_value, 2);
             EXPECT_STREQ(logical_value->text_info.c_str(), "passed");
         }
         {
-            auto *logical_value = std::get_if< signal_encoding_type::logical_value_t >(
+            auto *logical_value = std::get_if< signal::signal_encoding_type::logical_value_t >(
                 &(lin_description_file.signal_encoding_types[2].values[3]));
             ASSERT_NE(logical_value, nullptr);
             EXPECT_EQ(logical_value->signal_value, 3);
@@ -525,14 +525,14 @@ TEST_F(test_lin_lexical_ldf, signal_encoding_types)
         ASSERT_EQ(lin_description_file.signal_encoding_types[3].values.size(), 3);
         // NOLINTBEGIN(readability-container-data-pointer)
         {
-            auto *logical_value = std::get_if< signal_encoding_type::logical_value_t >(
+            auto *logical_value = std::get_if< signal::signal_encoding_type::logical_value_t >(
                 &(lin_description_file.signal_encoding_types[3].values[0]));
             ASSERT_NE(logical_value, nullptr);
             EXPECT_EQ(logical_value->signal_value, 0);
             EXPECT_STREQ(logical_value->text_info.c_str(), "Off");
         }
         {
-            auto *physical_range = std::get_if< signal_encoding_type::physical_range_t >(
+            auto *physical_range = std::get_if< signal::signal_encoding_type::physical_range_t >(
                 &(lin_description_file.signal_encoding_types[3].values[1]));
             ASSERT_NE(physical_range, nullptr);
             EXPECT_EQ(physical_range->min_value, 1);
@@ -542,7 +542,7 @@ TEST_F(test_lin_lexical_ldf, signal_encoding_types)
             EXPECT_STREQ(physical_range->text_info.c_str(), "lux");
         }
         {
-            auto *logical_value = std::get_if< signal_encoding_type::logical_value_t >(
+            auto *logical_value = std::get_if< signal::signal_encoding_type::logical_value_t >(
                 &(lin_description_file.signal_encoding_types[3].values[2]));
             ASSERT_NE(logical_value, nullptr);
             EXPECT_EQ(logical_value->signal_value, 255);
