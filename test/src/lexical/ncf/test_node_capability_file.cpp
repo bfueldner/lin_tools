@@ -5,7 +5,7 @@
 
 #include <fstream>
 
-TEST(test_lin_lexical_ncf_node, node_capability_file_definition)
+TEST(test_lin_lexical_ncf, node_capability_file_definition)
 {
     namespace x3 = boost::spirit::x3;
 
