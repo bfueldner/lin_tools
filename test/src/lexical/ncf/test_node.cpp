@@ -55,20 +55,11 @@ TEST(test_lin_lexical_ncf_node, node)
     };
     node_t node{};
 
-    try
-    {
-        auto position = text.begin();
-        auto result =
-            phrase_parse(position, text.end(), parser::node_definition, x3::ascii::space, node);
-        ASSERT_TRUE(result);
-        ASSERT_EQ(position, text.end());
-    }
-    catch (const boost::spirit::x3::expectation_failure< std::string::iterator > &exp)
-    {
-        std::cout << exp.where().base() << std::endl;
-        std::cout << exp.which() << std::endl;
-        std::cout << exp.what() << std::endl;
-    }
+    auto position = text.begin();
+    auto result =
+        phrase_parse(position, text.end(), parser::node_definition, x3::ascii::space, node);
+    ASSERT_TRUE(result);
+    ASSERT_EQ(position, text.end());
 
     EXPECT_STREQ(node.node_name.c_str(), "step_motor");
     ASSERT_EQ(node.diagnostic.diagnostic_class, 2);

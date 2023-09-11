@@ -39,19 +39,10 @@ TEST(test_lin_lexical_ncf_frame, single_frame)
     single_frame_t single_frame{};
 
     auto position = text.begin();
-    try
-    {
-        auto result = phrase_parse(
-            position, text.end(), parser::single_frame, x3::ascii::space, single_frame);
-        ASSERT_TRUE(result);
-        ASSERT_EQ(position, text.end());
-    }
-    catch (const boost::spirit::x3::expectation_failure< std::string::iterator > &exp)
-    {
-        std::cout << exp.where().base() << std::endl;
-        std::cout << exp.which() << std::endl;
-        std::cout << exp.what() << std::endl;
-    }
+    auto result =
+        phrase_parse(position, text.end(), parser::single_frame, x3::ascii::space, single_frame);
+    ASSERT_TRUE(result);
+    ASSERT_EQ(position, text.end());
 
     EXPECT_EQ(single_frame.frame_kind, frame_kind_t::publish);
     EXPECT_STREQ(single_frame.frame_name.c_str(), "node_status");
@@ -100,19 +91,10 @@ TEST(test_lin_lexical_ncf_frame, frames)
     frames_t frames{};
 
     auto position = text.begin();
-    try
-    {
-        auto result =
-            phrase_parse(position, text.end(), parser::frame_definition, x3::ascii::space, frames);
-        ASSERT_TRUE(result);
-        ASSERT_EQ(position, text.end());
-    }
-    catch (const boost::spirit::x3::expectation_failure< std::string::iterator > &exp)
-    {
-        std::cout << exp.where().base() << std::endl;
-        std::cout << boost::core::demangle(exp.which().c_str()) << std::endl;
-        std::cout << exp.what() << std::endl;
-    }
+    auto result =
+        phrase_parse(position, text.end(), parser::frame_definition, x3::ascii::space, frames);
+    ASSERT_TRUE(result);
+    ASSERT_EQ(position, text.end());
 
     ASSERT_EQ(frames.size(), 2);
     EXPECT_EQ(frames[0].frame_kind, frame::frame_kind_t::publish);
