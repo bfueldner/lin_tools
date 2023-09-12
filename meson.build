@@ -8,7 +8,8 @@ project(
     ]
 )
 
-boost_dep = dependency('boost', required : true)
+# Spirit V3.10 (Boost V1.78.0)
+boost_dep = dependency('boost', version : '>= 1.78.0', required : true)
 
 subdir('lexical')
 
