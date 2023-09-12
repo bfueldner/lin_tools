@@ -30,6 +30,7 @@ lin_lexical_dep = declare_dependency(
     ],
     dependencies : [
         boost_dep,
+        lin_type_dep,
     ],
     include_directories : include_directories('inc'),
 )

@@ -11,6 +11,8 @@ project(
 # Spirit V3.10 (Boost V1.78.0)
 boost_dep = dependency('boost', version : '>= 1.78.0', required : true)
 
+subdir('type')
+subdir('type_io')
 subdir('lexical')
 
 if not meson.is_subproject()

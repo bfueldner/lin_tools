@@ -1,7 +1,43 @@
-gtest_dep = dependency('gtest', version : '>=1.10.0', required : true)
-gmock_dep = dependency('gmock', version : '>=1.10.0', required : true)
+gtest_dep = dependency('gtest', version : '>=1.10.0', required : true, main : true)
+gmock_dep = dependency('gmock', version : '>=1.10.0', required : true, main : true)
 
 fs = import('fs')
+
+# Type IO
+lin_type_io_test = executable(
+    'lin_type_io_test',
+    sources : [
+        #'src/type_io/common/test_bnf.cpp',
+        'src/type_io/common/test_signal_encoding_type.cpp',
+
+        #'src/type_io/ncf/test_global.cpp',
+        #'src/type_io/ncf/test_node.cpp',
+        #'src/type_io/ncf/test_general.cpp',
+        #'src/type_io/ncf/test_diagnostic.cpp',
+        #'src/type_io/ncf/test_frame.cpp',
+        #'src/type_io/ncf/test_frame_properties.cpp',
+        #'src/type_io/ncf/test_signal.cpp',
+        #'src/type_io/ncf/test_signal_encoding_type.cpp',
+        #'src/type_io/ncf/test_status.cpp',
+        #'src/type_io/ncf/test_free_text.cpp',
+        #'src/type_io/ncf/test_node_capability_file.cpp',
+
+        #'src/type_io/ldf/test_global.cpp',
+        #'src/type_io/ldf/test_node.cpp',
+        'src/type_io/ldf/test_signal.cpp',
+        'src/type_io/ldf/test_frame.cpp',
+        'src/type_io/ldf/test_schedule_table.cpp',
+        #'src/type_io/ldf/test_lin_description_file.cpp',
+    ],
+    extra_files : [
+        #'inc/lin/test/main.hpp',
+    ],
+    dependencies : [
+        lin_type_io_dep,
+        gtest_dep,
+    ],
+    include_directories : include_directories('inc'),
+)
 
 # Lexical
 ncf_test_files = fs.copyfile('res/example.ncf', 'example.ncf')

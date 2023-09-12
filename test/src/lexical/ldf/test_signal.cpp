@@ -331,7 +331,7 @@ TEST(test_lin_lexical_ldf_signal, signal_groups)
 
 /* 9.2.6.1 Signal encoding type definition */
 
-TEST(test_lin_lexical_ncf_signal_encoding_type, signal_encoding_type)
+TEST(test_lin_lexical_ldf_signal, signal_encoding_type)
 {
     namespace x3 = boost::spirit::x3;
 
@@ -384,7 +384,7 @@ TEST(test_lin_lexical_ncf_signal_encoding_type, signal_encoding_type)
 
 /* 9.2.6.2 Signal representation definition */
 
-TEST(test_lin_lexical_ncf_signal_representation, signal_representation)
+TEST(test_lin_lexical_ldf_signal, signal_representation)
 {
     namespace x3 = boost::spirit::x3;
 
@@ -409,7 +409,7 @@ TEST(test_lin_lexical_ncf_signal_representation, signal_representation)
     EXPECT_STREQ(signal_representation.signal_names[1].c_str(), "LefttIntLightsSwitch");
 }
 
-TEST(test_lin_lexical_ncf_signal_representation, signal_representations)
+TEST(test_lin_lexical_ldf_signal, signal_representations)
 {
     namespace x3 = boost::spirit::x3;
 
