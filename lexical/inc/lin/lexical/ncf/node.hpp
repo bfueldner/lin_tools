@@ -71,13 +71,3 @@ BOOST_SPIRIT_DEFINE(node_definition);
 }    // namespace parser
 
 }    // namespace lin::lexical::ncf
-
-BOOST_FUSION_ADAPT_STRUCT(
-    lin::lexical::ncf::node_t,
-    node_name,
-    general,
-    diagnostic,
-    frames,
-    encodings,
-    status,
-    free_text)

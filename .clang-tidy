@@ -514,7 +514,7 @@ CheckOptions:
    - key:             readability-identifier-length.IgnoredParameterNames
      value:           '^[a-z]{1}[0-9]?$'
    - key:             readability-identifier-length.IgnoredVariableNames
-     value:           ''
+     value:           'd[0-9]|id'
    - key:             readability-identifier-length.MinimumExceptionNameLength
      value:           '2'
    - key:             readability-identifier-length.MinimumLoopCounterNameLength

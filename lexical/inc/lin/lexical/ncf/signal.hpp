@@ -90,10 +90,4 @@ BOOST_SPIRIT_DEFINE(signal, signal_definition);
 
 }    // namespace lin::lexical::ncf
 
-BOOST_FUSION_ADAPT_STRUCT(
-    lin::lexical::ncf::signal::signal_properties_t,
-    init_value,
-    size,
-    offset,
-    encoding_name)
 BOOST_FUSION_ADAPT_STRUCT(lin::lexical::ncf::signal_t, signal_name, signal_properties)

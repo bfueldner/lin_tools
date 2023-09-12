@@ -45,10 +45,3 @@ BOOST_SPIRIT_DEFINE(frame_properties);
 }    // namespace parser
 
 }    // namespace lin::lexical::ncf
-
-BOOST_FUSION_ADAPT_STRUCT(
-    lin::lexical::ncf::frame_properties_t,
-    length,
-    min_period,
-    max_period,
-    event_triggered_frame)
