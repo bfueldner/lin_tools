@@ -12,8 +12,8 @@ project(
 boost_dep = dependency('boost', version : '>= 1.78.0', required : true)
 
 subdir('type')
-subdir('type_io')
-subdir('lexical')
+subdir('parser')
+subdir('generator')
 
 if not meson.is_subproject()
     subdir('test')
