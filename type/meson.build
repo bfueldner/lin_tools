@@ -7,7 +7,6 @@ headers = [
     'inc/lin/ncf/general.hpp',
     'inc/lin/ncf/diagnostic.hpp',
     'inc/lin/ncf/frame.hpp',
-    'inc/lin/ncf/frame_properties.hpp',
     'inc/lin/ncf/signal.hpp',
     'inc/lin/ncf/status.hpp',
     'inc/lin/ncf/free_text.hpp',

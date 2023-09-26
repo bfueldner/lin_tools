@@ -8,7 +8,6 @@ headers = [
     'inc/lin/ncf/parser/general.hpp',
     'inc/lin/ncf/parser/diagnostic.hpp',
     'inc/lin/ncf/parser/frame.hpp',
-    'inc/lin/ncf/parser/frame_properties.hpp',
     'inc/lin/ncf/parser/signal.hpp',
     'inc/lin/ncf/parser/status.hpp',
     'inc/lin/ncf/parser/free_text.hpp',

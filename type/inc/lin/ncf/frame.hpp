@@ -4,12 +4,21 @@
 #include <vector>
 
 #include <lin/common/bnf.hpp>
-#include <lin/ncf/frame_properties.hpp>
 #include <lin/ncf/signal.hpp>
 
-/* 8.2.5 Frame definition */
-
 namespace lin::ncf {
+
+/* 8.2.5.1 Frame properties */
+
+struct frame_properties_t
+{
+    common::bnf::integer_t length{};
+    common::bnf::integer_t min_period{};
+    common::bnf::integer_t max_period{};
+    common::bnf::identifier_t event_triggered_frame{};
+};
+
+/* 8.2.5 Frame definition */
 
 namespace frame {
 

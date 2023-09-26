@@ -23,7 +23,6 @@ lin_parser_test = executable(
         'src/parser/ncf/test_general.cpp',
         'src/parser/ncf/test_diagnostic.cpp',
         'src/parser/ncf/test_frame.cpp',
-        'src/parser/ncf/test_frame_properties.cpp',
         'src/parser/ncf/test_signal.cpp',
         'src/parser/ncf/test_status.cpp',
         'src/parser/ncf/test_free_text.cpp',
