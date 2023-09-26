@@ -26,7 +26,7 @@ x3::rule< class node_capability_file_definition, node_capability_file_t > const
 auto const node_capability_file_definition_def =
     x3::skip(comment)[x3::lit("node_capability_file") > ';' > language_version > *node_definition];
 
-BOOST_SPIRIT_DEFINE(node_capability_file_definition);
+BOOST_SPIRIT_DEFINE(node_capability_file_definition)
 
 }    // namespace lin::ncf::parser
 

@@ -10,7 +10,6 @@ headers = [
     'inc/lin/ncf/parser/frame.hpp',
     'inc/lin/ncf/parser/frame_properties.hpp',
     'inc/lin/ncf/parser/signal.hpp',
-    'inc/lin/ncf/parser/signal_encoding_type.hpp',
     'inc/lin/ncf/parser/status.hpp',
     'inc/lin/ncf/parser/free_text.hpp',
     'inc/lin/ncf/parser/node_capability_file.hpp',

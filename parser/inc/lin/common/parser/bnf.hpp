@@ -18,6 +18,6 @@ auto const identifier_def      = x3::ascii::char_("a-zA-Z_") >> *x3::ascii::char
 auto const integer_def         = ((x3::lit("0x") >> x3::hex) | x3::int_);
 auto const real_or_integer_def = x3::double_;
 
-BOOST_SPIRIT_DEFINE(char_string, identifier, integer, real_or_integer);
+BOOST_SPIRIT_DEFINE(char_string, identifier, integer, real_or_integer)
 
 }    // namespace lin::common::bnf::parser

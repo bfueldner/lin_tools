@@ -31,7 +31,7 @@ auto const master_def = x3::lit("Master") > ':' > node_name > ',' > time_base > 
                         jitter > "ms" > ';';
 auto const slaves_def = x3::lit("Slaves") > ':' > node_name % ',' > ';';
 
-BOOST_SPIRIT_DEFINE(master, slaves);
+BOOST_SPIRIT_DEFINE(master, slaves)
 
 }    // namespace participating_nodes::parser
 
@@ -50,7 +50,7 @@ auto const slaves_action = [](auto &ctx) { x3::_val(ctx).slaves = x3::_attr(ctx)
 auto const participating_nodes_def = x3::lit("Nodes") > '{' >
                                      *(master[master_action] | slaves[slaves_action]) > '}';
 
-BOOST_SPIRIT_DEFINE(participating_nodes);
+BOOST_SPIRIT_DEFINE(participating_nodes)
 
 }    // namespace parser
 
@@ -117,7 +117,7 @@ BOOST_SPIRIT_DEFINE(
     n_as_timeout,
     n_cr_timeout,
     configurable_frame,
-    configurable_frames);
+    configurable_frames)
 
 }    // namespace node_attribute::parser
 
@@ -156,7 +156,7 @@ auto const node_attribute_def =
       n_cr_timeout[n_cr_timeout_action] | configurable_frames[configurable_frames_action]) > '}';
 auto const node_attributes_def = x3::lit("Node_attributes") > '{' > *node_attribute > '}';
 
-BOOST_SPIRIT_DEFINE(node_attribute, node_attributes);
+BOOST_SPIRIT_DEFINE(node_attribute, node_attributes)
 
 }    // namespace parser
 
@@ -179,7 +179,7 @@ auto const composition_def   = composite_node > '{' > logical_node % ',' > ';' >
 auto const configuration_def = x3::lit("configuration") > configuration_name > '{' > *composition >
                                '}';
 
-BOOST_SPIRIT_DEFINE(composition, configuration);
+BOOST_SPIRIT_DEFINE(composition, configuration)
 
 }    // namespace node_composition::parser
 
@@ -193,7 +193,7 @@ x3::rule< class node_composition, node_composition_t > const node_composition = 
 
 auto const node_composition_def = x3::lit("composite") > '{' > *configuration > '}';
 
-BOOST_SPIRIT_DEFINE(node_composition);
+BOOST_SPIRIT_DEFINE(node_composition)
 
 }    // namespace parser
 

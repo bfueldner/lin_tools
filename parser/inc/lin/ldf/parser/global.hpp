@@ -26,6 +26,6 @@ auto const lin_language_version_def = x3::lit("LIN_language_version") > '=' > ch
 auto const lin_speed_def            = x3::lit("LIN_speed") > '=' > real_or_integer > "kbps" > ';';
 auto const channel_name_def         = x3::lit("Channel_name") > '=' > char_string > ';';
 
-BOOST_SPIRIT_DEFINE(lin_protocol_version, lin_language_version, lin_speed, channel_name);
+BOOST_SPIRIT_DEFINE(lin_protocol_version, lin_language_version, lin_speed, channel_name)
 
 }    // namespace lin::ldf::global::parser

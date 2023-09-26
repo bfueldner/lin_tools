@@ -31,6 +31,6 @@ auto const frame_properties_def =
       (x3::lit("max_period") > '=' > integer[max_period_action] > "ms" > ';') |
       (x3::lit("event_triggered_frame") > '=' > identifier[event_triggered_frame_action] > ';'));
 
-BOOST_SPIRIT_DEFINE(frame_properties);
+BOOST_SPIRIT_DEFINE(frame_properties)
 
 }    // namespace lin::ncf::parser

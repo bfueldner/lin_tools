@@ -29,6 +29,6 @@ auto const status_management_def = x3::lit("status_management") > '{' >
                                      (x3::lit("fault_state_signals") > '=' >
                                       (identifier % ',')[fault_state_signals_action] > ';')) > '}';
 
-BOOST_SPIRIT_DEFINE(status_management);
+BOOST_SPIRIT_DEFINE(status_management)
 
 }    // namespace lin::ncf::parser

@@ -5,6 +5,7 @@
 #include <boost/fusion/adapted/struct/adapt_struct.hpp>
 
 #include <lin/common/parser/bnf.hpp>
+#include <lin/common/parser/signal_encoding_type.hpp>
 
 #include <lin/ncf/signal.hpp>
 
@@ -40,7 +41,7 @@ auto const signal_properties_def = *((init_value[init_value_action] > ';') |
                                      (x3::lit("offset") > '=' > integer[offset_action] > ';')) >
                                    -(encoding_name[encoding_name_action] > ';');
 
-BOOST_SPIRIT_DEFINE(init_value_scalar, init_value_array, init_value, signal_properties);
+BOOST_SPIRIT_DEFINE(init_value_scalar, init_value_array, init_value, signal_properties)
 
 }    // namespace signal::parser
 
@@ -61,10 +62,36 @@ auto const signal_name = identifier;
 auto const signal_def            = signal_name > '{' > signal_properties > '}';
 auto const signal_definition_def = x3::lit("signals") > '{' > *signal > '}';
 
-BOOST_SPIRIT_DEFINE(signal, signal_definition);
+BOOST_SPIRIT_DEFINE(signal, signal_definition)
 
 }    // namespace parser
+
+/* 8.2.5.3 Signal encoding type definition */
+
+namespace signal_encoding_type::parser {
+
+namespace x3 = boost::spirit::x3;
+
+using namespace common::bnf::parser;
+using namespace common::signal_encoding_type::parser;
+
+/* 8.2.5.3 Signal encoding type definition */
+
+x3::rule< class encoding, encoding_t > const encoding = "encoding";
+x3::rule< class encoding_definition, encodings_t > const encoding_definition =
+    "encoding_definition";
+
+auto const encoding_name = identifier;
+
+auto const encoding_def            = encoding_name > '{' > *value > '}';
+auto const encoding_definition_def = x3::lit("encoding") > '{' > *encoding > '}';
+
+BOOST_SPIRIT_DEFINE(encoding, encoding_definition)
+
+}    // namespace signal_encoding_type::parser
 
 }    // namespace lin::ncf
 
 BOOST_FUSION_ADAPT_STRUCT(lin::ncf::signal_t, signal_name, signal_properties)
+
+BOOST_FUSION_ADAPT_STRUCT(lin::ncf::signal_encoding_type::encoding_t, encoding_name, value)

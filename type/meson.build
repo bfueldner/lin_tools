@@ -9,7 +9,6 @@ headers = [
     'inc/lin/ncf/frame.hpp',
     'inc/lin/ncf/frame_properties.hpp',
     'inc/lin/ncf/signal.hpp',
-    'inc/lin/ncf/signal_encoding_type.hpp',
     'inc/lin/ncf/status.hpp',
     'inc/lin/ncf/free_text.hpp',
     'inc/lin/ncf/node_capability_file.hpp',

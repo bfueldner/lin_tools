@@ -93,6 +93,6 @@ auto const lin_description_file_def = x3::skip(comment)
      /* clang-format on */
 ];
 
-BOOST_SPIRIT_DEFINE(lin_description_file);
+BOOST_SPIRIT_DEFINE(lin_description_file)
 
 }    // namespace lin::ldf::parser

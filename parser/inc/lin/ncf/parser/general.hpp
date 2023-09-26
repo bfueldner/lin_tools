@@ -55,7 +55,7 @@ BOOST_SPIRIT_DEFINE(
     bitrate_definition_automatic,
     bitrate_definition_select,
     bitrate_definition_fixed,
-    bitrate_definition);
+    bitrate_definition)
 
 /* 8.2.3.4 Sends wake up signal */
 
@@ -65,7 +65,7 @@ x3::rule< class sends_wake_up_signal, sends_wake_up_signal_t > const sends_wake_
 auto const sends_wake_up_signal_def = '"' > ((x3::lit("no") > x3::attr(false)) |
                                              (x3::lit("yes") > x3::attr(true))) > '"';
 
-BOOST_SPIRIT_DEFINE(sends_wake_up_signal);
+BOOST_SPIRIT_DEFINE(sends_wake_up_signal)
 
 }    // namespace general::parser
 
@@ -102,7 +102,7 @@ auto const general_definition_def =
       (x3::lit("sends_wake_up_signal") > '=' > sends_wake_up_signal[sends_wake_up_signal_action] >
        ';')) > '}';
 
-BOOST_SPIRIT_DEFINE(general_definition);
+BOOST_SPIRIT_DEFINE(general_definition)
 
 }    // namespace parser
 

@@ -20,6 +20,6 @@ x3::rule< class language_version, language_version_t > const language_version = 
 
 auto const language_version_def = x3::lit("LIN_language_version") > '=' > char_string > ';';
 
-BOOST_SPIRIT_DEFINE(language_version);
+BOOST_SPIRIT_DEFINE(language_version)
 
 }    // namespace lin::ncf::global::parser

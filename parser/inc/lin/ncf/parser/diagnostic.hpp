@@ -25,7 +25,7 @@ auto const nad_range_def      = integer >> x3::lit("to") >> integer;
 auto const nad_sequence_def   = integer % ',';
 auto const nad_definition_def = nad_range | nad_sequence;
 
-BOOST_SPIRIT_DEFINE(nad_range, nad_sequence, nad_definition);
+BOOST_SPIRIT_DEFINE(nad_range, nad_sequence, nad_definition)
 
 }    // namespace diagnostic::parser
 
@@ -65,7 +65,7 @@ auto const diagnostic_definition_def =
       (x3::lit("support_sid") > '{' > (integer % ',')[support_sid_action] > '}' > ';') |
       (x3::lit("max_message_length") > '=' > integer[max_message_length_action] > ';')) > '}';
 
-BOOST_SPIRIT_DEFINE(diagnostic_definition);
+BOOST_SPIRIT_DEFINE(diagnostic_definition)
 
 }    // namespace parser
 

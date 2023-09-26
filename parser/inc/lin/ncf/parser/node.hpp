@@ -7,7 +7,7 @@
 #include <lin/ncf/parser/frame.hpp>
 #include <lin/ncf/parser/free_text.hpp>
 #include <lin/ncf/parser/general.hpp>
-#include <lin/ncf/parser/signal_encoding_type.hpp>
+#include <lin/ncf/parser/signal.hpp>
 #include <lin/ncf/parser/status.hpp>
 
 #include <lin/ncf/node.hpp>
@@ -53,7 +53,7 @@ auto const node_definition_def = x3::lit("node") > node_name[node_name_action] >
                                    status_management[status_management_action] |
                                    free_text_definition[free_text_definition_action]) > '}';
 
-BOOST_SPIRIT_DEFINE(node_definition);
+BOOST_SPIRIT_DEFINE(node_definition)
 
 }    // namespace parser
 

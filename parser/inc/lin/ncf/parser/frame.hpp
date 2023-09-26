@@ -46,7 +46,7 @@ auto const single_frame_def = frame_kind[frame_kind_action] > frame_name[frame_n
                               frame_properties[frame_properties_action] >
                               signal_definition[signal_definition_action] > '}';
 
-BOOST_SPIRIT_DEFINE(single_frame);
+BOOST_SPIRIT_DEFINE(single_frame)
 
 }    // namespace frame::parser
 
@@ -63,7 +63,7 @@ x3::rule< class frame_definition, frames_t > const frame_definition = "frame_def
 
 auto const frame_definition_def = x3::lit("frames") > '{' > *single_frame > '}';
 
-BOOST_SPIRIT_DEFINE(frame_definition);
+BOOST_SPIRIT_DEFINE(frame_definition)
 
 }    // namespace parser
 

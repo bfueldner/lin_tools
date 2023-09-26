@@ -18,6 +18,6 @@ auto const block_comment_def = (x3::lit("/*") >>
                                x3::lit("*/");
 auto const comment_def = x3::ascii::space | single_line_comment | block_comment;
 
-BOOST_SPIRIT_DEFINE(single_line_comment, block_comment, comment);
+BOOST_SPIRIT_DEFINE(single_line_comment, block_comment, comment)
 
 }    // namespace lin::common::comment::parser

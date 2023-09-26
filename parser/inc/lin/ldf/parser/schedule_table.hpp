@@ -77,7 +77,7 @@ BOOST_SPIRIT_DEFINE(
     save_configuration,
     assign_frame_id_range,
     free_format,
-    assign_frame_id);
+    assign_frame_id)
 
 }    // namespace command::parser
 
@@ -98,7 +98,7 @@ auto const command_def = master_req | slave_resp | assign_nad | conditional_chan
                          assign_frame_id | x3::no_skip[frame_name];
 auto const table_entry_def = command > x3::lit("delay") > frame_time > "ms" > ';';
 
-BOOST_SPIRIT_DEFINE(command, table_entry);
+BOOST_SPIRIT_DEFINE(command, table_entry)
 
 }    // namespace parser
 
@@ -119,7 +119,7 @@ auto const schedule_table_name = identifier;
 auto const schedule_table_def  = schedule_table_name > '{' > *table_entry > '}';
 auto const schedule_tables_def = x3::lit("Schedule_tables") > '{' > *schedule_table > '}';
 
-BOOST_SPIRIT_DEFINE(schedule_table, schedule_tables);
+BOOST_SPIRIT_DEFINE(schedule_table, schedule_tables)
 
 }    // namespace parser
 

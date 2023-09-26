@@ -27,7 +27,7 @@ auto const signal_offset = integer;
 
 auto const frame_entry_def = signal_name > ',' > signal_offset > ';';
 
-BOOST_SPIRIT_DEFINE(frame_entry);
+BOOST_SPIRIT_DEFINE(frame_entry)
 
 }    // namespace unconditional_frame::parser
 
@@ -52,7 +52,7 @@ auto const unconditional_frame_def = frame_name > ':' > frame_id > ',' > publish
                                      frame_size > '{' > *frame_entry > '}';
 auto const unconditional_frames_def = x3::lit("Frames") > '{' > *unconditional_frame > '}';
 
-BOOST_SPIRIT_DEFINE(unconditional_frame, unconditional_frames);
+BOOST_SPIRIT_DEFINE(unconditional_frame, unconditional_frames)
 
 }    // namespace parser
 
@@ -73,7 +73,7 @@ auto const sporadic_frame_name = identifier;
 auto const sporadic_frame_def  = sporadic_frame_name > ':' > frame_name % ',' > ';';
 auto const sporadic_frames_def = x3::lit("Sporadic_frames") > '{' > *sporadic_frame > '}';
 
-BOOST_SPIRIT_DEFINE(sporadic_frame, sporadic_frames);
+BOOST_SPIRIT_DEFINE(sporadic_frame, sporadic_frames)
 
 }    // namespace parser
 
@@ -101,7 +101,7 @@ auto const event_triggered_frame_def = event_trig_frm_name > ':' >
 auto const event_triggered_frames_def = x3::lit("Event_triggered_frames") > '{' >
                                         *event_triggered_frame > '}';
 
-BOOST_SPIRIT_DEFINE(event_triggered_frame, event_triggered_frames);
+BOOST_SPIRIT_DEFINE(event_triggered_frame, event_triggered_frames)
 
 }    // namespace parser
 
@@ -124,7 +124,7 @@ x3::rule< class diagnostic_frames, diagnostic_frames_t > const diagnostic_frames
 auto const diagnostic_frame_def  = frame_name > ':' > frame_id > '{' > *frame_entry > '}';
 auto const diagnostic_frames_def = x3::lit("Diagnostic_frames") > '{' > *diagnostic_frame > '}';
 
-BOOST_SPIRIT_DEFINE(diagnostic_frame, diagnostic_frames);
+BOOST_SPIRIT_DEFINE(diagnostic_frame, diagnostic_frames)
 
 }    // namespace parser
 

@@ -17,6 +17,6 @@ x3::rule< class free_text_definition, free_text_t > const free_text_definition =
 
 auto const free_text_definition_def = x3::lit("free_text") > '{' > char_string > '}';
 
-BOOST_SPIRIT_DEFINE(free_text_definition);
+BOOST_SPIRIT_DEFINE(free_text_definition)
 
 }    // namespace lin::ncf::parser

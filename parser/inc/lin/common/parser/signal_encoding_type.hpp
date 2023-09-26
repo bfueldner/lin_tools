@@ -40,7 +40,7 @@ auto const bcd_value_def   = x3::lit("bcd_value") > ';';
 auto const ascii_value_def = x3::lit("ascii_value") > ';';
 auto const value_def       = logical_value | physical_range | bcd_value | ascii_value;
 
-BOOST_SPIRIT_DEFINE(logical_value, physical_range, bcd_value, ascii_value, value);
+BOOST_SPIRIT_DEFINE(logical_value, physical_range, bcd_value, ascii_value, value)
 
 }    // namespace lin::common::signal_encoding_type::parser
 

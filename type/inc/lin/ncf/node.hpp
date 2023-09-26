@@ -5,7 +5,6 @@
 #include <lin/ncf/frame.hpp>
 #include <lin/ncf/free_text.hpp>
 #include <lin/ncf/general.hpp>
-#include <lin/ncf/signal_encoding_type.hpp>
 #include <lin/ncf/status.hpp>
 
 /* 8.2.2 Node definition */
