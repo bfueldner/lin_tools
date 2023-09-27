@@ -38,10 +38,11 @@ x3::rule< class bitrate_definition_fixed, bitrate_definition::fixed_t > const
 x3::rule< class bitrate_definition, bitrate_definition_t > const bitrate_definition =
     "bitrate_definition";
 
+auto const bitrate_action               = [](auto &ctx) { x3::_val(ctx).value = x3::_attr(ctx); };
 auto const bitrate_automatic_min_action = [](auto &ctx) { x3::_val(ctx).min = x3::_attr(ctx); };
 auto const bitrate_automatic_max_action = [](auto &ctx) { x3::_val(ctx).max = x3::_attr(ctx); };
 
-auto const bitrate_def = real_or_integer > "kbps";
+auto const bitrate_def = real_or_integer[bitrate_action] > "kbps";
 auto const bitrate_definition_automatic_def =
     x3::lit("automatic") > -(x3::lit("min") > bitrate)[bitrate_automatic_min_action] >
     -(x3::lit("max") > bitrate)[bitrate_automatic_max_action];

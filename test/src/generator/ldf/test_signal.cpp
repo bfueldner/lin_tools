@@ -2,8 +2,9 @@
 
 #include <gtest/gtest.h>
 
-#include <lin/ldf/generator/signal.hpp>
 #include <lin/ldf/signal.hpp>
+
+#include <lin/ldf/generator/signal.hpp>
 
 /* 9.2.3.1 Standard signals */
 

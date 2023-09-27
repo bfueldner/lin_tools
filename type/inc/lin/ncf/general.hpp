@@ -1,5 +1,6 @@
 #pragma once
 
+#include <optional>
 #include <variant>
 #include <vector>
 
@@ -23,14 +24,17 @@ using variant_id_t  = common::bnf::integer_t;
 
 /* 8.2.3.3 Bit rate */
 
-using bitrate_t = common::bnf::real_or_integer_t;
+struct bitrate_t
+{
+    common::bnf::real_or_integer_t value;
+};
 
 namespace bitrate_definition {
 
 struct automatic_t
 {
-    bitrate_t min{ 1 };
-    bitrate_t max{ 20 };
+    std::optional< bitrate_t > min{};
+    std::optional< bitrate_t > max{};
 };
 
 using select_t = std::vector< bitrate_t >;

@@ -2,8 +2,9 @@
 
 #include <gtest/gtest.h>
 
-#include <lin/ldf/generator/schedule_table.hpp>
 #include <lin/ldf/schedule_table.hpp>
+
+#include <lin/ldf/generator/schedule_table.hpp>
 
 /* 9.2.5 Schedule table definition*/
 

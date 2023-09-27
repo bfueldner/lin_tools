@@ -2,8 +2,9 @@
 
 #include <gtest/gtest.h>
 
-#include <lin/ldf/generator/node.hpp>
 #include <lin/ldf/node.hpp>
+
+#include <lin/ldf/generator/node.hpp>
 
 /* 9.2.2 Node definition */
 

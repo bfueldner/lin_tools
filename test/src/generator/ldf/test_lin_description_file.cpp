@@ -1,3 +1,4 @@
+#include <ios>
 #include <sstream>
 
 #include <gtest/gtest.h>
@@ -114,7 +115,7 @@ TEST(test_lin_lexical_ldf, global)
     };
 
     std::stringstream stream{};
-    stream << lin_description_file;
+    stream << std::uppercase << lin_description_file;
     EXPECT_EQ(
         stream.str(),
         "LIN_description_file;\n"
@@ -159,7 +160,7 @@ TEST(test_lin_lexical_ldf, global)
         "    RSM {\n"
         "        LIN_protocol = \"2.0\";\n"
         "        configured_NAD = 0x20;\n"
-        "        product_id = 0x4e4e, 0x4553, 1;\n"
+        "        product_id = 0x4E4E, 0x4553, 1;\n"
         "        response_error = RSMerror;\n"
         "        P2_min = 150 ms;\n"
         "        ST_min = 50 ms;\n"
@@ -174,7 +175,7 @@ TEST(test_lin_lexical_ldf, global)
         "        LIN_protocol = \"2.2\";\n"
         "        configured_NAD = 0x21;\n"
         "        initial_NAD = 0x01;\n"
-        "        product_id = 0x4a4f, 0x4841;\n"
+        "        product_id = 0x4A4F, 0x4841;\n"
         "        response_error = LSMerror;\n"
         "        fault_state_signals = IntTest;\n"
         "        P2_min = 150 ms;\n"

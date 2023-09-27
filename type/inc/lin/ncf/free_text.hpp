@@ -6,6 +6,9 @@
 
 namespace lin::ncf {
 
-using free_text_t = common::bnf::char_string_t;
+struct free_text_t
+{
+    common::bnf::char_string_t value;
+};
 
 }    // namespace lin::ncf

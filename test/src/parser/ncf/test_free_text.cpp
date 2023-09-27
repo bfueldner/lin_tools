@@ -27,5 +27,5 @@ TEST(test_lin_ncf_free_text_parser, free_text_definition)
     ASSERT_TRUE(result);
     ASSERT_EQ(position, text.end());
 
-    EXPECT_STREQ(free_text.c_str(), "step_motor signal values outside 0 - 199 are ignored");
+    EXPECT_STREQ(free_text.value.c_str(), "step_motor signal values outside 0 - 199 are ignored");
 }

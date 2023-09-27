@@ -21,7 +21,7 @@ TEST(test_lin_ncf_general_parser, bitrate)
     ASSERT_TRUE(result);
     ASSERT_EQ(position, text.end());
 
-    EXPECT_EQ(bitrate, 19.2);
+    EXPECT_EQ(bitrate.value, 19.2);
 }
 
 TEST(test_lin_ncf_general_parser, bitrate_definition_automatic_default)
@@ -43,8 +43,8 @@ TEST(test_lin_ncf_general_parser, bitrate_definition_automatic_default)
     ASSERT_TRUE(result);
     ASSERT_EQ(position, text.end());
 
-    EXPECT_EQ(bitrate_definition_automatic.min, 1.0);
-    EXPECT_EQ(bitrate_definition_automatic.max, 20.0);
+    EXPECT_FALSE(bitrate_definition_automatic.min);
+    EXPECT_FALSE(bitrate_definition_automatic.max);
 }
 
 TEST(test_lin_ncf_general_parser, bitrate_definition_automatic_min)
@@ -66,8 +66,12 @@ TEST(test_lin_ncf_general_parser, bitrate_definition_automatic_min)
     ASSERT_TRUE(result);
     ASSERT_EQ(position, text.end());
 
-    EXPECT_EQ(bitrate_definition_automatic.min, 9.6);
-    EXPECT_EQ(bitrate_definition_automatic.max, 20.0);
+    ASSERT_FALSE(bitrate_definition_automatic.min);
+    if (bitrate_definition_automatic.min)
+    {
+        EXPECT_EQ(bitrate_definition_automatic.min.value().value, 9.6);
+    }
+    EXPECT_FALSE(bitrate_definition_automatic.max);
 }
 
 TEST(test_lin_ncf_general_parser, bitrate_definition_automatic_max)
@@ -89,10 +93,15 @@ TEST(test_lin_ncf_general_parser, bitrate_definition_automatic_max)
     ASSERT_TRUE(result);
     ASSERT_EQ(position, text.end());
 
-    EXPECT_EQ(bitrate_definition_automatic.min, 1.0);
-    EXPECT_EQ(bitrate_definition_automatic.max, 19.2);
+    EXPECT_FALSE(bitrate_definition_automatic.min);
+    ASSERT_TRUE(bitrate_definition_automatic.max);
+    if (bitrate_definition_automatic.max)
+    {
+        EXPECT_EQ(bitrate_definition_automatic.max.value().value, 19.2);
+    }
 }
 
+// NOLINTBEGIN(readability-function-cognitive-complexity)
 TEST(test_lin_ncf_general_parser, bitrate_definition_automatic_min_max)
 {
     namespace x3 = boost::spirit::x3;
@@ -112,9 +121,18 @@ TEST(test_lin_ncf_general_parser, bitrate_definition_automatic_min_max)
     ASSERT_TRUE(result);
     ASSERT_EQ(position, text.end());
 
-    EXPECT_EQ(bitrate_definition_automatic.min, 9.6);
-    EXPECT_EQ(bitrate_definition_automatic.max, 19.2);
+    ASSERT_TRUE(bitrate_definition_automatic.min);
+    if (bitrate_definition_automatic.min)
+    {
+        EXPECT_EQ(bitrate_definition_automatic.min.value().value, 9.6);
+    }
+    ASSERT_TRUE(bitrate_definition_automatic.max);
+    if (bitrate_definition_automatic.max)
+    {
+        EXPECT_EQ(bitrate_definition_automatic.max.value().value, 19.2);
+    }
 }
+// NOLINTEND(readability-function-cognitive-complexity)
 
 TEST(test_lin_ncf_general_parser, bitrate_definition_select_single)
 {
@@ -135,7 +153,8 @@ TEST(test_lin_ncf_general_parser, bitrate_definition_select_single)
     ASSERT_TRUE(result);
     ASSERT_EQ(position, text.end());
 
-    EXPECT_EQ(bitrate_definition_select, bitrate_definition::select_t{ 19.2 });
+    ASSERT_FALSE(bitrate_definition_select.empty());
+    EXPECT_EQ(bitrate_definition_select.data()->value, 19.2);
 }
 
 TEST(test_lin_ncf_general_parser, bitrate_definition_select_multiple)
@@ -157,7 +176,10 @@ TEST(test_lin_ncf_general_parser, bitrate_definition_select_multiple)
     ASSERT_TRUE(result);
     ASSERT_EQ(position, text.end());
 
-    EXPECT_EQ(bitrate_definition_select, (bitrate_definition::select_t{ 4.8, 9.6, 19.2 }));
+    ASSERT_EQ(bitrate_definition_select.size(), 3);
+    EXPECT_EQ(bitrate_definition_select[0].value, 4.8);
+    EXPECT_EQ(bitrate_definition_select[1].value, 9.6);
+    EXPECT_EQ(bitrate_definition_select[2].value, 19.2);
 }
 
 TEST(test_lin_ncf_general_parser, bitrate_definition_fixed)
@@ -179,9 +201,10 @@ TEST(test_lin_ncf_general_parser, bitrate_definition_fixed)
     ASSERT_TRUE(result);
     ASSERT_EQ(position, text.end());
 
-    EXPECT_EQ(bitrate_definition_fixed, 19.2);
+    EXPECT_EQ(bitrate_definition_fixed.value, 19.2);
 }
 
+// NOLINTBEGIN(readability-function-cognitive-complexity)
 TEST(test_lin_ncf_general_parser, bitrate_definition)
 {
     namespace x3 = boost::spirit::x3;
@@ -199,10 +222,20 @@ TEST(test_lin_ncf_general_parser, bitrate_definition)
 
     auto *automatic = std::get_if< bitrate_definition::automatic_t >(&bitrate_definition);
     ASSERT_NE(automatic, nullptr);
-    EXPECT_EQ(automatic->min, 9.6);
-    EXPECT_EQ(automatic->max, 19.2);
+    ASSERT_TRUE(automatic->min);
+    if (automatic->min)
+    {
+        EXPECT_EQ(automatic->min.value().value, 9.6);
+    }
+    ASSERT_TRUE(automatic->max);
+    if (automatic->max)
+    {
+        EXPECT_EQ(automatic->max.value().value, 19.2);
+    }
 }
+// NOLINTEND(readability-function-cognitive-complexity)
 
+// NOLINTBEGIN(readability-function-cognitive-complexity)
 TEST(test_lin_ncf_general_parser, general)
 {
     namespace x3 = boost::spirit::x3;
@@ -232,7 +265,16 @@ TEST(test_lin_ncf_general_parser, general)
     auto *automatic =
         std::get_if< general::bitrate_definition::automatic_t >(&general.bitrate_definition);
     ASSERT_NE(automatic, nullptr);
-    EXPECT_EQ(automatic->min, 10.0);
-    EXPECT_EQ(automatic->max, 20.0);
+    ASSERT_TRUE(automatic->min);
+    if (automatic->min)
+    {
+        EXPECT_EQ(automatic->min.value().value, 10.0);
+    }
+    ASSERT_TRUE(automatic->max);
+    if (automatic->max)
+    {
+        EXPECT_EQ(automatic->max.value().value, 20.0);
+    }
     EXPECT_TRUE(general.sends_wake_up_signal);
 }
+// NOLINTEND(readability-function-cognitive-complexity)

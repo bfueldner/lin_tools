@@ -73,6 +73,7 @@ TEST(test_lin_ncf_node_parser, node)
     ASSERT_EQ(node.encodings.size(), 2);
     EXPECT_STREQ(node.status.response_error.c_str(), "error_bit");
     EXPECT_STREQ(node.status.fault_state_signals.front().c_str(), "fault_state");
-    EXPECT_STREQ(node.free_text.c_str(), "step_motor signal values outside 0 - 199 are ignored");
+    EXPECT_STREQ(
+        node.free_text.value.c_str(), "step_motor signal values outside 0 - 199 are ignored");
 }
 // NOLINTEND(readability-function-cognitive-complexity)

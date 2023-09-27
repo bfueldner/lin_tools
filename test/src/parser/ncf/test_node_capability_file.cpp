@@ -36,6 +36,6 @@ TEST(test_lin_ncf_parser, node_capability_file_definition)
     EXPECT_STREQ(node_capability_file.node[0].node_name.c_str(), "step_motor");
 
     EXPECT_STREQ(
-        node_capability_file.node[0].free_text.c_str(),
+        node_capability_file.node[0].free_text.value.c_str(),
         "step_motor signal values outside 0 - 199 are ignored");
 }

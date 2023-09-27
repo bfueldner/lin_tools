@@ -51,9 +51,17 @@ TEST(test_lin_ncf_frame_parser, single_frame)
     EXPECT_EQ(single_frame.frame_kind, frame_kind_t::publish);
     EXPECT_STREQ(single_frame.frame_name.c_str(), "node_status");
     EXPECT_EQ(single_frame.frame_properties.length, 4);
-    EXPECT_EQ(single_frame.frame_properties.min_period, 10);
-    EXPECT_EQ(single_frame.frame_properties.max_period, 100);
-    EXPECT_STREQ(single_frame.frame_properties.event_triggered_frame.c_str(), "");
+    ASSERT_TRUE(single_frame.frame_properties.min_period);
+    if (single_frame.frame_properties.min_period)
+    {
+        EXPECT_EQ(single_frame.frame_properties.min_period, 10);
+    }
+    ASSERT_TRUE(single_frame.frame_properties.max_period);
+    if (single_frame.frame_properties.max_period)
+    {
+        EXPECT_EQ(single_frame.frame_properties.max_period, 100);
+    }
+    EXPECT_FALSE(single_frame.frame_properties.event_triggered_frame);
     ASSERT_EQ(single_frame.signal_definition.size(), 2);
     EXPECT_STREQ(single_frame.signal_definition[0].signal_name.c_str(), "state");
     EXPECT_EQ(single_frame.signal_definition[0].signal_properties.size, 8);
@@ -108,6 +116,7 @@ TEST(test_lin_ncf_frame_parser, frames)
 }
 // NOLINTEND(readability-function-cognitive-complexity)
 
+// NOLINTBEGIN(readability-function-cognitive-complexity)
 TEST(test_lin_ncf_frame_properties_parser, frame_properties)
 {
     namespace x3 = boost::spirit::x3;
@@ -124,7 +133,16 @@ TEST(test_lin_ncf_frame_properties_parser, frame_properties)
     ASSERT_EQ(position, text.end());
 
     EXPECT_EQ(frame_properties.length, 4);
-    EXPECT_EQ(frame_properties.min_period, 10);
-    EXPECT_EQ(frame_properties.max_period, 100);
-    EXPECT_STREQ(frame_properties.event_triggered_frame.c_str(), "");
+    ASSERT_TRUE(frame_properties.min_period);
+    if (frame_properties.min_period)
+    {
+        EXPECT_EQ(frame_properties.min_period, 10);
+    }
+    ASSERT_TRUE(frame_properties.max_period);
+    if (frame_properties.max_period)
+    {
+        EXPECT_EQ(frame_properties.max_period, 100);
+    }
+    EXPECT_FALSE(frame_properties.event_triggered_frame);
 }
+// NOLINTEND(readability-function-cognitive-complexity)

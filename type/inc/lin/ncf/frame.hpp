@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cstdint>
+#include <optional>
 #include <vector>
 
 #include <lin/common/bnf.hpp>
@@ -13,9 +14,9 @@ namespace lin::ncf {
 struct frame_properties_t
 {
     common::bnf::integer_t length{};
-    common::bnf::integer_t min_period{};
-    common::bnf::integer_t max_period{};
-    common::bnf::identifier_t event_triggered_frame{};
+    std::optional< common::bnf::integer_t > min_period{};
+    std::optional< common::bnf::integer_t > max_period{};
+    std::optional< common::bnf::identifier_t > event_triggered_frame{};
 };
 
 /* 8.2.5 Frame definition */

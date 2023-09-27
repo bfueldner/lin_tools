@@ -6,9 +6,9 @@
 #include <lin/common/bnf.hpp>
 #include <lin/common/signal_encoding_type.hpp>
 
-/* 8.2.5.2 Signal definition */
-
 namespace lin::ncf {
+
+/* 8.2.5.2 Signal definition */
 
 namespace signal {
 

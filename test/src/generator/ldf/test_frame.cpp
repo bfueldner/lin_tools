@@ -3,6 +3,7 @@
 #include <gtest/gtest.h>
 
 #include <lin/ldf/frame.hpp>
+
 #include <lin/ldf/generator/frame.hpp>
 
 /* 9.2.4.1 Unconditional frames */
