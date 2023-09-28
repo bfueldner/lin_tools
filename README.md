@@ -6,7 +6,7 @@
 ![Tests](https://build.fueldner.net/badges/opensource_lin_tools.svg?type=tests&branch=main)
 ![Coverage](https://build.fueldner.net/badges/opensource_lin_tools.svg?type=coverage&branch=main)
 
-LIN 2.2 node capability file and LIN description file parser written in `boost::spirit:x3`.
+LIN 2.2 node capability file and LIN description file parser written in `boost::spirit:x3` and generator using std::stream.
 
 ---
 
