@@ -1,9 +1,10 @@
 #include <ostream>
 
-#include <lin/ncf/free_text.hpp>
-
 #include <lin/common/generator/indention.hpp>
+#include <lin/ncf/free_text.hpp>
 #include <lin/ncf/generator/free_text.hpp>
+
+/* 8.2.7 Free text definition */
 
 namespace lin::ncf {
 

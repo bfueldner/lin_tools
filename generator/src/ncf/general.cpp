@@ -3,9 +3,9 @@
 #include <ostream>
 #include <variant>
 
-#include <lin/ncf/general.hpp>
-
+#include <lin/common/generator/bitrate.hpp>
 #include <lin/common/generator/indention.hpp>
+#include <lin/ncf/general.hpp>
 #include <lin/ncf/generator/general.hpp>
 
 namespace lin::ncf {
@@ -16,13 +16,7 @@ namespace general {
 
 /* 8.2.3.3 Bit rate */
 
-std::ostream &operator<<(std::ostream &out, bitrate_t const &bitrate)
-{
-    out << bitrate.value << " kbps";
-    return out;
-}
-
-namespace bitrate_definition {
+namespace bitrate {
 
 std::ostream &operator<<(std::ostream &out, automatic_t const &automatic)
 {
@@ -54,11 +48,13 @@ std::ostream &operator<<(std::ostream &out, select_t const &select)
     return out;
 }
 
-}    // namespace bitrate_definition
+}    // namespace bitrate
 
-std::ostream &operator<<(std::ostream &out, bitrate_definition_t const &bitrate_definition)
+std::ostream &operator<<(std::ostream &out, bitrate_t const &bitrate)
 {
-    std::visit([&out](auto &&arg) { out << arg; }, bitrate_definition);
+    using namespace bitrate;
+
+    std::visit([&out](auto &&arg) { out << arg; }, bitrate);
     return out;
 }
 
@@ -73,13 +69,13 @@ std::ostream &operator<<(std::ostream &out, general_t const &general)
         << "\";\n";
 
     out << std::hex << std::setfill('0');
-    out << common::indention_t::indent << "supplier = 0x" << std::setw(4) << general.supplier_id
+    out << common::indention_t::indent << "supplier = 0x" << std::setw(4) << general.supplier
         << ";\n";
-    out << common::indention_t::indent << "function = 0x" << std::setw(4) << general.function_id
+    out << common::indention_t::indent << "function = 0x" << std::setw(4) << general.function
         << ";\n";
     out << std::dec;
-    out << common::indention_t::indent << "variant = " << general.variant_id << ";\n";
-    out << common::indention_t::indent << "bitrate = " << general.bitrate_definition << ";\n";
+    out << common::indention_t::indent << "variant = " << general.variant << ";\n";
+    out << common::indention_t::indent << "bitrate = " << general.bitrate << ";\n";
     out << common::indention_t::indent << "sends_wake_up_signal = \""
         << (general.sends_wake_up_signal ? "yes" : "no") << "\";\n";
     out << common::indention_t::pop << common::indention_t::indent << "}\n";

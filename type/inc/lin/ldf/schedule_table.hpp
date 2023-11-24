@@ -1,5 +1,6 @@
 #pragma once
 
+#include <array>
 #include <variant>
 #include <vector>
 
@@ -23,7 +24,7 @@ struct slave_resp_t
 
 struct assign_nad_t
 {
-    common::bnf::identifier_t node_name{};
+    common::bnf::identifier_t node{};
     common::bnf::integer_t _{}; /* Workaround for https://github.com/boostorg/spirit/issues/716 */
 };
 
@@ -39,7 +40,7 @@ struct conditional_change_nad_t
 
 struct data_dump_t
 {
-    common::bnf::identifier_t node_name{};
+    common::bnf::identifier_t node{};
     common::bnf::integer_t d1{};
     common::bnf::integer_t d2{};
     common::bnf::integer_t d3{};
@@ -49,19 +50,20 @@ struct data_dump_t
 
 struct save_configuration_t
 {
-    common::bnf::identifier_t node_name{};
+    common::bnf::identifier_t node{};
     common::bnf::integer_t _{}; /* Workaround for https://github.com/boostorg/spirit/issues/716 */
 };
 
 struct assign_frame_id_range_t
 {
-    common::bnf::identifier_t node_name{};
-    common::bnf::integer_t frame_index{};
-    std::vector< common::bnf::integer_t > frame_pids{};
+    common::bnf::identifier_t node{};
+    common::bnf::integer_t index{};
+    std::vector< common::bnf::integer_t > pids{};
 };
 
 struct free_format_t
 {
+    //std::array< common::bnf::integer_t, 8 > data{};
     common::bnf::integer_t d1{};
     common::bnf::integer_t d2{};
     common::bnf::integer_t d3{};
@@ -74,8 +76,8 @@ struct free_format_t
 
 struct assign_frame_id_t
 {
-    common::bnf::identifier_t node_name{};
-    common::bnf::identifier_t frame_name{};
+    common::bnf::identifier_t node{};
+    common::bnf::identifier_t frame{};
 };
 
 using identifier_t = common::bnf::identifier_t;
@@ -94,26 +96,26 @@ using command_t = std::variant<
     command::free_format_t,
     command::assign_frame_id_t >;
 
-namespace table_entry {
+namespace entry {
 
-using frame_time_t = common::bnf::real_or_integer_t;
+using delay_t = common::bnf::real_or_integer_t;
 
-}    // namespace table_entry
+}    // namespace entry
 
-struct table_entry_t
+struct entry_t
 {
-    schedule_table::command_t command{};
-    table_entry::frame_time_t frame_time{};
+    command_t command{};
+    entry::delay_t delay{};
 };
 
-using schedule_table_name_t = common::bnf::identifier_t;
+using name_t = common::bnf::identifier_t;
 
 }    // namespace schedule_table
 
 struct schedule_table_t
 {
-    schedule_table::schedule_table_name_t schedule_table_name{};
-    std::vector< schedule_table::table_entry_t > table_entries{};
+    schedule_table::name_t name{};
+    std::vector< schedule_table::entry_t > entries{};
 };
 
 using schedule_tables_t = std::vector< schedule_table_t >;
