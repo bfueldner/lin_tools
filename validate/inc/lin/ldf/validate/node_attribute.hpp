@@ -78,6 +78,25 @@ class product_id_t: public check::node_attribute_t
         const final;
 };
 
+class response_error_t:
+    public common::validate::check_optional_name_t<
+        ldf::node::attribute_t,
+        &ldf::node::attribute_t::response_error,
+        0,
+        ldf::signal::standards_t >
+{
+  public:
+    explicit response_error_t(common::validate::logger_t &logger):
+        common::validate::check_optional_name_t<
+            ldf::node::attribute_t,
+            &ldf::node::attribute_t::response_error,
+            0,
+            ldf::signal::standards_t >{ logger, "response_error" }
+    {
+    }
+};
+
+
 class attributes_t: public check::node_attribute_t
 {
   public:

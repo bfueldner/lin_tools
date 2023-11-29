@@ -206,6 +206,45 @@ class check_name_t: public common::validate::check_t< T, U... >
     }
 };
 
+template < typename T, std::optional< std::string > T::*member_, size_t index_, typename... U >
+class check_optional_name_t: public common::validate::check_t< T, U... >
+{
+  public:
+    check_optional_name_t(common::validate::logger_t &logger, const std::string &name):
+        common::validate::check_t< T, U... >{ logger, name }
+    {
+    }
+
+    void run(const U &...args, const T &element) const final
+    {
+        if ((element.*member_).has_value())
+        {
+            std::tuple< U... > store(args...);
+            auto list = std::get< index_ >(store);
+
+            auto found{ false };
+
+            for (auto const &entry : list)
+            {
+                if (entry.name == (element.*member_).value())
+                {
+                    found = true;
+                    break;
+                }
+            }
+
+            if (!found)
+            {
+                common::validate::check_t< T, U... >::_log_error(
+                    "Not defined", (element.*member_).value());
+                return;
+            }
+
+            common::validate::check_t< T, U... >::_log_ok();
+        }
+    }
+};
+
 template < typename T, std::vector< std::string > T::*member_, size_t index_, typename... U >
 class check_names_t: public common::validate::check_t< T, U... >
 {

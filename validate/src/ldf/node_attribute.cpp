@@ -8,7 +8,9 @@
 
 namespace lin::ldf::validate::node::attribute {
 
-void product_id_t::run(const signal::standards_t &, const ldf::node::attribute_t &attribute) const
+void product_id_t::run(
+    const signal::standards_t & /*unused*/,
+    const ldf::node::attribute_t &attribute) const
 {
     if (attribute.product_id.has_value())
     {
@@ -71,7 +73,9 @@ void product_id_t::run(const signal::standards_t &, const ldf::node::attribute_t
 }
 
 // NOLINTBEGIN(readability-function-cognitive-complexity)
-void attributes_t::run(const signal::standards_t &, const ldf::node::attribute_t &attribute) const
+void attributes_t::run(
+    const signal::standards_t & /*unused*/,
+    const ldf::node::attribute_t &attribute) const
 {
     auto version = common::validate::version::from_string(attribute.protocol_version);
 
@@ -153,7 +157,7 @@ void attributes_t::run(const signal::standards_t &, const ldf::node::attribute_t
 // NOLINTEND(readability-function-cognitive-complexity)
 
 void configurable_frames_t::run(
-    const signal::standards_t &,
+    const signal::standards_t & /*unused*/,
     const ldf::node::attribute_t &attribute) const
 {
     auto version = common::validate::version::from_string(attribute.protocol_version);

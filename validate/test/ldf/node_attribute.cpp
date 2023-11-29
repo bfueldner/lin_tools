@@ -292,6 +292,38 @@ TEST_F(test_lin_ldf_node_attribute_validate, product_id_error_variant_too_high)
     EXPECT_EQ(logger.errors(), 1);
 }
 
+TEST_F(test_lin_ldf_node_attribute_validate, response_error)
+{
+    using namespace lin::ldf;
+
+    signal::standards_t const signals{ signal::standard_t{ .name = "Signal" } };
+    node::attribute_t const attribute{ .response_error = "Signal" };
+
+    validate::node::attribute::response_error_t const validator{ logger };
+
+    testing::internal::CaptureStdout();
+    validator.run(signals, attribute);
+    EXPECT_EQ(testing::internal::GetCapturedStdout(), "response_error\n");
+    EXPECT_EQ(logger.warnings(), 0);
+    EXPECT_EQ(logger.errors(), 0);
+}
+
+TEST_F(test_lin_ldf_node_attribute_validate, response_error_error_not_defined)
+{
+    using namespace lin::ldf;
+
+    signal::standards_t const signals{};
+    node::attribute_t const attribute{ .response_error = "Signal" };
+
+    validate::node::attribute::response_error_t const validator{ logger };
+
+    testing::internal::CaptureStdout();
+    validator.run(signals, attribute);
+    EXPECT_EQ(testing::internal::GetCapturedStdout(), "response_error: Not defined 'Signal'\n");
+    EXPECT_EQ(logger.warnings(), 0);
+    EXPECT_EQ(logger.errors(), 1);
+}
+
 TEST_F(test_lin_ldf_node_attribute_validate, attributes_1x)
 {
     using namespace lin::ldf;
