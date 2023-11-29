@@ -116,6 +116,45 @@ class fault_state_signals_t:
     }
 };
 
+class p2_min_t:
+    public common::validate::check_optional_min_t<
+        ldf::node::attribute_t,
+        common::bnf::real_or_integer_t,
+        &ldf::node::attribute_t::p2_min,
+        0,
+        ldf::signal::standards_t >
+{
+  public:
+    explicit p2_min_t(common::validate::logger_t &logger):
+        common::validate::check_optional_min_t<
+            ldf::node::attribute_t,
+            common::bnf::real_or_integer_t,
+            &ldf::node::attribute_t::p2_min,
+            0,
+            ldf::signal::standards_t >{ logger, "p2_min" }
+    {
+    }
+};
+
+class st_min_t:
+    public common::validate::check_optional_min_t<
+        ldf::node::attribute_t,
+        common::bnf::real_or_integer_t,
+        &ldf::node::attribute_t::st_min,
+        0,
+        ldf::signal::standards_t >
+{
+  public:
+    explicit st_min_t(common::validate::logger_t &logger):
+        common::validate::check_optional_min_t<
+            ldf::node::attribute_t,
+            common::bnf::real_or_integer_t,
+            &ldf::node::attribute_t::st_min,
+            0,
+            ldf::signal::standards_t >{ logger, "st_min" }
+    {
+    }
+};
 class attributes_t: public check::node_attribute_t
 {
   public:

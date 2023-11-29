@@ -125,6 +125,8 @@ void lin_description_file_t::run(const ldf::lin_description_file_t &lin_descript
         validate::node::attribute::response_error_t{ _logger };
     auto validate_node_attribute_fault_state_signals =
         validate::node::attribute::fault_state_signals_t{ _logger };
+    auto validate_node_attribute_p2_min     = validate::node::attribute::p2_min_t{ _logger };
+    auto validate_node_attribute_st_min     = validate::node::attribute::st_min_t{ _logger };
     auto validate_node_attribute_attributes = validate::node::attribute::attributes_t{ _logger };
     auto validate_node_attribute_configurable_frames =
         validate::node::attribute::configurable_frames_t{ _logger };
@@ -132,6 +134,7 @@ void lin_description_file_t::run(const ldf::lin_description_file_t &lin_descript
         &validate_node_attribute_protocol_version, &validate_node_attribute_configured_nad,
         &validate_node_attribute_initial_nad,      &validate_node_attribute_product_id,
         &validate_node_attribute_response_error,   &validate_node_attribute_fault_state_signals,
+        &validate_node_attribute_p2_min,           &validate_node_attribute_st_min,
         &validate_node_attribute_attributes,       &validate_node_attribute_configurable_frames
     };
 

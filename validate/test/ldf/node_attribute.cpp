@@ -393,6 +393,69 @@ TEST_F(test_lin_ldf_node_attribute_validate, fault_state_signals_error_not_defin
     EXPECT_EQ(logger.errors(), 1);
 }
 
+TEST_F(test_lin_ldf_node_attribute_validate, p2_min)
+{
+    using namespace lin::ldf;
+
+    signal::standards_t const signals{};
+    node::attribute_t const attribute{ .p2_min = 0.0 };
+
+    validate::node::attribute::p2_min_t const validator{ logger };
+
+    testing::internal::CaptureStdout();
+    validator.run(signals, attribute);
+    EXPECT_EQ(testing::internal::GetCapturedStdout(), "p2_min\n");
+    EXPECT_EQ(logger.warnings(), 0);
+    EXPECT_EQ(logger.errors(), 0);
+}
+
+TEST_F(test_lin_ldf_node_attribute_validate, p2_min_error_too_low)
+{
+    using namespace lin::ldf;
+
+    signal::standards_t const signals{};
+    node::attribute_t const attribute{ .p2_min = -1.0 };
+
+    validate::node::attribute::p2_min_t const validator{ logger };
+
+    testing::internal::CaptureStdout();
+    validator.run(signals, attribute);
+    EXPECT_EQ(testing::internal::GetCapturedStdout(), "p2_min: Value too low '-1' (>= 0)\n");
+    EXPECT_EQ(logger.warnings(), 0);
+    EXPECT_EQ(logger.errors(), 1);
+}
+
+TEST_F(test_lin_ldf_node_attribute_validate, st_min)
+{
+    using namespace lin::ldf;
+
+    signal::standards_t const signals{};
+    node::attribute_t const attribute{ .st_min = 0.0 };
+
+    validate::node::attribute::st_min_t const validator{ logger };
+
+    testing::internal::CaptureStdout();
+    validator.run(signals, attribute);
+    EXPECT_EQ(testing::internal::GetCapturedStdout(), "st_min\n");
+    EXPECT_EQ(logger.warnings(), 0);
+    EXPECT_EQ(logger.errors(), 0);
+}
+
+TEST_F(test_lin_ldf_node_attribute_validate, st_min_error_too_low)
+{
+    using namespace lin::ldf;
+
+    signal::standards_t const signals{};
+    node::attribute_t const attribute{ .st_min = -1.0 };
+
+    validate::node::attribute::st_min_t const validator{ logger };
+
+    testing::internal::CaptureStdout();
+    validator.run(signals, attribute);
+    EXPECT_EQ(testing::internal::GetCapturedStdout(), "st_min: Value too low '-1' (>= 0)\n");
+    EXPECT_EQ(logger.warnings(), 0);
+    EXPECT_EQ(logger.errors(), 1);
+}
 TEST_F(test_lin_ldf_node_attribute_validate, attributes_1x)
 {
     using namespace lin::ldf;
