@@ -85,7 +85,14 @@ void signal_size_offset_t::run(const ncf::frame_t &frame) const
     int offset{ 0 };
     std::vector< std::string > names{};
 
-    for (auto const &signal : frame.signals)
+    auto signals        = frame.signals;
+    auto offset_compare = [](const ncf::signal_t &lhs, const ncf::signal_t &rhs) {
+        return lhs.offset < rhs.offset;
+    };
+
+    std::sort(signals.begin(), signals.end(), offset_compare);
+
+    for (auto const &signal : signals)
     {
         if (signal.offset < offset)
         {

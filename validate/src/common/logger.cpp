@@ -18,7 +18,7 @@ void logger_t::log(
         return;
     }
 
-    if (_symbol)
+    if (_symbols)
     {
         switch (result)
         {

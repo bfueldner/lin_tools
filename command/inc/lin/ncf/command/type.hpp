@@ -4,14 +4,14 @@
 
 namespace lin::ncf::command {
 
-enum class command_t : std::uint8_t
+enum class type_t : std::uint8_t
 {
-    validate,
-    prettify,
     export_,    // NOLINT(readability-identifier-naming)
+    prettify,
+    validate,
 };
 
-enum class type_t : std::uint8_t
+enum class export_type_t : std::uint8_t
 {
     signal,
     frame,

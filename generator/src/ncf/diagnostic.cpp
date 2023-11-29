@@ -38,6 +38,8 @@ std::ostream &operator<<(std::ostream &out, range_t const &range)
 
 std::ostream &operator<<(std::ostream &out, nad_t const &nad)
 {
+    using namespace nad;
+
     std::visit([&out](auto &&arg) { out << arg; }, nad);
     return out;
 }

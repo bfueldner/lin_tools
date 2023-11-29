@@ -8,22 +8,22 @@
 
 namespace lin::ncf::command {
 
-std::istream &operator>>(std::istream &in, command_t &command)
+std::istream &operator>>(std::istream &in, type_t &type)
 {
     std::string token;
 
     in >> token;
     if (token == "validate")
     {
-        command = command_t::validate;
+        type = type_t::validate;
     }
     else if (token == "prettify")
     {
-        command = command_t::prettify;
+        type = type_t::prettify;
     }
     else if (token == "export")
     {
-        command = command_t::export_;
+        type = type_t::export_;
     }
     else
     {
@@ -32,18 +32,18 @@ std::istream &operator>>(std::istream &in, command_t &command)
     return in;
 }
 
-std::istream &operator>>(std::istream &in, type_t &type)
+std::istream &operator>>(std::istream &in, export_type_t &type)
 {
     std::string token;
 
     in >> token;
     if (token == "signal")
     {
-        type = type_t::signal;
+        type = export_type_t::signal;
     }
     else if (token == "frame")
     {
-        type = type_t::frame;
+        type = export_type_t::frame;
     }
     else
     {
@@ -52,23 +52,23 @@ std::istream &operator>>(std::istream &in, type_t &type)
     return in;
 }
 
-std::ostream &operator<<(std::ostream &out, const command_t &command)
+std::ostream &operator<<(std::ostream &out, const type_t &type)
 {
-    switch (command)
+    switch (type)
     {
-        case command_t::validate:
+        case type_t::validate:
         {
             out << "validate";
             break;
         }
 
-        case command_t::prettify:
+        case type_t::prettify:
         {
             out << "prettify";
             break;
         }
 
-        case command_t::export_:
+        case type_t::export_:
         {
             out << "export";
             break;
@@ -83,17 +83,17 @@ std::ostream &operator<<(std::ostream &out, const command_t &command)
     return out;
 }
 
-std::ostream &operator<<(std::ostream &out, const type_t &type)
+std::ostream &operator<<(std::ostream &out, const export_type_t &type)
 {
     switch (type)
     {
-        case type_t::signal:
+        case export_type_t::signal:
         {
             out << "signal";
             break;
         }
 
-        case type_t::frame:
+        case export_type_t::frame:
         {
             out << "frame";
             break;

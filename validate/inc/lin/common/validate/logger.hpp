@@ -16,8 +16,8 @@ class logger_t
         error,
     };
 
-    explicit logger_t(bool symbol, bool verbose):
-        _symbol{ symbol },
+    explicit logger_t(bool symbols, bool verbose):
+        _symbols{ symbols },
         _verbose{ verbose }
     {
     }
@@ -42,7 +42,7 @@ class logger_t
     [[nodiscard]] unsigned int errors() const { return _errors; }
 
   private:
-    bool _symbol;
+    bool _symbols;
     bool _verbose;
     unsigned int _warnings{};
     unsigned int _errors{};

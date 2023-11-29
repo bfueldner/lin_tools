@@ -2,9 +2,8 @@
 
 #include <gtest/gtest.h>
 
-#include <lin/common/signal_encoding.hpp>
-
 #include <lin/common/generator/signal_encoding.hpp>
+#include <lin/common/signal_encoding.hpp>
 
 TEST(test_lin_common_signal_encoding_generator, logical_value)
 {
