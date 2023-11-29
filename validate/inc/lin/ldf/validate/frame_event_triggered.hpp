@@ -53,6 +53,7 @@ class frames_t:
         ldf::frame::event_triggered_t,
         &ldf::frame::event_triggered_t::frames,
         1,
+        false,
         ldf::schedule_tables_t,
         ldf::frame::unconditionals_t >
 {
@@ -62,6 +63,7 @@ class frames_t:
             ldf::frame::event_triggered_t,
             &ldf::frame::event_triggered_t::frames,
             1,
+            false,
             ldf::schedule_tables_t,
             ldf::frame::unconditionals_t >{ logger, "frames" }
     {

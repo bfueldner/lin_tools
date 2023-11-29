@@ -31,6 +31,7 @@ class signals_t:
         ldf::signal::representation_t,
         &ldf::signal::representation_t::signals,
         1,
+        false,
         ldf::signal::encodings_t,
         ldf::signal::standards_t >
 {
@@ -40,6 +41,7 @@ class signals_t:
             ldf::signal::representation_t,
             &ldf::signal::representation_t::signals,
             1,
+            false,
             ldf::signal::encodings_t,
             ldf::signal::standards_t >{ logger, "signals" }
     {

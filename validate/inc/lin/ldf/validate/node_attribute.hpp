@@ -96,6 +96,25 @@ class response_error_t:
     }
 };
 
+class fault_state_signals_t:
+    public common::validate::check_names_t<
+        ldf::node::attribute_t,
+        &ldf::node::attribute_t::fault_state_signals,
+        0,
+        true,
+        ldf::signal::standards_t >
+{
+  public:
+    explicit fault_state_signals_t(common::validate::logger_t &logger):
+        common::validate::check_names_t<
+            ldf::node::attribute_t,
+            &ldf::node::attribute_t::fault_state_signals,
+            0,
+            true,
+            ldf::signal::standards_t >{ logger, "fault_state_signals" }
+    {
+    }
+};
 
 class attributes_t: public check::node_attribute_t
 {

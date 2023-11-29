@@ -85,7 +85,7 @@ TEST_F(test_lin_ncf_status_management_validate, fault_state_signals_error_not_fo
     EXPECT_EQ(logger.errors(), 1);
 }
 
-TEST_F(test_lin_ncf_status_management_validate, fault_state_signals_error_duplicate)
+TEST_F(test_lin_ncf_status_management_validate, fault_state_signals_error_duplicate_entry)
 {
     using namespace lin::ncf;
 

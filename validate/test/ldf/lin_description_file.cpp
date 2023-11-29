@@ -721,7 +721,7 @@ TEST_F(test_lin_ldf_lin_description_file_validate, complete)
               .initial_nad         = 0x01,
               .product_id          = node::attribute::product_id_t{ 0x4a4f, 0x4841 },
               .response_error      = "LSMerror",
-              .fault_state_signals = { "IntTest" },
+              .fault_state_signals = { "IntError" },
               .p2_min              = 150,
               .st_min              = 50,
               .configurable_frames = { { "Node_Status_Event" },
@@ -804,6 +804,7 @@ TEST_F(test_lin_ldf_lin_description_file_validate, complete)
         "node_attribute[RSM].configured_nad\n"
         "node_attribute[RSM].product_id\n"
         "node_attribute[RSM].response_error\n"
+        "node_attribute[RSM].fault_state_signals\n"
         "node_attribute[RSM].attributes\n"
         "node_attribute[RSM].configurable_frames\n"
         "node_attribute[LSM].lin_protocol\n"
@@ -811,6 +812,7 @@ TEST_F(test_lin_ldf_lin_description_file_validate, complete)
         "node_attribute[LSM].initial_nad\n"
         "node_attribute[LSM].product_id\n"
         "node_attribute[LSM].response_error\n"
+        "node_attribute[LSM].fault_state_signals\n"
         "node_attribute[LSM].attributes\n"
         "node_attribute[LSM].configurable_frames\n"
         "standard_signal[InternalLightsRequest].size\n"

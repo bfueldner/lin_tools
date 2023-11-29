@@ -2,6 +2,7 @@
 
 #include <lin/common/validate/logger.hpp>
 #include <lin/ldf/node_attribute.hpp>
+#include <lin/ldf/signal_standard.hpp>
 #include <lin/ldf/validate/node_attribute.hpp>
 
 /* 9.2.2.2 Node attributes */
@@ -320,6 +321,74 @@ TEST_F(test_lin_ldf_node_attribute_validate, response_error_error_not_defined)
     testing::internal::CaptureStdout();
     validator.run(signals, attribute);
     EXPECT_EQ(testing::internal::GetCapturedStdout(), "response_error: Not defined 'Signal'\n");
+    EXPECT_EQ(logger.warnings(), 0);
+    EXPECT_EQ(logger.errors(), 1);
+}
+
+TEST_F(test_lin_ldf_node_attribute_validate, fault_state_signals)
+{
+    using namespace lin::ldf;
+
+    signal::standards_t const signals{ signal::standard_t{ .name = "Signal2" },
+                                       signal::standard_t{ .name = "Signal1" } };
+    node::attribute_t const attribute{ .fault_state_signals = { "Signal1", "Signal2" } };
+
+    validate::node::attribute::fault_state_signals_t const validator{ logger };
+
+    testing::internal::CaptureStdout();
+    validator.run(signals, attribute);
+    EXPECT_EQ(testing::internal::GetCapturedStdout(), "fault_state_signals\n");
+    EXPECT_EQ(logger.warnings(), 0);
+    EXPECT_EQ(logger.errors(), 0);
+}
+
+TEST_F(test_lin_ldf_node_attribute_validate, fault_state_signals_empty)
+{
+    using namespace lin::ldf;
+
+    signal::standards_t const signals{};
+    node::attribute_t const attribute{ .fault_state_signals = {} };
+
+    validate::node::attribute::fault_state_signals_t const validator{ logger };
+
+    testing::internal::CaptureStdout();
+    validator.run(signals, attribute);
+    EXPECT_EQ(testing::internal::GetCapturedStdout(), "fault_state_signals\n");
+    EXPECT_EQ(logger.warnings(), 0);
+    EXPECT_EQ(logger.errors(), 0);
+}
+
+TEST_F(test_lin_ldf_node_attribute_validate, fault_state_signals_error_duplicate_entry)
+{
+    using namespace lin::ldf;
+
+    signal::standards_t const signals{ signal::standard_t{ .name = "Signal2" },
+                                       signal::standard_t{ .name = "Signal1" } };
+    node::attribute_t const attribute{ .fault_state_signals = { "Signal1", "Signal1" } };
+
+    validate::node::attribute::fault_state_signals_t const validator{ logger };
+
+    testing::internal::CaptureStdout();
+    validator.run(signals, attribute);
+    EXPECT_EQ(
+        testing::internal::GetCapturedStdout(), "fault_state_signals: Duplicate entry 'Signal1'\n");
+    EXPECT_EQ(logger.warnings(), 0);
+    EXPECT_EQ(logger.errors(), 1);
+}
+
+TEST_F(test_lin_ldf_node_attribute_validate, fault_state_signals_error_not_defined)
+{
+    using namespace lin::ldf;
+
+    signal::standards_t const signals{ signal::standard_t{ .name = "Signal1" } };
+    node::attribute_t const attribute{ .fault_state_signals = { "Signal1", "Signal2" } };
+
+    validate::node::attribute::fault_state_signals_t const validator{ logger };
+
+    testing::internal::CaptureStdout();
+    validator.run(signals, attribute);
+    EXPECT_EQ(
+        testing::internal::GetCapturedStdout(), "fault_state_signals: Not defined 'Signal2'\n");
     EXPECT_EQ(logger.warnings(), 0);
     EXPECT_EQ(logger.errors(), 1);
 }

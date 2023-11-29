@@ -245,7 +245,12 @@ class check_optional_name_t: public common::validate::check_t< T, U... >
     }
 };
 
-template < typename T, std::vector< std::string > T::*member_, size_t index_, typename... U >
+template <
+    typename T,
+    std::vector< std::string > T::*member_,
+    size_t index_,
+    bool ignore_empty_,
+    typename... U >
 class check_names_t: public common::validate::check_t< T, U... >
 {
   public:
@@ -259,7 +264,7 @@ class check_names_t: public common::validate::check_t< T, U... >
         std::tuple< U... > store(args...);
         auto list = std::get< index_ >(store);
 
-        if ((element.*member_).empty())
+        if (!ignore_empty_ && (element.*member_).empty())
         {
             common::validate::check_t< T, U... >::_log_warning("Empty");
             return;

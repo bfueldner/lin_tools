@@ -11,6 +11,7 @@ class frames_t:
         ldf::frame::sporadic_t,
         &ldf::frame::sporadic_t::frames,
         0,
+        false,
         ldf::frame::unconditionals_t >
 {
   public:
@@ -19,6 +20,7 @@ class frames_t:
             ldf::frame::sporadic_t,
             &ldf::frame::sporadic_t::frames,
             0,
+            false,
             ldf::frame::unconditionals_t >{ logger, "frames" }
     {
     }
