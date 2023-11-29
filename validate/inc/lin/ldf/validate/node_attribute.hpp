@@ -155,6 +155,47 @@ class st_min_t:
     {
     }
 };
+
+class n_as_timeout_t:
+    public common::validate::check_optional_min_t<
+        ldf::node::attribute_t,
+        common::bnf::real_or_integer_t,
+        &ldf::node::attribute_t::n_as_timeout,
+        0,
+        ldf::signal::standards_t >
+{
+  public:
+    explicit n_as_timeout_t(common::validate::logger_t &logger):
+        common::validate::check_optional_min_t<
+            ldf::node::attribute_t,
+            common::bnf::real_or_integer_t,
+            &ldf::node::attribute_t::n_as_timeout,
+            0,
+            ldf::signal::standards_t >{ logger, "n_as_timeout" }
+    {
+    }
+};
+
+class n_cr_timeout_t:
+    public common::validate::check_optional_min_t<
+        ldf::node::attribute_t,
+        common::bnf::real_or_integer_t,
+        &ldf::node::attribute_t::n_cr_timeout,
+        0,
+        ldf::signal::standards_t >
+{
+  public:
+    explicit n_cr_timeout_t(common::validate::logger_t &logger):
+        common::validate::check_optional_min_t<
+            ldf::node::attribute_t,
+            common::bnf::real_or_integer_t,
+            &ldf::node::attribute_t::n_cr_timeout,
+            0,
+            ldf::signal::standards_t >{ logger, "n_cr_timeout" }
+    {
+    }
+};
+
 class attributes_t: public check::node_attribute_t
 {
   public:

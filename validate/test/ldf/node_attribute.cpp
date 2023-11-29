@@ -456,6 +456,71 @@ TEST_F(test_lin_ldf_node_attribute_validate, st_min_error_too_low)
     EXPECT_EQ(logger.warnings(), 0);
     EXPECT_EQ(logger.errors(), 1);
 }
+
+TEST_F(test_lin_ldf_node_attribute_validate, n_as_timeout)
+{
+    using namespace lin::ldf;
+
+    signal::standards_t const signals{};
+    node::attribute_t const attribute{ .n_as_timeout = 0.0 };
+
+    validate::node::attribute::n_as_timeout_t const validator{ logger };
+
+    testing::internal::CaptureStdout();
+    validator.run(signals, attribute);
+    EXPECT_EQ(testing::internal::GetCapturedStdout(), "n_as_timeout\n");
+    EXPECT_EQ(logger.warnings(), 0);
+    EXPECT_EQ(logger.errors(), 0);
+}
+
+TEST_F(test_lin_ldf_node_attribute_validate, n_as_timeout_error_too_low)
+{
+    using namespace lin::ldf;
+
+    signal::standards_t const signals{};
+    node::attribute_t const attribute{ .n_as_timeout = -1.0 };
+
+    validate::node::attribute::n_as_timeout_t const validator{ logger };
+
+    testing::internal::CaptureStdout();
+    validator.run(signals, attribute);
+    EXPECT_EQ(testing::internal::GetCapturedStdout(), "n_as_timeout: Value too low '-1' (>= 0)\n");
+    EXPECT_EQ(logger.warnings(), 0);
+    EXPECT_EQ(logger.errors(), 1);
+}
+
+TEST_F(test_lin_ldf_node_attribute_validate, n_cr_timeout)
+{
+    using namespace lin::ldf;
+
+    signal::standards_t const signals{};
+    node::attribute_t const attribute{ .n_cr_timeout = 0.0 };
+
+    validate::node::attribute::n_cr_timeout_t const validator{ logger };
+
+    testing::internal::CaptureStdout();
+    validator.run(signals, attribute);
+    EXPECT_EQ(testing::internal::GetCapturedStdout(), "n_cr_timeout\n");
+    EXPECT_EQ(logger.warnings(), 0);
+    EXPECT_EQ(logger.errors(), 0);
+}
+
+TEST_F(test_lin_ldf_node_attribute_validate, n_cr_timeout_error_too_low)
+{
+    using namespace lin::ldf;
+
+    signal::standards_t const signals{};
+    node::attribute_t const attribute{ .n_cr_timeout = -1.0 };
+
+    validate::node::attribute::n_cr_timeout_t const validator{ logger };
+
+    testing::internal::CaptureStdout();
+    validator.run(signals, attribute);
+    EXPECT_EQ(testing::internal::GetCapturedStdout(), "n_cr_timeout: Value too low '-1' (>= 0)\n");
+    EXPECT_EQ(logger.warnings(), 0);
+    EXPECT_EQ(logger.errors(), 1);
+}
+
 TEST_F(test_lin_ldf_node_attribute_validate, attributes_1x)
 {
     using namespace lin::ldf;
