@@ -120,15 +120,14 @@ void lin_description_file_t::run(const ldf::lin_description_file_t &lin_descript
     auto validate_node_attribute_configured_nad =
         validate::node::attribute::configured_nad_t{ _logger };
     auto validate_node_attribute_initial_nad = validate::node::attribute::initial_nad_t{ _logger };
+    auto validate_node_attribute_product_id  = validate::node::attribute::product_id_t{ _logger };
     auto validate_node_attribute_attributes  = validate::node::attribute::attributes_t{ _logger };
     auto validate_node_attribute_configurable_frames =
         validate::node::attribute::configurable_frames_t{ _logger };
     std::vector< validate::check::node_attribute_t * > const node_attribute_checks{
-        &validate_node_attribute_protocol_version,
-        &validate_node_attribute_configured_nad,
-        &validate_node_attribute_initial_nad,
-        &validate_node_attribute_attributes,
-        &validate_node_attribute_configurable_frames
+        &validate_node_attribute_protocol_version, &validate_node_attribute_configured_nad,
+        &validate_node_attribute_initial_nad,      &validate_node_attribute_product_id,
+        &validate_node_attribute_attributes,       &validate_node_attribute_configurable_frames
     };
 
     /* 9.2.2.3 Node composition definition */
@@ -323,7 +322,7 @@ void lin_description_file_t::run(const ldf::lin_description_file_t &lin_descript
 
         for (auto const &check : node_attribute_checks)
         {
-            check->run(node_attribute);
+            check->run(lin_description_file.standard_signals, node_attribute);
         }
 
         _logger.pop_section();

@@ -7,12 +7,14 @@
 namespace lin::ldf::validate::node::attribute {
 
 class protocol_version_t:
-    public common::validate::check_protocol_version_t< ldf::node::attribute_t >
+    public common::validate::
+        check_protocol_version_t< ldf::node::attribute_t, ldf::signal::standards_t >
 {
   public:
     explicit protocol_version_t(common::validate::logger_t &logger):
-        common::validate::check_protocol_version_t< ldf::node::attribute_t >{ logger,
-                                                                              "lin_protocol" }
+        common::validate::check_protocol_version_t<
+            ldf::node::attribute_t,
+            ldf::signal::standards_t >{ logger, "lin_protocol" }
     {
     }
 };
@@ -22,7 +24,8 @@ class configured_nad_t:
         ldf::node::attribute_t,
         &ldf::node::attribute_t::configured_nad,
         1,
-        125 >
+        125,
+        ldf::signal::standards_t >
 {
   public:
     explicit configured_nad_t(common::validate::logger_t &logger):
@@ -30,7 +33,8 @@ class configured_nad_t:
             ldf::node::attribute_t,
             &ldf::node::attribute_t::configured_nad,
             1,
-            125 >{ logger, "configured_nad" }
+            125,
+            ldf::signal::standards_t >{ logger, "configured_nad" }
     {
     }
 };
@@ -40,7 +44,8 @@ class initial_nad_t:
         ldf::node::attribute_t,
         &ldf::node::attribute_t::initial_nad,
         1,
-        125 >
+        125,
+        ldf::signal::standards_t >
 {
   public:
     explicit initial_nad_t(common::validate::logger_t &logger):
@@ -48,9 +53,29 @@ class initial_nad_t:
             ldf::node::attribute_t,
             &ldf::node::attribute_t::initial_nad,
             1,
-            125 >{ logger, "initial_nad" }
+            125,
+            ldf::signal::standards_t >{ logger, "initial_nad" }
     {
     }
+};
+
+class product_id_t: public check::node_attribute_t
+{
+  public:
+    static constexpr int supplier_min = 0;
+    static constexpr int supplier_max = 65535;
+    static constexpr int function_min = 0;
+    static constexpr int function_max = 65535;
+    static constexpr int variant_min  = 0;
+    static constexpr int variant_max  = 255;
+
+    explicit product_id_t(common::validate::logger_t &logger):
+        check::node_attribute_t{ logger, "product_id" }
+    {
+    }
+
+    void run(const ldf::signal::standards_t & /*unused*/, const ldf::node::attribute_t &attribute)
+        const final;
 };
 
 class attributes_t: public check::node_attribute_t
@@ -61,9 +86,9 @@ class attributes_t: public check::node_attribute_t
     {
     }
 
-    void run(const ldf::node::attribute_t &attribute) const final;
+    void run(const ldf::signal::standards_t & /*unused*/, const ldf::node::attribute_t &attribute)
+        const final;
 };
-
 
 class configurable_frames_t: public check::node_attribute_t
 {
@@ -73,7 +98,8 @@ class configurable_frames_t: public check::node_attribute_t
     {
     }
 
-    void run(const ldf::node::attribute_t &attribute) const final;
+    void run(const ldf::signal::standards_t & /*unused*/, const ldf::node::attribute_t &attribute)
+        const final;
 };
 
 }    // namespace lin::ldf::validate::node::attribute

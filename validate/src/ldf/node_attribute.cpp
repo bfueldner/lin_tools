@@ -1,13 +1,77 @@
+#include <string>
 #include <vector>
 
 #include <lin/common/validate/version.hpp>
 #include <lin/ldf/node_attribute.hpp>
+#include <lin/ldf/signal_standard.hpp>
 #include <lin/ldf/validate/node_attribute.hpp>
 
 namespace lin::ldf::validate::node::attribute {
 
+void product_id_t::run(const signal::standards_t &, const ldf::node::attribute_t &attribute) const
+{
+    if (attribute.product_id.has_value())
+    {
+        auto product_id = attribute.product_id.value();
+
+        auto const supplier_range =
+            std::string{ _to_string(supplier_min) + ".." + _to_string(supplier_max) };
+
+        if (product_id.supplier < supplier_min)
+        {
+            _log_error("Supplier value too low", _to_string(product_id.supplier), supplier_range);
+            return;
+        }
+
+        if (product_id.supplier > supplier_max)
+        {
+            _log_error("Supplier value too high", _to_string(product_id.supplier), supplier_range);
+            return;
+        }
+
+        auto const function_range =
+            std::string{ _to_string(function_min) + ".." + _to_string(function_max) };
+
+        if (product_id.function < function_min)
+        {
+            _log_error("Function value too low", _to_string(product_id.function), function_range);
+            return;
+        }
+
+        if (product_id.function > function_max)
+        {
+            _log_error("Function value too high", _to_string(product_id.function), function_range);
+            return;
+        }
+
+        if (product_id.variant.has_value())
+        {
+            auto const variant_range =
+                std::string{ _to_string(variant_min) + ".." + _to_string(variant_max) };
+
+            if (product_id.variant < variant_min)
+            {
+                _log_error(
+                    "Variant value too low", _to_string(product_id.variant.value()), variant_range);
+                return;
+            }
+
+            if (product_id.variant > variant_max)
+            {
+                _log_error(
+                    "Variant value too high",
+                    _to_string(product_id.variant.value()),
+                    variant_range);
+                return;
+            }
+        }
+
+        _log_ok();
+    }
+}
+
 // NOLINTBEGIN(readability-function-cognitive-complexity)
-void attributes_t::run(const ldf::node::attribute_t &attribute) const
+void attributes_t::run(const signal::standards_t &, const ldf::node::attribute_t &attribute) const
 {
     auto version = common::validate::version::from_string(attribute.protocol_version);
 
@@ -88,7 +152,9 @@ void attributes_t::run(const ldf::node::attribute_t &attribute) const
 }
 // NOLINTEND(readability-function-cognitive-complexity)
 
-void configurable_frames_t::run(const ldf::node::attribute_t &attribute) const
+void configurable_frames_t::run(
+    const signal::standards_t &,
+    const ldf::node::attribute_t &attribute) const
 {
     auto version = common::validate::version::from_string(attribute.protocol_version);
 

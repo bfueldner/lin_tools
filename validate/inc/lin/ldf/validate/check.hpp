@@ -166,7 +166,8 @@ namespace check {
 
 using lin_description_file_t = common::validate::check_t< ldf::lin_description_file_t >;
 using nodes_t                = common::validate::check_t< ldf::nodes_t >;
-using node_attribute_t       = common::validate::check_t< ldf::node::attribute_t >;
+using node_attribute_t =
+    common::validate::check_t< ldf::node::attribute_t, ldf::signal::standards_t >;
 using node_composition_configuration_t =
     common::validate::check_t< ldf::node::composition::configuration_t >;
 using node_composition_configuration_composite_t =
