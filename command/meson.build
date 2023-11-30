@@ -12,7 +12,7 @@ version_header = configure_file(
 
 # Common
 lin_command_common_library = library(
-    'lin_command_common_library',
+    'lin_command_common',
     sources : [
         'src/common/type_io.cpp',
     ],
@@ -21,6 +21,7 @@ lin_command_common_library = library(
         'inc/lin/common/command/type_io.hpp',
     ],
     include_directories : include_directories('inc'),
+    install : true,
 )
 
 lin_command_common_dep = declare_dependency(
@@ -52,7 +53,7 @@ endif
 
 # NCF
 lin_command_ncf_library = library(
-    'lin_command_ncf_library',
+    'lin_command_ncf',
     sources : [
         version_header,
         'src/ncf/function.cpp',
@@ -63,6 +64,7 @@ lin_command_ncf_library = library(
         'inc/lin/ncf/command/command_line.hpp',
     ],
     include_directories : include_directories('inc'),
+    install : true,
     dependencies : [
         boost_dep,
         lin_generator_dep,
@@ -130,6 +132,7 @@ lin_command_ncf = executable(
         'inc/lin/ncf/command/main.hpp',
     ],
     include_directories : include_directories('inc'),
+    install : true,
     dependencies : [
         lin_command_ncf_dep,
     ],
@@ -137,7 +140,7 @@ lin_command_ncf = executable(
 
 # LDF
 lin_command_ldf_library = library(
-    'lin_command_ldf_library',
+    'lin_command_ldf',
     sources : [
         version_header,
         'src/ldf/function.cpp',
@@ -148,6 +151,7 @@ lin_command_ldf_library = library(
         'inc/lin/ldf/command/command_line.hpp',
     ],
     include_directories : include_directories('inc'),
+    install : true,
     dependencies : [
         boost_dep,
         lin_generator_dep,
@@ -219,6 +223,7 @@ lin_command_ldf = executable(
         'inc/lin/ldf/command/main.hpp',
     ],
     include_directories : include_directories('inc'),
+    install : true,
     dependencies : [
         lin_command_ldf_dep,
     ],

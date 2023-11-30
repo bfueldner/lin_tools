@@ -59,7 +59,7 @@ sources = [
 ]
 
 lin_validate_library = library(
-    'lin_validate_library',
+    'lin_validate',
     sources : [
         sources,
     ],
@@ -67,15 +67,13 @@ lin_validate_library = library(
         headers,
     ],
     include_directories : include_directories('inc'),
+    install : true,
     dependencies : [
         lin_type_dep,
     ],
 )
 
 lin_validate_dep = declare_dependency(
-#   extra_files : [
-#       headers,
-#   ],
     include_directories : include_directories('inc'),
     link_with : [
         lin_validate_library,

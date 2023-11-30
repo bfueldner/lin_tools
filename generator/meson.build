@@ -63,7 +63,7 @@ sources = [
 ]
 
 lin_generator_library = library(
-    'lin_generator_library',
+    'lin_generator',
     sources : [
         sources,
     ],
@@ -71,15 +71,13 @@ lin_generator_library = library(
         headers,
     ],
     include_directories : include_directories('inc'),
+    install : true,
     dependencies : [
         lin_type_dep,
     ],
 )
 
 lin_generator_dep = declare_dependency(
-#   extra_files : [
-#       headers,
-#   ],
     include_directories : include_directories('inc'),
     link_with : [
         lin_generator_library,
@@ -122,9 +120,6 @@ if not meson.is_subproject()
             'test/ldf/signal_encoding.cpp',
             'test/ldf/signal_representation.cpp',
             'test/ldf/schedule_table.cpp',
-        ],
-        extra_files : [
-            #'inc/lin/test/main.hpp',
         ],
         dependencies : [
             lin_generator_dep,
