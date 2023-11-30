@@ -228,3 +228,11 @@ lin_command_ldf = executable(
         lin_command_ldf_dep,
     ],
 )
+
+# Bash completion
+if host_machine.system() == 'linux'
+    install_data(
+        'res/lin_tools_completion',
+        install_dir : '/etc/bash_completion.d',
+    )
+endif
