@@ -1,11 +1,13 @@
 project(
     'lin_tools',
     'cpp',
-    version : '0.3.0',
-    meson_version: '>=1.2.0',
     default_options : [
         'cpp_std=c++20',
-    ]
+    ],
+    license : 'MIT',
+    license_files : 'LICENSE',
+    meson_version: '>=1.2.0',
+    version : '0.3.0',
 )
 
 # Spirit V3.10 (Boost V1.78.0)

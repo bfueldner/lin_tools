@@ -229,10 +229,100 @@ lin_command_ldf = executable(
     ],
 )
 
-# Bash completion
 if host_machine.system() == 'linux'
+    # Bash completion
     install_data(
         'res/lin_tools_completion',
         install_dir : '/etc/bash_completion.d',
     )
+
+    # Man pages
+    pandoc = find_program('pandoc', version : '>=3.1.0')
+    if pandoc.found()
+        date = run_command(
+            'date', '+%B %Y',
+            capture : true,
+            check : true,
+        )
+
+        ncf_tool_manpage = custom_target(
+            'ncf_tool_manpage',
+            input : ['doc/ncf_tool.md'],
+            output : ['ncf_tool.1'],
+            command : [
+                pandoc,
+                '--variable', 'header=NCF tool manual',
+                '--variable', 'footer=' + meson.project_name() + ' ' + meson.project_version(),
+                '--variable', 'title=' + lin_command_ncf.name().to_upper(),
+                '--variable', 'section=1',
+                '--variable', 'date=' + date.stdout(),
+                '--standalone',
+                '--to', 'man',
+                '--output', '@OUTPUT@',
+                '@INPUT@',
+            ],
+            install : true,
+            install_dir : '/usr/local/share/man/man1/',
+            install_tag : ['man'],
+        )
+
+        ldf_tool_manpage = custom_target(
+            'ldf_tool_manpage',
+            input : ['doc/ldf_tool.md'],
+            output : ['ldf_tool.1'],
+            command : [
+                pandoc,
+                '--variable', 'header=LDF tool manual',
+                '--variable', 'footer=' + meson.project_name() + ' ' + meson.project_version(),
+                '--variable', 'title=' + lin_command_ldf.name().to_upper(),
+                '--variable', 'section=1',
+                '--variable', 'date=' + date.stdout(),
+                '--standalone',
+                '--to', 'man',
+                '--output', '@OUTPUT@',
+                '@INPUT@',
+            ],
+            install : true,
+            install_dir : '/usr/local/share/man/man1/',
+            install_tag : ['man'],
+        )
+
+        alias_target(
+            'man',
+            ncf_tool_manpage,
+            ldf_tool_manpage,
+        )
+
+        ncf_tool_pdf = custom_target(
+            'ncf_tool_pdf',
+            input : ['doc/ncf_tool.md'],
+            output : ['ncf_tool.pdf'],
+            command : [
+                pandoc,
+                '--standalone',
+                '--to', 'pdf',
+                '--output', '@OUTPUT@',
+                '@INPUT@',
+            ],
+        )
+
+        ldf_tool_pdf = custom_target(
+            'ldf_tool_pdf',
+            input : ['doc/ldf_tool.md'],
+            output : ['ldf_tool.pdf'],
+            command : [
+                pandoc,
+                '--standalone',
+                '--to', 'pdf',
+                '--output', '@OUTPUT@',
+                '@INPUT@',
+            ],
+        )
+
+        alias_target(
+            'doc',
+            ncf_tool_pdf,
+            ldf_tool_pdf,
+        )
+    endif
 endif
