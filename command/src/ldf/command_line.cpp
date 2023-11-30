@@ -5,7 +5,6 @@
 #include <iterator>
 #include <map>
 #include <sstream>
-#include <stdexcept>
 #include <string>
 #include <vector>
 
@@ -13,93 +12,15 @@
 #include <lin/common/command/type_io.hpp>
 #include <lin/common/generator/indention.hpp>
 #include <lin/common/validate/logger.hpp>
-#include <lin/ncf/command/command_line.hpp>
-#include <lin/ncf/command/function.hpp>
-#include <lin/ncf/generator/node_capability_file.hpp>
-#include <lin/ncf/node.hpp>
-#include <lin/ncf/node_capability_file.hpp>
-#include <lin/ncf/validate/node_capability_file.hpp>
+#include <lin/ldf/command/command_line.hpp>
+#include <lin/ldf/command/function.hpp>
+#include <lin/ldf/generator/lin_description_file.hpp>
+#include <lin/ldf/lin_description_file.hpp>
+#include <lin/ldf/validate/lin_description_file.hpp>
 
 #include <version.hpp>
 
-namespace lin::ncf::command::command_line {
-
-export_t::export_t():
-    command_t{ lin::common::command::type_t::export_, "Export file", "Export options" }
-{
-    /* clang-format off */
-    _options.add_options()
-        ("type,t", boost::program_options::value< common::command::export_type_t >(), "Type of export (frame, signal)")
-        ("node", boost::program_options::value< std::string >(), "NCF node name")
-        ("namespace,n", boost::program_options::value< std::string >(), "C++ namespace")
-        ("indent,i", boost::program_options::value< unsigned int >()->default_value(4), "Indent characters")
-        ("output,o", boost::program_options::value< std::filesystem::path >(), "Output file")
-    ;
-    /* clang-format on */
-}
-
-bool export_t::run(
-    boost::program_options::variables_map &variables_map,
-    node_capability_file_t &node_capability_file,
-    bool /*verbose*/)
-{
-    if (node_capability_file.nodes.empty())
-    {
-        throw std::out_of_range("No nodes in NCF file.");
-    }
-
-    if ((node_capability_file.nodes.size() > 1) && (variables_map.count("node") == 0))
-    {
-        throw std::runtime_error("Multiple nodes in NCF file, but none specified.");
-    }
-
-    if (variables_map.count("type") == 0)
-    {
-        throw boost::program_options::required_option("type");
-    }
-
-    if (variables_map.count("output") == 0)
-    {
-        throw boost::program_options::required_option("output");
-    }
-
-    std::string namespace_{};    // NOLINT(readability-identifier-naming)
-    if (variables_map.count("namespace") != 0)
-    {
-        namespace_ = variables_map["namespace"].as< std::string >();
-    }
-
-    auto type = variables_map["type"].as< export_t >();
-    //auto indent      = variables_map["indent"].as< unsigned int >();
-    auto output_file = variables_map["output"].as< std::filesystem::path >();
-
-    lin::ncf::node_t *selected_node{ nullptr };
-    if (node_capability_file.nodes.size() == 1)
-    {
-        //selected_node = node_capability_file.nodes.data();
-    }
-    else
-    {
-        auto node_name = variables_map["node"].as< std::string >();
-        for (auto &node : node_capability_file.nodes)
-        {
-            if (node.name == node_name)
-            {
-                selected_node = &node;
-                break;
-            }
-        }
-
-        if (selected_node == nullptr)
-        {
-            throw std::out_of_range("Selected node not found.");
-        }
-    }
-
-    //result = lin::ncf::command::export_(
-    //    selected_node, type, namespace_, indent, output_file, verbose);
-    return false;
-}
+namespace lin::ldf::command::command_line {
 
 prettify_t::prettify_t():
     command_t{ lin::common::command::type_t::prettify, "Prettify file", "Prettify options" }
@@ -107,6 +28,7 @@ prettify_t::prettify_t():
     /* clang-format off */
     _options.add_options()
         ("indent,i", boost::program_options::value< unsigned int >()->default_value(4), "Indent characters")
+        ("sort,s", "Sort elements")
         ("output,o", boost::program_options::value< std::filesystem::path >(), "Output file")
     ;
     /* clang-format on */
@@ -114,7 +36,7 @@ prettify_t::prettify_t():
 
 bool prettify_t::run(
     boost::program_options::variables_map &variables_map,
-    node_capability_file_t &node_capability_file,
+    lin_description_file_t &lin_description_file,
     bool verbose)
 {
     if (variables_map.count("output") == 0)
@@ -123,10 +45,14 @@ bool prettify_t::run(
     }
 
     auto indent      = variables_map["indent"].as< unsigned int >();
+    auto sort        = variables_map.count("sort") > 0;
     auto output_file = variables_map["output"].as< std::filesystem::path >();
 
     /* Sort elements */
-    function::sort(node_capability_file);
+    if (sort)
+    {
+        function::sort(lin_description_file);
+    }
 
     std::ofstream output(output_file, std::ofstream::out);
     if (output.fail())
@@ -137,7 +63,7 @@ bool prettify_t::run(
 
     std::stringstream stream{};
     stream << lin::common::indention_width_t{ static_cast< unsigned int >(indent) };
-    stream << std::uppercase << node_capability_file;
+    stream << std::uppercase << lin_description_file;
 
     output << stream.str();
 
@@ -161,16 +87,16 @@ validate_t::validate_t():
 
 bool validate_t::run(
     boost::program_options::variables_map &variables_map,
-    node_capability_file_t &node_capability_file,
+    lin_description_file_t &lin_description_file,
     bool verbose)
 {
     const bool no_symbols         = variables_map.count("no-symbols") > 0;
     const bool warnings_as_errors = variables_map.count("warnings-as-errors") > 0;
 
     common::validate::logger_t logger{ !no_symbols, verbose };
-    validate::node_capability_file_t const validator{ logger };
+    validate::lin_description_file_t const validator{ logger };
 
-    validator.run(node_capability_file);
+    validator.run(lin_description_file);
 
     if (logger.errors() > 0)
     {
@@ -233,7 +159,7 @@ bool parse(const int argc, const char **argv)
     boost::program_options::store(command_line_parser, variables_map);
     boost::program_options::notify(variables_map);
 
-    std::cout << "NCF tool " << version::string << "\n";
+    std::cout << "LDF tool " << version::string << "\n";
 
     /* Display general help */
     if ((variables_map.count("help") > 0) && (variables_map.count("command") == 0))
@@ -323,7 +249,7 @@ bool parse(const int argc, const char **argv)
     }
     auto input_file = variables_map["input-file"].as< std::filesystem::path >();
 
-    /* Parse given input file as NCF */
+    /* Parse given input file as LDF */
     std::ifstream input(input_file, std::ifstream::in);
     if (input.fail())
     {
@@ -333,11 +259,11 @@ bool parse(const int argc, const char **argv)
 
     std::string text(std::istreambuf_iterator< char >{ input }, {});
 
-    node_capability_file_t node_capability_file{};
-    function::parse(node_capability_file, text);
+    lin_description_file_t lin_description_file{};
+    function::parse(lin_description_file, text);
 
     /* Run subcommand */
-    return command.run(variables_map, node_capability_file, verbose);
+    return command.run(variables_map, lin_description_file, verbose);
 }
 
-}    // namespace lin::ncf::command::command_line
+}    // namespace lin::ldf::command::command_line

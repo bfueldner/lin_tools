@@ -3,9 +3,9 @@
 #include <boost/program_options.hpp>
 
 #include <lin/common/command/type.hpp>
-#include <lin/ncf/node_capability_file.hpp>
+#include <lin/ldf/lin_description_file.hpp>
 
-namespace lin::ncf::command::command_line {
+namespace lin::ldf::command::command_line {
 
 class command_t
 {
@@ -23,7 +23,7 @@ class command_t
     boost::program_options::options_description &options() { return _options; }
     virtual bool run(
         boost::program_options::variables_map &variables_map,
-        lin::ncf::node_capability_file_t &node_capability_file,
+        lin::ldf::lin_description_file_t &lin_description_file,
         bool verbose) = 0;
 
     friend std::ostream &operator<<(std::ostream &out, const command_t &command)
@@ -40,17 +40,6 @@ class command_t
     // NOLINTEND(cppcoreguidelines-non-private-member-variables-in-classes,misc-non-private-member-variables-in-classes)
 };
 
-class export_t: public command_t
-{
-  public:
-    export_t();
-
-    bool run(
-        boost::program_options::variables_map &variables_map,
-        lin::ncf::node_capability_file_t &node_capability_file,
-        bool verbose) final;
-};
-
 class prettify_t: public command_t
 {
   public:
@@ -58,7 +47,7 @@ class prettify_t: public command_t
 
     bool run(
         boost::program_options::variables_map &variables_map,
-        lin::ncf::node_capability_file_t &node_capability_file,
+        lin::ldf::lin_description_file_t &lin_description_file,
         bool verbose) final;
 };
 
@@ -69,10 +58,10 @@ class validate_t: public command_t
 
     bool run(
         boost::program_options::variables_map &variables_map,
-        lin::ncf::node_capability_file_t &node_capability_file,
+        lin::ldf::lin_description_file_t &lin_description_file,
         bool verbose) final;
 };
 
 bool parse(int argc, const char **argv);
 
-}    // namespace lin::ncf::command::command_line
+}    // namespace lin::ldf::command::command_line

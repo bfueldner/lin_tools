@@ -3,10 +3,10 @@
 #include <ostream>
 #include <string>
 
-#include <lin/ncf/command/type.hpp>
-#include <lin/ncf/command/type_io.hpp>
+#include <lin/common/command/type.hpp>
+#include <lin/common/command/type_io.hpp>
 
-namespace lin::ncf::command {
+namespace lin::common::command {
 
 std::istream &operator>>(std::istream &in, type_t &type)
 {
@@ -108,4 +108,4 @@ std::ostream &operator<<(std::ostream &out, const export_type_t &type)
     return out;
 }
 
-}    // namespace lin::ncf::command
+}    // namespace lin::common::command

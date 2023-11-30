@@ -1,24 +1,11 @@
 #pragma once
 
-#include <filesystem>
+#include <lin/common/command/type.hpp>
+#include <lin/ldf/lin_description_file.hpp>
 
-#include <lin/ncf/command/type.hpp>
-#include <lin/ncf/node_capability_file.hpp>
+namespace lin::ldf::command::function {
 
-namespace lin::ncf::command {
+bool parse(lin::ldf::lin_description_file_t &lin_description_file, std::string &text);
+void sort(lin::ldf::lin_description_file_t &lin_description_file);
 
-bool validate(lin::ncf::node_capability_file_t &node_capability_file, bool verbose);
-bool prettify(
-    lin::ncf::node_capability_file_t &node_capability_file,
-    unsigned int indent,
-    std::filesystem::path &output,
-    bool verbose);
-bool export_(    // NOLINT(readability-identifier-naming)
-    node_t *node,
-    lin::ncf::command::type_t type,
-    const std::string &namespace_,    // NOLINT(readability-identifier-naming)
-    unsigned int indent,
-    std::filesystem::path &output,
-    bool verbose);
-
-}    // namespace lin::ncf::command
+}    // namespace lin::ldf::command::function

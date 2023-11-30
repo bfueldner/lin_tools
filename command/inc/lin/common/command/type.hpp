@@ -2,7 +2,7 @@
 
 #include <cstdint>
 
-namespace lin::ncf::command {
+namespace lin::common::command {
 
 enum class type_t : std::uint8_t
 {
@@ -17,4 +17,4 @@ enum class export_type_t : std::uint8_t
     frame,
 };
 
-}    // namespace lin::ncf::command
+}    // namespace lin::common::command

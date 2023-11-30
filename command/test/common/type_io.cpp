@@ -2,12 +2,12 @@
 
 #include <gtest/gtest.h>
 
-#include <lin/ncf/command/type.hpp>
-#include <lin/ncf/command/type_io.hpp>
+#include <lin/common/command/type.hpp>
+#include <lin/common/command/type_io.hpp>
 
-TEST(test_lin_ncf_command_type_io, in_type_export)
+TEST(test_lin_common_command_type_io, in_type_export)
 {
-    using namespace lin::ncf::command;
+    using namespace lin::common::command;
 
     type_t type{};
 
@@ -16,9 +16,9 @@ TEST(test_lin_ncf_command_type_io, in_type_export)
     EXPECT_EQ(type, type_t::export_);
 }
 
-TEST(test_lin_ncf_command_type_io, in_type_prettify)
+TEST(test_lin_common_command_type_io, in_type_prettify)
 {
-    using namespace lin::ncf::command;
+    using namespace lin::common::command;
 
     type_t type{};
 
@@ -27,9 +27,9 @@ TEST(test_lin_ncf_command_type_io, in_type_prettify)
     EXPECT_EQ(type, type_t::prettify);
 }
 
-TEST(test_lin_ncf_command_type_io, in_type_validate)
+TEST(test_lin_common_command_type_io, in_type_validate)
 {
-    using namespace lin::ncf::command;
+    using namespace lin::common::command;
 
     type_t type{};
 
@@ -38,9 +38,9 @@ TEST(test_lin_ncf_command_type_io, in_type_validate)
     EXPECT_EQ(type, type_t::validate);
 }
 
-TEST(test_lin_ncf_command_type_io, in_type_unknown)
+TEST(test_lin_common_command_type_io, in_type_unknown)
 {
-    using namespace lin::ncf::command;
+    using namespace lin::common::command;
 
     type_t type{};
 
@@ -52,9 +52,9 @@ TEST(test_lin_ncf_command_type_io, in_type_unknown)
     EXPECT_TRUE(stream.fail());
 }
 
-TEST(test_lin_ncf_command_type_io, in_export_type_frame)
+TEST(test_lin_common_command_type_io, in_export_type_frame)
 {
-    using namespace lin::ncf::command;
+    using namespace lin::common::command;
 
     export_type_t type{};
 
@@ -63,9 +63,9 @@ TEST(test_lin_ncf_command_type_io, in_export_type_frame)
     EXPECT_EQ(type, export_type_t::frame);
 }
 
-TEST(test_lin_ncf_command_type_io, in_export_type_signal)
+TEST(test_lin_common_command_type_io, in_export_type_signal)
 {
-    using namespace lin::ncf::command;
+    using namespace lin::common::command;
 
     export_type_t type{};
 
@@ -74,9 +74,9 @@ TEST(test_lin_ncf_command_type_io, in_export_type_signal)
     EXPECT_EQ(type, export_type_t::signal);
 }
 
-TEST(test_lin_ncf_command_type_io, in_export_type_unknown)
+TEST(test_lin_common_command_type_io, in_export_type_unknown)
 {
-    using namespace lin::ncf::command;
+    using namespace lin::common::command;
 
     export_type_t type{};
 
@@ -88,9 +88,9 @@ TEST(test_lin_ncf_command_type_io, in_export_type_unknown)
     EXPECT_TRUE(stream.fail());
 }
 
-TEST(test_lin_ncf_command_type_io, out_type_export)
+TEST(test_lin_common_command_type_io, out_type_export)
 {
-    using namespace lin::ncf::command;
+    using namespace lin::common::command;
 
     auto const type{ type_t::export_ };
 
@@ -99,9 +99,9 @@ TEST(test_lin_ncf_command_type_io, out_type_export)
     EXPECT_EQ(stream.str(), "export");
 }
 
-TEST(test_lin_ncf_command_type_io, out_type_prettify)
+TEST(test_lin_common_command_type_io, out_type_prettify)
 {
-    using namespace lin::ncf::command;
+    using namespace lin::common::command;
 
     auto const type{ type_t::prettify };
 
@@ -110,9 +110,9 @@ TEST(test_lin_ncf_command_type_io, out_type_prettify)
     EXPECT_EQ(stream.str(), "prettify");
 }
 
-TEST(test_lin_ncf_command_type_io, out_type_validate)
+TEST(test_lin_common_command_type_io, out_type_validate)
 {
-    using namespace lin::ncf::command;
+    using namespace lin::common::command;
 
     auto const type{ type_t::validate };
 
@@ -121,9 +121,9 @@ TEST(test_lin_ncf_command_type_io, out_type_validate)
     EXPECT_EQ(stream.str(), "validate");
 }
 
-TEST(test_lin_ncf_command_type_io, out_type_unknown)
+TEST(test_lin_common_command_type_io, out_type_unknown)
 {
-    using namespace lin::ncf::command;
+    using namespace lin::common::command;
 
     auto const type{ static_cast< type_t >(15) };
 
@@ -132,9 +132,9 @@ TEST(test_lin_ncf_command_type_io, out_type_unknown)
     EXPECT_EQ(stream.str(), "<unknown>");
 }
 
-TEST(test_lin_ncf_command_type_io, out_export_type_frame)
+TEST(test_lin_common_command_type_io, out_export_type_frame)
 {
-    using namespace lin::ncf::command;
+    using namespace lin::common::command;
 
     auto const type{ export_type_t::frame };
 
@@ -143,9 +143,9 @@ TEST(test_lin_ncf_command_type_io, out_export_type_frame)
     EXPECT_EQ(stream.str(), "frame");
 }
 
-TEST(test_lin_ncf_command_type_io, out_export_type_signal)
+TEST(test_lin_common_command_type_io, out_export_type_signal)
 {
-    using namespace lin::ncf::command;
+    using namespace lin::common::command;
 
     auto const type{ export_type_t::signal };
 
@@ -154,9 +154,9 @@ TEST(test_lin_ncf_command_type_io, out_export_type_signal)
     EXPECT_EQ(stream.str(), "signal");
 }
 
-TEST(test_lin_ncf_command_type_io, out_export_type_unknown)
+TEST(test_lin_common_command_type_io, out_export_type_unknown)
 {
-    using namespace lin::ncf::command;
+    using namespace lin::common::command;
 
     auto const type{ static_cast< export_type_t >(15) };
 

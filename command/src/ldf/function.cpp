@@ -1,254 +1,252 @@
 #include <algorithm>
 #include <cctype>
-#include <filesystem>
-#include <fstream>
-#include <ios>
+#include <csignal>
+#include <cstddef>
 #include <iostream>
+#include <iterator>
 #include <limits>
-#include <sstream>
 #include <string>
+#include <type_traits>
 #include <variant>
 
+#include <boost/algorithm/string/classification.hpp>
 #include <boost/algorithm/string/replace.hpp>
+#include <boost/algorithm/string/split.hpp>
+#include <boost/algorithm/string/trim.hpp>
+#include <boost/spirit/home/x3.hpp>
 
-#include <lin/ncf/command/type.hpp>
-#include <lin/ncf/command/type_io.hpp>
-#include <lin/ncf/node.hpp>
-#include <lin/ncf/node_capability_file.hpp>
-#include <lin/ncf/signal.hpp>
+#include <lin/ldf/frame_diagnostic.hpp>
+#include <lin/ldf/frame_unconditional.hpp>
+#include <lin/ldf/lin_description_file.hpp>
+#include <lin/ldf/node_attribute.hpp>
+#include <lin/ldf/node_composition.hpp>
+#include <lin/ldf/parser/lin_description_file.hpp>
+#include <lin/ldf/signal_diagnostic.hpp>
+#include <lin/ldf/signal_encoding.hpp>
+#include <lin/ldf/signal_group.hpp>
+#include <lin/ldf/signal_representation.hpp>
+#include <lin/ldf/signal_standard.hpp>
 
-#include <lin/common/generator/indention.hpp>
+namespace lin::ldf::command::function {
 
-#include <lin/ncf/generator/node_capability_file.hpp>
-
-#include <lin/ncf/command/function.hpp>
-
-#include <version.hpp>
-
-namespace lin::ncf::command {
-
-bool validate(node_capability_file_t & /*file*/, bool /*verbose*/)
+bool parse(lin::ldf::lin_description_file_t &lin_description_file, std::string &text)
 {
-    return false;
-}
-
-bool prettify(
-    node_capability_file_t &node_capability_file,
-    unsigned int indent,
-    std::filesystem::path &output,
-    bool verbose)
-{
-    std::stringstream stream{};
-    stream << lin::common::indention_width_t{ static_cast< unsigned int >(indent) };
-    stream << std::uppercase << node_capability_file;
-
-    std::ofstream out(output, std::ofstream::out);
-    if (out.fail())
+    auto position = text.begin();
+    try
     {
-        std::cerr << "Error writing to " << output << "\n.";
-        return false;
+        namespace x3 = boost::spirit::x3;
+
+        auto result = phrase_parse(
+            position,
+            text.end(),
+            lin::ldf::parser::lin_description_file,
+            x3::ascii::space,
+            lin_description_file);
+
+        if (!result)
+        {
+            std::cerr << "No valid node capability file.\n";
+            return false;
+        }
     }
-
-    out << stream.str();
-    if (verbose)
+    catch (
+        const boost::spirit::x3::expectation_failure< std::string::iterator > &expectation_failure)
     {
-        std::cerr << "Prettified content written to " << output << ".\n";
+        /* Find position of expectation_failure */
+        auto position = expectation_failure.where();
+        if (position != text.begin())
+        {
+            position--;
+        }
+
+        /* Reverse back to last character */
+        while (position != text.begin() && ((*position == ' ') || (*position == '\t') ||
+                                            (*position == '\n') || (*position == '\r')))
+        {
+            position--;
+        }
+
+        size_t line = 1;
+        std::remove_reference_t< decltype(text) >::iterator start{};
+        for (auto iter = text.begin(); iter != position; ++iter)
+        {
+            if (*iter == '\n')
+            {
+                start = iter;
+                line++;
+            }
+        }
+        auto character  = std::distance(start, position);
+        auto error_line = std::string{ start, expectation_failure.where() };
+        boost::algorithm::trim(error_line);
+
+        std::cerr << "Parsing error: Expected " << expectation_failure.which() << " after '"
+                  << error_line << "' in line " << line << " at character " << character << "\n";
+        return false;
     }
     return true;
 }
 
-std::string bits_to_type(unsigned int value)
+void sort(lin_description_file_t &lin_description_file)
 {
-    if (value <= 8)
+    /* Sort slaves nodes by name */
+    std::sort(lin_description_file.nodes.slaves.begin(), lin_description_file.nodes.slaves.end());
+
+    /* Sort node_attributes by name */
+    std::sort(
+        lin_description_file.node_attributes.begin(),
+        lin_description_file.node_attributes.end(),
+        [](lin::ldf::node::attribute_t &lhs, lin::ldf::node::attribute_t &rhs) {
+            return lhs.name < rhs.name;
+        });
+
+    /* Sort node_attribute.fault_state_signals by name */
+    for (auto &node_attribute : lin_description_file.node_attributes)
     {
-        return "std::uint8_t";
+        std::sort(
+            node_attribute.fault_state_signals.begin(), node_attribute.fault_state_signals.end());
     }
 
-    if (value <= 16)
+    /* Sort node_compositions by name */
+    std::sort(
+        lin_description_file.node_compositions.begin(),
+        lin_description_file.node_compositions.end(),
+        [](lin::ldf::node::composition::configuration_t &lhs,
+           lin::ldf::node::composition::configuration_t &rhs) { return lhs.name < rhs.name; });
+
+    for (auto &configurations : lin_description_file.node_compositions)
     {
-        return "std::uint16_t";
-    }
-
-    if (value <= 32)
-    {
-        return "std::uint32_t";
-    }
-
-    return "std::uint64_t";
-}
-
-
-void export_encoding(node_t *node, std::ostream &out, bool verbose)
-{
-    for (auto &encoding : node->encodings)
-    {
-        int size          = 0;
-        int min           = std::numeric_limits< int >::max();
-        int max           = std::numeric_limits< int >::min();
-        bool has_logical  = false;
-        bool has_physical = false;
-        for (auto const &value : encoding.value)
-        {
-            if (auto const *logical_value =
-                    std::get_if< lin::ncf::signal_encoding_type::logical_value_t >(&value))
-            {
-                size = std::max(size, logical_value->signal_value);
-
-                has_logical = true;
-            }
-            else if (
-                auto const *physical_range =
-                    std::get_if< lin::ncf::signal_encoding_type::physical_range_t >(&value))
-            {
-                min = std::min(min, physical_range->min_value);
-                max = std::max(max, physical_range->max_value);
-
-                has_physical = true;
-            }
-        }
-
-        auto encoding_name = encoding.encoding_name;
-        std::transform(
-            encoding_name.begin(),
-            encoding_name.end(),
-            encoding_name.begin(),
-            [](unsigned char ch) { return std::tolower(ch); });
-
-        if (verbose)
-        {
-            std::cerr << "Export encoding " << encoding_name << "_t\n";
-        }
-
-        out << "/* Encoding " << encoding.encoding_name << " */\n";
-        if (has_logical)
-        {
-            out << "enum class " << encoding_name << "_t : " << bits_to_type(size) << '\n';
-            out << "{\n" << common::indention_t::push;
-            for (auto const &value : encoding.value)
-            {
-                if (auto const *logical_value =
-                        std::get_if< lin::ncf::signal_encoding_type::logical_value_t >(&value))
-                {
-                    auto value_name = logical_value->text_info;
-                    std::transform(
-                        value_name.begin(),
-                        value_name.end(),
-                        value_name.begin(),
-                        [](unsigned char ch) { return std::tolower(ch); });
-                    boost::replace_all(value_name, " ", "_");
-                    out << common::indention_t::indent << value_name << " = "
-                        << logical_value->signal_value << ",\n";
-                }
-            }
-            out << common::indention_t::pop << "};\n\n";
-        }
-
-        if (has_physical)
-        {
-            out << "// pysical_t " << min << ", " << max << "\n\n";
-        }
-    }
-}
-
-void export_frame(node_t *node, std::ostream &out, bool verbose)
-{
-    for (auto &frame : node->frames)
-    {
-        auto frame_name = frame.frame_name;
-        std::transform(
-            frame_name.begin(), frame_name.end(), frame_name.begin(), [](unsigned char ch) {
-                return std::tolower(ch);
+        /* Sort node_compositions.configuration by name */
+        std::sort(
+            configurations.composites.begin(),
+            configurations.composites.end(),
+            [](lin::ldf::node::composition::configuration::composite_t &lhs,
+               lin::ldf::node::composition::configuration::composite_t &rhs) {
+                return lhs.name < rhs.name;
             });
 
-        if (verbose)
+        /* Sort node_compositions.configuration.nodes by name */
+        for (auto &composite : configurations.composites)
         {
-            std::cerr << "Export frame " << frame_name << "_t\n";
+            std::sort(composite.nodes.begin(), composite.nodes.end());
         }
+    }
 
-        out << "/* Frame " << frame.frame_name << " */\n";
-        out << "struct " << frame_name << "_t\n";
-        out << "{\n" << common::indention_t::push;
+    /* Sort standard_signals by name */
+    std::sort(
+        lin_description_file.standard_signals.begin(),
+        lin_description_file.standard_signals.end(),
+        [](lin::ldf::signal::standard_t &lhs, lin::ldf::signal::standard_t &rhs) {
+            return lhs.name < rhs.name;
+        });
 
-        std::string const base = bits_to_type(frame.frame_properties.length * 8);
+    /* Sort standard_signals.subscribed_by by name */
+    for (auto &signal : lin_description_file.standard_signals)
+    {
+        std::sort(signal.subscribed_by.begin(), signal.subscribed_by.end());
+    }
 
-        int offset = 0;
-        int index  = 1;
-        for (auto const &signal : frame.signal_definition)
+    /* Sort diagnostic_signals by name */
+    std::sort(
+        lin_description_file.diagnostic_signals.begin(),
+        lin_description_file.diagnostic_signals.end(),
+        [](lin::ldf::signal::diagnostic_t &lhs, lin::ldf::signal::diagnostic_t &rhs) {
+            return lhs.name < rhs.name;
+        });
+
+    /* Sort signal_groups by name */
+    std::sort(
+        lin_description_file.signal_groups.begin(),
+        lin_description_file.signal_groups.end(),
+        [](lin::ldf::signal::group_t &lhs, lin::ldf::signal::group_t &rhs) {
+            return lhs.name < rhs.name;
+        });
+
+    /* Sort signal_groups.signals by offset */
+    for (auto &signal_group : lin_description_file.signal_groups)
+    {
+        std::sort(
+            signal_group.signals.begin(),
+            signal_group.signals.end(),
+            [](lin::ldf::signal::group::signal_t &lhs, lin::ldf::signal::group::signal_t &rhs) {
+                return lhs.offset < rhs.offset;
+            });
+    }
+
+    /* Sort unconditional_frames.signals by offset */
+    for (auto &frame : lin_description_file.unconditional_frames)
+    {
+        std::sort(
+            frame.signals.begin(),
+            frame.signals.end(),
+            [](lin::ldf::frame::unconditional::signal_t &lhs,
+               lin::ldf::frame::unconditional::signal_t &rhs) { return lhs.offset < rhs.offset; });
+    }
+
+    /* Sort diagnostic_frames.signals by offset */
+    for (auto &frame : lin_description_file.diagnostic_frames)
+    {
+        std::sort(
+            frame.signals.begin(),
+            frame.signals.end(),
+            [](lin::ldf::frame::diagnostic::signal_t &lhs,
+               lin::ldf::frame::diagnostic::signal_t &rhs) { return lhs.offset < rhs.offset; });
+    }
+
+    /* Sort signal_encodings by name */
+    std::sort(
+        lin_description_file.signal_encodings.begin(),
+        lin_description_file.signal_encodings.end(),
+        [](lin::ldf::signal::encoding_t &lhs, lin::ldf::signal::encoding_t &rhs) {
+            return lhs.name < rhs.name;
+        });
+
+    auto get_offset = [](auto &&arg) {
+        using T = std::decay_t< decltype(arg) >;
+        if constexpr (std::is_same_v< T, lin::ldf::signal::encoding::logical_value_t >)
         {
-            if (signal.signal_properties.offset > offset)
-            {
-                out << common::indention_t::indent << base << " _" << index << " : "
-                    << (signal.signal_properties.offset - offset) << ";\n";
-                index++;
-            }
-            out << common::indention_t::indent << base << " " << signal.signal_name << " : "
-                << signal.signal_properties.size << ";\n";
-            offset = signal.signal_properties.offset + signal.signal_properties.size;
+            return arg.value;
         }
+        else if constexpr (std::is_same_v< T, lin::ldf::signal::encoding::physical_range_t >)
+        {
+            return arg.min;
+        }
+        else if constexpr (std::is_same_v< T, lin::ldf::signal::encoding::ascii_value_t >)
+        {
+            return std::numeric_limits< int >::min();
+        }
+        else if constexpr (std::is_same_v< T, lin::ldf::signal::encoding::bcd_value_t >)
+        {
+            return std::numeric_limits< int >::min() + 1;
+        }
+        return 0;
+    };
 
-        out << common::indention_t::pop << "};\n";
-        out << "static_assert(sizeof(" << frame_name << "_t) == " << frame.frame_properties.length
-            << ");\n\n";
+    /* Sort signal_encoding by min/value */
+    for (auto &signal_encoding : lin_description_file.signal_encodings)
+    {
+        std::sort(
+            signal_encoding.values.begin(),
+            signal_encoding.values.end(),
+            [&get_offset](
+                lin::ldf::signal::encoding::value_t &a, lin::ldf::signal::encoding::value_t &b) {
+                return std::visit(get_offset, a) < std::visit(get_offset, b);
+            });
+    }
+
+    /* Sort signal_representations by name */
+    std::sort(
+        lin_description_file.signal_representations.begin(),
+        lin_description_file.signal_representations.end(),
+        [](lin::ldf::signal::representation_t &lhs, lin::ldf::signal::representation_t &rhs) {
+            return lhs.name < rhs.name;
+        });
+
+    /* Sort signal_representation.signals by name */
+    for (auto &signal_representation : lin_description_file.signal_representations)
+    {
+        std::sort(signal_representation.signals.begin(), signal_representation.signals.end());
     }
 }
 
-bool export_(
-    node_t *node,
-    lin::ncf::command::type_t type,
-    const std::string &namespace_,    // NOLINT(readability-identifier-naming)
-    unsigned int indent,
-    std::filesystem::path &output,
-    bool verbose)
-{
-    std::ofstream out(output, std::ofstream::out);
-    if (out.fail())
-    {
-        std::cerr << "Error writing to " << output << "\n.";
-        return false;
-    }
-
-    if (verbose)
-    {
-        std::cerr << "Export " << type << "(s) for node '" << node->node_name << "'\n";
-    }
-
-    out << common::indention_width_t(indent);
-    out << "/*\n";
-    out << " * " << type << "(s) for node '" << node->node_name << "'\n";
-    out << " * Automatic generated file by ncf_tool " << version::string << "\n";
-    out << " */\n";
-    out << "#pragma once\n\n";
-
-    if (!namespace_.empty())
-    {
-        out << "namespace " << namespace_ << " {\n\n";
-    }
-
-    switch (type)
-    {
-        case lin::ncf::command::type_t::frame:
-        {
-            export_encoding(node, out, verbose);
-            export_frame(node, out, verbose);
-            break;
-        }
-
-        case type_t::signal:
-        {
-            break;
-        }
-    }
-
-    if (!namespace_.empty())
-    {
-        out << "}    // namespace " << namespace_ << "\n\n";
-    }
-
-    if (verbose)
-    {
-        std::cerr << "Exported content written to " << output << ".\n";
-    }
-    return true;
-}
-
-}    // namespace lin::ncf::command
+}    // namespace lin::ldf::command::function

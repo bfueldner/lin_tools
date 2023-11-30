@@ -221,12 +221,14 @@ class check_optional_name_t: public common::validate::check_t< T, U... >
         {
             std::tuple< U... > store(args...);
             auto list = std::get< index_ >(store);
+            auto member =
+                (element.*member_).value();    // NOLINT(bugprone-unchecked-optional-access)
 
             auto found{ false };
 
             for (auto const &entry : list)
             {
-                if (entry.name == (element.*member_).value())
+                if (entry.name == member)
                 {
                     found = true;
                     break;
@@ -235,8 +237,7 @@ class check_optional_name_t: public common::validate::check_t< T, U... >
 
             if (!found)
             {
-                common::validate::check_t< T, U... >::_log_error(
-                    "Not defined", (element.*member_).value());
+                common::validate::check_t< T, U... >::_log_error("Not defined", member);
                 return;
             }
 
@@ -480,18 +481,19 @@ class check_optional_min_t: public check_t< T, U... >
 
     void run(const U &.../*unused*/, const T &element) const final
     {
-        if (element.*member_)
+        if ((element.*member_).has_value())
         {
-            // NOLINTBEGIN(bugprone-unchecked-optional-access)
-            if ((element.*member_).value() < min_)
+            auto member =
+                (element.*member_).value();    // NOLINT(bugprone-unchecked-optional-access)
+
+            if (member < min_)
             {
                 check_t< T, U... >::_log_error(
                     "Value too low",
-                    check_t< T, U... >::_to_string((element.*member_).value()),
+                    check_t< T, U... >::_to_string(member),
                     ">= " + check_t< T, U... >::_to_string(min_));
                 return;
             }
-            // NOLINTEND(bugprone-unchecked-optional-access)
 
             check_t< T, U... >::_log_ok();
         }

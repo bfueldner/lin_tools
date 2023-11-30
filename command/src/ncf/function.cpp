@@ -17,10 +17,10 @@
 #include <boost/algorithm/string/trim.hpp>
 #include <boost/spirit/home/x3.hpp>
 
+#include <lin/common/command/type.hpp>
+#include <lin/common/command/type_io.hpp>
 #include <lin/common/generator/indention.hpp>
 #include <lin/ncf/command/function.hpp>
-#include <lin/ncf/command/type.hpp>
-#include <lin/ncf/command/type_io.hpp>
 #include <lin/ncf/diagnostic.hpp>
 #include <lin/ncf/frame.hpp>
 #include <lin/ncf/general.hpp>
@@ -307,7 +307,7 @@ void export_frame(node_t *node, std::ostream &out, bool verbose)
 
 bool export_(
     node_t *node,
-    lin::ncf::command::export_type_t type,
+    common::command::export_type_t type,
     const std::string &namespace_,    // NOLINT(readability-identifier-naming)
     std::filesystem::path &output,
     unsigned int indent,
@@ -339,14 +339,14 @@ bool export_(
 
     switch (type)
     {
-        case lin::ncf::command::export_type_t::frame:
+        case lin::common::command::export_type_t::frame:
         {
             export_encoding(node, out, verbose);
             export_frame(node, out, verbose);
             break;
         }
 
-        case export_type_t::signal:
+        case lin::common::command::export_type_t::signal:
         {
             break;
         }
