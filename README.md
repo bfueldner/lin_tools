@@ -6,65 +6,61 @@
 ![Tests](https://build.fueldner.net/badges/opensource_lin_tools.svg?type=tests&branch=main)
 ![Coverage](https://build.fueldner.net/badges/opensource_lin_tools.svg?type=coverage&branch=main)
 
-LIN 2.2 node capability file and LIN description file parser written in `boost::spirit:x3` and generator using std::stream.
+LIN 2.2 node capability file (NCF) and LIN description file (LDF) parser written in `boost::spirit:x3` and generator using std::stream. NCF and LDF validation by command-line tool supported.
 
-## Validation
+## Command-line
 
-### NCF
+Usage of the parsing, generating and validation libraries is given by command-line tools.
 
-#### Global definition
+### LDF-Tool
 
-* [x] Node capability language version number
+LIN description file parser, generator and validator command-line tool.
 
-#### Node definition
+    Usage:
+      ldf_tool \<command\> [options] \<input-file\>
+    
+    Commands:
+      prettify              Prettify file
+      validate              Validate file
+    
+    Generic options:
+      -h [ --help ]         Show help text
+      -v [ --verbose ]      Verbose output
+      --version             Show program version 
+    
+    To get help for a specific command:
+      ldf_tool <command> --help
 
-* [x] General
-  * [x] LIN protocol version number
-  * [x] LIN product identification
-  * [x] Bit rate
-* [x] Diagnostic
-* [x] Frame
-  * [x] Frame properties
-  * [x] Signal
-* [x] Signal encoding type
-* [x] Status management
+For more information see [command/doc/ldf_tool.md](manual).
 
-### LDF
+### NCF-Tool
 
-#### Global definition
+Node capability file parser, generator and validator command-line tool.
+    
+    Usage:
+      ncf_tool <command> [options] <input-file>
+    
+    Commands:
+      prettify              Prettify file
+      validate              Validate file
+    
+    Generic options:
+      -h [ --help ]         Show help text
+      -v [ --verbose ]      Verbose output
+      --version             Show program version
+    
+    To get help for a specific command:
+      ncf_tool <command> --help
 
-* [x] LIN protocol version number
-* [x] LIN language version number
-* [x] LIN speed
-* [x] Channel postfix name
+## Install
 
-#### Node definition
+    $ meson setup --buildtype release build
+    $ meson install -C build --strip
+    
+To update shared library and manpage cache run:
 
-* [x] Participating nodes
-* [x] Node attributes
-* [x] Node composition
-
-#### Signal definition
-
-* [x] Standard signals
-* [x] Diagnostic signals
-* [x] Signal groups
-
-#### Frame definition
-
-* [x] Unconditional frames
-* [x] Sporadic frames
-* [x] Event triggered frames
-* [x] Diagnostic frames
-
-##### Schedule definition
-
-* [x] Schedule table
-
-#### Additional Information
-
-* [x] Signal encoding type
-* [x] Signal representation
+    $ sudo ldconfig
+    $ sudo mandb
 
 ---
 

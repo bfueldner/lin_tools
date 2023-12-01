@@ -7,7 +7,7 @@ project(
     license : 'MIT',
     license_files : 'LICENSE',
     meson_version: '>=1.2.0',
-    version : '0.3.0',
+    version : '0.4.0',
 )
 
 # Spirit V3.10 (Boost V1.78.0)
