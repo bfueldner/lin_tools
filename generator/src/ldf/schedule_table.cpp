@@ -3,10 +3,9 @@
 #include <ostream>
 #include <variant>
 
-#include <lin/ldf/schedule_table.hpp>
-
 #include <lin/common/generator/indention.hpp>
 #include <lin/ldf/generator/schedule_table.hpp>
+#include <lin/ldf/schedule_table.hpp>
 
 /* 9.2.5 Schedule table definition */
 
@@ -30,7 +29,7 @@ std::ostream &operator<<(std::ostream &out, slave_resp_t const & /*unused*/)
 
 std::ostream &operator<<(std::ostream &out, assign_nad_t const &assign_nad)
 {
-    out << "AssignNAD { " << assign_nad.node_name << " }";
+    out << "AssignNAD { " << assign_nad.node << " }";
     return out;
 }
 
@@ -46,7 +45,7 @@ std::ostream &operator<<(std::ostream &out, conditional_change_nad_t const &cond
 
 std::ostream &operator<<(std::ostream &out, data_dump_t const &data_dump)
 {
-    out << "DataDump { " << data_dump.node_name << ", " << std::hex << std::setfill('0') << "0x"
+    out << "DataDump { " << data_dump.node << ", " << std::hex << std::setfill('0') << "0x"
         << std::setw(2) << data_dump.d1 << ", 0x" << std::setw(2) << data_dump.d2 << ", 0x"
         << std::setw(2) << data_dump.d3 << ", 0x" << std::setw(2) << data_dump.d4 << ", 0x"
         << std::setw(2) << data_dump.d5 << std::dec << " }";
@@ -55,15 +54,15 @@ std::ostream &operator<<(std::ostream &out, data_dump_t const &data_dump)
 
 std::ostream &operator<<(std::ostream &out, save_configuration_t const &save_configuration)
 {
-    out << "SaveConfiguration { " << save_configuration.node_name << " }";
+    out << "SaveConfiguration { " << save_configuration.node << " }";
     return out;
 }
 
 std::ostream &operator<<(std::ostream &out, assign_frame_id_range_t const &assign_frame_id_range)
 {
-    out << "AssignFrameIdRange { " << assign_frame_id_range.node_name << ", "
-        << assign_frame_id_range.frame_index << std::hex << std::setfill('0');
-    for (auto const &frame_pid : assign_frame_id_range.frame_pids)
+    out << "AssignFrameIdRange { " << assign_frame_id_range.node << ", "
+        << assign_frame_id_range.index << std::hex << std::setfill('0');
+    for (auto const &frame_pid : assign_frame_id_range.pids)
     {
         out << ", 0x" << std::setw(2) << frame_pid;
     }
@@ -83,8 +82,7 @@ std::ostream &operator<<(std::ostream &out, free_format_t const &free_format)
 
 std::ostream &operator<<(std::ostream &out, assign_frame_id_t const &assign_frame_id)
 {
-    out << "AssignFrameId { " << assign_frame_id.node_name << ", " << assign_frame_id.frame_name
-        << " }";
+    out << "AssignFrameId { " << assign_frame_id.node << ", " << assign_frame_id.frame << " }";
     return out;
 }
 
@@ -98,9 +96,9 @@ std::ostream &operator<<(std::ostream &out, command_t const &command)
     return out;
 }
 
-std::ostream &operator<<(std::ostream &out, table_entry_t const &table_entry)
+std::ostream &operator<<(std::ostream &out, entry_t const &table_entry)
 {
-    out << common::indention_t::indent << table_entry.command << " delay " << table_entry.frame_time
+    out << common::indention_t::indent << table_entry.command << " delay " << table_entry.delay
         << " ms;\n";
     return out;
 }
@@ -109,9 +107,9 @@ std::ostream &operator<<(std::ostream &out, table_entry_t const &table_entry)
 
 std::ostream &operator<<(std::ostream &out, schedule_table_t const &schedule_table)
 {
-    out << common::indention_t::indent << common::indention_t::push
-        << schedule_table.schedule_table_name << " {\n";
-    for (auto const &table_entry : schedule_table.table_entries)
+    out << common::indention_t::indent << common::indention_t::push << schedule_table.name
+        << " {\n";
+    for (auto const &table_entry : schedule_table.entries)
     {
         out << table_entry;
     }

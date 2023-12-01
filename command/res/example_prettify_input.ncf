@@ -1,0 +1,60 @@
+node_capability_file;
+LIN_language_version = "2.2";
+node step_motor {
+   general {
+      sends_wake_up_signal = "yes";
+      bitrate = select { 19.2 kbps, 9.6 kbps, 4.8 kbps };
+        variant = 1;
+        function = 0x0020;
+        supplier = 0x0005;
+      LIN_protocol_version = "2.2";
+   }
+   diagnostic {
+      support_sid { 0xB7, 0xB2, 0xB0 };
+      ST_min = 40 ms;
+      P2_min = 100 ms;
+      diagnostic_class = 2;
+      NAD = 4, 1, 3, 2;
+   }
+   frames {
+      publish node_status {
+           max_period = 100 ms;
+           min_period = 10 ms;
+           length = 4;
+         signals {
+            state { init_value = 0; size = 8; offset = 0; }
+            fault_state { init_value = 0; size = 2; offset = 9; fault_enc; }
+            error_bit { init_value = 0; size = 1; offset = 8;  }
+            angle { init_value = { 0x22, 0x11 }; size = 16; offset = 16; }
+         }
+      }
+      subscribe control {
+         max_period = 100 ms; length = 1;
+         signals {
+            command {
+               init_value = 0;
+               size = 8;
+               offset = 0;
+               position;
+            }
+         }
+      }
+   }
+   encoding {
+      position {
+         physical_value, 0, 199, 1.8, 0, "deg";
+      }
+      fault_enc {
+         logical_value, 1, "failed";
+         logical_value, 0, "no result";
+         logical_value, 2, "passed";
+      }
+   }
+   status_management {
+      response_error = error_bit;
+      fault_state_signals = fault_state;
+   }
+   free_text {
+      "step_motor signal values outside 0 - 199 are ignored"
+   }
+}

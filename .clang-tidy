@@ -1,5 +1,5 @@
 ---
-Checks:                'clang-diagnostic-*,clang-analyzer-*,boost-*,bugprone-*,-bugprone-narrowing-conversions,cert-*,clang-analyzer-*,concurrency-*,cppcoreguidelines-*,-cppcoreguidelines-avoid-magic-numbers,-cppcoreguidelines-special-member-functions,fuchsia-*,-fuchsia-default-arguments-calls,-fuchsia-default-arguments-declarations,-fuchsia-overloaded-operator,-fuchsia-statically-constructed-objects,hicpp-*,-hicpp-special-member-functions,-hicpp-signed-bitwise,linuxkernel-*,llvm-*,-llvm-header-guard,misc-*,modernize-*,-modernize-use-trailing-return-type,performance-*,portability-*,readability-*,-readability-magic-numbers,-cert-err58*,-clang-diagnostic-unneeded-internal-declaration'
+Checks:                'clang-diagnostic-*,clang-analyzer-*,boost-*,bugprone-*,-bugprone-narrowing-conversions,cert-*,clang-analyzer-*,concurrency-*,cppcoreguidelines-*,-cppcoreguidelines-avoid-magic-numbers,-cppcoreguidelines-special-member-functions,fuchsia-*,-fuchsia-default-arguments-calls,-fuchsia-default-arguments-declarations,-fuchsia-overloaded-operator,-fuchsia-statically-constructed-objects,hicpp-*,-hicpp-special-member-functions,-hicpp-signed-bitwise,linuxkernel-*,llvm-*,-llvm-header-guard,misc-*,modernize-*,-modernize-use-trailing-return-type,performance-*,portability-*,readability-*,-readability-magic-numbers,-cert-err58*,-clang-diagnostic-unneeded-internal-declaration,-clang-analyzer-cplusplus.NewDeleteLeaks'
 WarningsAsErrors:      ''
 HeaderFilterRegex:     '.'
 FormatStyle:           file
@@ -345,7 +345,7 @@ CheckOptions:
    - key:             misc-definitions-in-headers.UseHeaderFileExtension
      value:           'true'
    - key:             misc-include-cleaner.IgnoreHeaders
-     value:           'boost/spirit/home/.*'
+     value:           'boost/.*'
    - key:             misc-non-private-member-variables-in-classes.IgnoreClassesWithAllMemberVariablesBeingPublic
      value:           'true'
    - key:             misc-non-private-member-variables-in-classes.IgnorePublicMemberVariables
@@ -513,9 +513,9 @@ CheckOptions:
    - key:             readability-identifier-length.IgnoredLoopCounterNames
      value:           '^[ijk_]$'
    - key:             readability-identifier-length.IgnoredParameterNames
-     value:           '^[a-z]{1}[0-9]?$'
+     value:           '^([a-z]{1}[0-9]?|in|ch)$'
    - key:             readability-identifier-length.IgnoredVariableNames
-     value:           'd[0-9]|id'
+     value:           'd[0-9]|id|ok'
    - key:             readability-identifier-length.MinimumExceptionNameLength
      value:           '2'
    - key:             readability-identifier-length.MinimumLoopCounterNameLength
@@ -658,6 +658,8 @@ CheckOptions:
      value:           '_'
    - key:             readability-identifier-naming.TypeAliasCase
      value:           lower_case
+   - key:             readability-identifier-naming.TypeAliasIgnoredRegexp
+     value:           '^[A-Z]{1}[1-9]?$'
    - key:             readability-identifier-naming.TypeTemplateCase
      value:           lower_case
    - key:             readability-identifier-naming.UnionCase

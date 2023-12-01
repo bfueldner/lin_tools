@@ -25,7 +25,7 @@ std::ostream &operator<<(std::ostream &out, assign_frame_id_t const &assign_fram
 }    // namespace command
 
 std::ostream &operator<<(std::ostream &out, command_t const &command);
-std::ostream &operator<<(std::ostream &out, table_entry_t const &table_entry);
+std::ostream &operator<<(std::ostream &out, entry_t const &table_entry);
 
 }    // namespace schedule_table
 

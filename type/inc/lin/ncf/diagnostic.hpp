@@ -36,7 +36,7 @@ struct diagnostic_t
     std::optional< common::bnf::real_or_integer_t > st_min{};
     std::optional< common::bnf::real_or_integer_t > n_as_timeout{};
     std::optional< common::bnf::real_or_integer_t > n_cr_timeout{};
-    std::vector< common::bnf::integer_t > support_sid{};
+    std::vector< common::bnf::integer_t > support_sids{};
     std::optional< common::bnf::integer_t > max_message_length{};
 };
 

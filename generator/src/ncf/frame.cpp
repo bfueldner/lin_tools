@@ -1,54 +1,28 @@
 #include <ostream>
 
-#include <lin/ncf/frame.hpp>
-
 #include <lin/common/generator/indention.hpp>
+#include <lin/ncf/frame.hpp>
+#include <lin/ncf/generator/frame.hpp>
 #include <lin/ncf/generator/signal.hpp>
 
-#include <lin/ncf/generator/frame.hpp>
+/* 8.2.5 Frame definition */
 
 namespace lin::ncf {
 
 /* 8.2.5.1 Frame properties */
 
-std::ostream &operator<<(std::ostream &out, frame_properties_t const &frame_properties)
-{
-    out << common::indention_t::indent << "length = " << frame_properties.length << ";\n";
-    if (frame_properties.min_period)
-    {
-        out << common::indention_t::indent << "min_period = " << frame_properties.min_period.value()
-            << " ms;\n";
-    }
-
-    if (frame_properties.max_period)
-    {
-        out << common::indention_t::indent << "max_period = " << frame_properties.max_period.value()
-            << " ms;\n";
-    }
-
-    if (frame_properties.event_triggered_frame)
-    {
-        out << common::indention_t::indent
-            << "event_triggered_frame = " << frame_properties.event_triggered_frame.value()
-            << ";\n";
-    }
-    return out;
-}
-
-/* 8.2.5 Frame definition */
-
 namespace frame {
 
-std::ostream &operator<<(std::ostream &out, frame_kind_t const &frame_kind)
+std::ostream &operator<<(std::ostream &out, kind_t const &frame_kind)
 {
     switch (frame_kind)
     {
-        case frame_kind_t::publish:
+        case kind_t::publish:
         {
             out << "publish";
             break;
         }
-        case frame_kind_t::subscribe:
+        case kind_t::subscribe:
         {
             out << "subscribe";
             break;
@@ -57,17 +31,35 @@ std::ostream &operator<<(std::ostream &out, frame_kind_t const &frame_kind)
     return out;
 }
 
-std::ostream &operator<<(std::ostream &out, single_frame_t const &single_frame)
+}    // namespace frame
+
+std::ostream &operator<<(std::ostream &out, frame_t const &frame)
 {
-    out << common::indention_t::indent << common::indention_t::push << single_frame.frame_kind
-        << " " << single_frame.frame_name << " {\n";
-    out << single_frame.frame_properties;
-    out << single_frame.signal_definition;
+    out << common::indention_t::indent << common::indention_t::push << frame.kind << " "
+        << frame.name << " {\n";
+    out << common::indention_t::indent << "length = " << frame.size << ";\n";
+    if (frame.min_period)
+    {
+        out << common::indention_t::indent << "min_period = " << frame.min_period.value()
+            << " ms;\n";
+    }
+
+    if (frame.max_period)
+    {
+        out << common::indention_t::indent << "max_period = " << frame.max_period.value()
+            << " ms;\n";
+    }
+
+    if (frame.event_triggered_frame)
+    {
+        out << common::indention_t::indent
+            << "event_triggered_frame = " << frame.event_triggered_frame.value() << ";\n";
+    }
+    out << frame.signals;
     out << common::indention_t::pop << common::indention_t::indent << "}\n";
     return out;
 }
 
-}    // namespace frame
 
 std::ostream &operator<<(std::ostream &out, frames_t const &frames)
 {

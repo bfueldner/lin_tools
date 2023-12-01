@@ -1,0 +1,98 @@
+__lin_tools_find_command()
+{
+    local cmds="$1"
+    local index=1
+    while [ $index -lt $COMP_CWORD ]
+    do
+        for cmd in $cmds
+        do
+            if [ "$cmd" = "${COMP_WORDS[index]}" ]
+            then
+                echo "$cmd"
+                return
+            fi
+        done
+        ((index++))
+    done
+}
+
+_ldf_tool()
+{
+    local cur prev opts cmds cmd
+    COMPREPLY=()
+    cur="${COMP_WORDS[COMP_CWORD]}"
+    prev="${COMP_WORDS[COMP_CWORD-1]}"
+    opts="--help --verbose --version"
+    cmds="prettify validate"
+    cmd="$(__lin_tools_find_command "$cmds")"
+
+    if [[ ${cur} == -* ]]
+    then
+        case "${cmd}" in
+            prettify)
+                opts="${opts} --indent --sort --output"
+                ;;
+            validate)
+                opts="${opts} --no-symbols --warnings-as-errors"
+                ;;
+            *)
+                ;;
+        esac
+
+        COMPREPLY=( $(compgen -W "${opts}" -f -- ${cur}) )
+        return 0
+    else
+        case "${cmd}" in
+            prettify|validate)
+                COMPREPLY=( $(compgen -f -- ${cur}) )
+                ;;
+            *)
+                COMPREPLY=( $(compgen -W "${cmds}" -- ${cur}) )
+                ;;
+        esac
+
+        return 0
+    fi
+}
+
+_ncf_tool()
+{
+    local cur prev opts cmds cmd
+    COMPREPLY=()
+    cur="${COMP_WORDS[COMP_CWORD]}"
+    prev="${COMP_WORDS[COMP_CWORD-1]}"
+    opts="--help --verbose --version"
+    cmds="prettify validate"
+    cmd="$(__lin_tools_find_command "$cmds")"
+
+    if [[ ${cur} == -* ]]
+    then
+        case "${cmd}" in
+            prettify)
+                opts="${opts} --indent --sort --output"
+                ;;
+            validate)
+                opts="${opts} --no-symbols --warnings-as-errors"
+                ;;
+            *)
+                ;;
+        esac
+
+        COMPREPLY=( $(compgen -W "${opts}" -f -- ${cur}) )
+        return 0
+    else
+        case "${cmd}" in
+            prettify|validate)
+                COMPREPLY=( $(compgen -f -- ${cur}) )
+                ;;
+            *)
+                COMPREPLY=( $(compgen -W "${cmds}" -- ${cur}) )
+                ;;
+        esac
+
+        return 0
+    fi
+}
+
+complete -F _ldf_tool ldf_tool
+complete -F _ncf_tool ncf_tool

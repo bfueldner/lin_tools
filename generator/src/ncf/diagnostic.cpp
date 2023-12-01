@@ -3,9 +3,8 @@
 #include <ostream>
 #include <variant>
 
-#include <lin/ncf/diagnostic.hpp>
-
 #include <lin/common/generator/indention.hpp>
+#include <lin/ncf/diagnostic.hpp>
 #include <lin/ncf/generator/diagnostic.hpp>
 
 /* 8.2.4 Diagnostic definition */
@@ -39,6 +38,8 @@ std::ostream &operator<<(std::ostream &out, range_t const &range)
 
 std::ostream &operator<<(std::ostream &out, nad_t const &nad)
 {
+    using namespace nad;
+
     std::visit([&out](auto &&arg) { out << arg; }, nad);
     return out;
 }
@@ -75,14 +76,14 @@ std::ostream &operator<<(std::ostream &out, diagnostic_t const &diagnostic)
             << " ms;\n";
     }
 
-    if (!diagnostic.support_sid.empty())
+    if (!diagnostic.support_sids.empty())
     {
         out << common::indention_t::indent << "support_sid { " << std::hex << std::setfill('0');
-        for (auto iter = diagnostic.support_sid.cbegin(); iter != diagnostic.support_sid.cend();
+        for (auto iter = diagnostic.support_sids.cbegin(); iter != diagnostic.support_sids.cend();
              ++iter)
         {
             out << "0x" << std::setw(2) << *iter;
-            if (iter != diagnostic.support_sid.cend() - 1)
+            if (iter != diagnostic.support_sids.cend() - 1)
             {
                 out << ", ";
             }

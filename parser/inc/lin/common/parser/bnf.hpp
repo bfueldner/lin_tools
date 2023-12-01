@@ -4,14 +4,14 @@
 
 #include <lin/common/bnf.hpp>
 
-namespace lin::common::bnf::parser {
+namespace lin::common::parser {
 
 namespace x3 = boost::spirit::x3;
 
-x3::rule< class char_string, char_string_t > const char_string             = "char_string";
-x3::rule< class identifier, identifier_t > const identifier                = "identifier";
-x3::rule< class integer, integer_t > const integer                         = "integer";
-x3::rule< class real_or_integer, real_or_integer_t > const real_or_integer = "real_or_integer";
+x3::rule< class char_string, bnf::char_string_t > const char_string             = "char_string";
+x3::rule< class identifier, bnf::identifier_t > const identifier                = "identifier";
+x3::rule< class integer, bnf::integer_t > const integer                         = "integer";
+x3::rule< class real_or_integer, bnf::real_or_integer_t > const real_or_integer = "real_or_integer";
 
 auto const char_string_def     = x3::lexeme['"' >> *(x3::ascii::char_ - '"') >> '"'];
 auto const identifier_def      = x3::ascii::char_("a-zA-Z_") >> *x3::ascii::char_("a-zA-Z_0-9");
@@ -20,4 +20,4 @@ auto const real_or_integer_def = x3::double_;
 
 BOOST_SPIRIT_DEFINE(char_string, identifier, integer, real_or_integer)
 
-}    // namespace lin::common::bnf::parser
+}    // namespace lin::common::parser

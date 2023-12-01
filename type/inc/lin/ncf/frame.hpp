@@ -7,40 +7,39 @@
 #include <lin/common/bnf.hpp>
 #include <lin/ncf/signal.hpp>
 
+/* 8.2.5 Frame definition */
+
 namespace lin::ncf {
 
 /* 8.2.5.1 Frame properties */
 
-struct frame_properties_t
-{
-    common::bnf::integer_t length{};
-    std::optional< common::bnf::integer_t > min_period{};
-    std::optional< common::bnf::integer_t > max_period{};
-    std::optional< common::bnf::identifier_t > event_triggered_frame{};
-};
-
-/* 8.2.5 Frame definition */
-
 namespace frame {
 
-enum class frame_kind_t : std::uint8_t
+enum class kind_t : std::uint8_t
 {
-    publish,
     subscribe,
+    publish,
 };
 
-using frame_name_t = common::bnf::identifier_t;
-
-struct single_frame_t
-{
-    frame_kind_t frame_kind{};
-    frame_name_t frame_name{};
-    frame_properties_t frame_properties{};
-    signals_t signal_definition{};
-};
+using name_t                  = common::bnf::identifier_t;
+using length_t                = common::bnf::integer_t;
+using min_period_t            = std::optional< common::bnf::integer_t >;
+using max_period_t            = std::optional< common::bnf::integer_t >;
+using event_triggered_frame_t = std::optional< common::bnf::identifier_t >;
 
 }    // namespace frame
 
-using frames_t = std::vector< frame::single_frame_t >;
+struct frame_t
+{
+    frame::kind_t kind{};
+    frame::name_t name{};
+    frame::length_t size{};
+    frame::min_period_t min_period{};
+    frame::max_period_t max_period{};
+    frame::event_triggered_frame_t event_triggered_frame{};
+    signals_t signals{};
+};
+
+using frames_t = std::vector< frame_t >;
 
 }    // namespace lin::ncf
