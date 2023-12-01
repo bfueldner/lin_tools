@@ -31,7 +31,7 @@ LIN description file parser, generator and validator command-line tool.
     To get help for a specific command:
       ldf_tool <command> --help
 
-For more information see [command/doc/ldf_tool.md](manual).
+For more information see [ldf_tool manual](command/doc/ldf_tool.md).
 
 ### NCF-Tool
 
@@ -52,7 +52,9 @@ Node capability file parser, generator and validator command-line tool.
     To get help for a specific command:
       ncf_tool <command> --help
 
-## Install
+For more information see [ncf_tool manual](command/doc/ncf_tool.md).
+
+## Installation
 
     $ meson setup --buildtype release build
     $ meson install -C build --strip
