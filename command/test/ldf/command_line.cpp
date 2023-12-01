@@ -21,7 +21,7 @@ TEST(test_lin_ldf_command_line, help)
     auto const result = command_line::parse(static_cast< int >(args.size()), args.data());
     EXPECT_EQ(
         testing::internal::GetCapturedStdout(),
-        "LDF tool 0.3.0\n"
+        "LDF tool 0.4.0\n"
         "Usage:\n"
         "  ldf_tool <command> [options] <input-file>\n"
         "\n"
@@ -48,7 +48,7 @@ TEST(test_lin_ldf_command_line, version)
 
     testing::internal::CaptureStdout();
     auto const result = command_line::parse(static_cast< int >(args.size()), args.data());
-    EXPECT_EQ(testing::internal::GetCapturedStdout(), "LDF tool 0.3.0\n");
+    EXPECT_EQ(testing::internal::GetCapturedStdout(), "LDF tool 0.4.0\n");
     EXPECT_TRUE(result);
 }
 
@@ -62,7 +62,7 @@ TEST(test_lin_ldf_command_line, prettify_help)
     auto const result = command_line::parse(static_cast< int >(args.size()), args.data());
     EXPECT_EQ(
         testing::internal::GetCapturedStdout(),
-        "LDF tool 0.3.0\n"
+        "LDF tool 0.4.0\n"
         "Usage:\n"
         "  ldf_tool prettify [options] <input-file>\n"
         "\n"
@@ -94,7 +94,7 @@ TEST(test_lin_ldf_command_line, prettify_default)
 
     testing::internal::CaptureStdout();
     auto const result = command_line::parse(static_cast< int >(args.size()), args.data());
-    EXPECT_EQ(testing::internal::GetCapturedStdout(), "LDF tool 0.3.0\n");
+    EXPECT_EQ(testing::internal::GetCapturedStdout(), "LDF tool 0.4.0\n");
 
     std::ifstream output(output_file, std::ifstream::in);
     std::ifstream generated(generated_file, std::ifstream::in);
@@ -123,7 +123,7 @@ TEST(test_lin_ldf_command_line, prettify_indent)
 
     testing::internal::CaptureStdout();
     auto const result = command_line::parse(static_cast< int >(args.size()), args.data());
-    EXPECT_EQ(testing::internal::GetCapturedStdout(), "LDF tool 0.3.0\n");
+    EXPECT_EQ(testing::internal::GetCapturedStdout(), "LDF tool 0.4.0\n");
 
     std::ifstream output(output_file, std::ifstream::in);
     std::ifstream generated(generated_file, std::ifstream::in);
@@ -151,7 +151,7 @@ TEST(test_lin_ldf_command_line, prettify_sort)
 
     testing::internal::CaptureStdout();
     auto const result = command_line::parse(static_cast< int >(args.size()), args.data());
-    EXPECT_EQ(testing::internal::GetCapturedStdout(), "LDF tool 0.3.0\n");
+    EXPECT_EQ(testing::internal::GetCapturedStdout(), "LDF tool 0.4.0\n");
 
     std::ifstream output(output_file, std::ifstream::in);
     std::ifstream generated(generated_file, std::ifstream::in);
@@ -174,7 +174,7 @@ TEST(test_lin_ldf_command_line, validate_help)
     auto const result = command_line::parse(static_cast< int >(args.size()), args.data());
     EXPECT_EQ(
         testing::internal::GetCapturedStdout(),
-        "LDF tool 0.3.0\n"
+        "LDF tool 0.4.0\n"
         "Usage:\n"
         "  ldf_tool validate [options] <input-file>\n"
         "\n"
@@ -199,7 +199,7 @@ TEST(test_lin_ldf_command_line, validate_default)
 
     testing::internal::CaptureStdout();
     auto const result = command_line::parse(static_cast< int >(args.size()), args.data());
-    EXPECT_EQ(testing::internal::GetCapturedStdout(), "LDF tool 0.3.0\n");
+    EXPECT_EQ(testing::internal::GetCapturedStdout(), "LDF tool 0.4.0\n");
     EXPECT_TRUE(result);
 }
 
